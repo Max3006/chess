@@ -108,7 +108,85 @@
       font-size: 11px;
       letter-spacing: .25px;
     }
-    @media (min-width: 600px) {
+
+    .board-section { margin: 0 0 30px; }
+    .board-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .board-heading h2 { margin: 0; }
+    .turn-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .35px;
+      white-space: nowrap;
+    }
+    .board-frame {
+      padding: 8px;
+      border: 1px solid #d8d8cc;
+      border-radius: 13px;
+      background: #e9e7dd;
+      box-shadow: 0 5px 16px rgba(32, 41, 35, .07);
+    }
+    .chessboard {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #f0eadb;
+    }
+    .square {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      aspect-ratio: 1;
+      font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", serif;
+      font-size: clamp(25px, 8.1vw, 43px);
+      line-height: 1;
+      user-select: none;
+    }
+    .square.light { background: #f0eadb; }
+    .square.dark { background: #82977d; }
+    .piece-white {
+      color: #fffefa;
+      -webkit-text-stroke: .65px #343a32;
+      text-shadow: 0 1px 1px rgba(0,0,0,.28);
+    }
+    .piece-black {
+      color: #28332b;
+      text-shadow: 0 1px 0 rgba(255,255,255,.15);
+    }
+    .coord {
+      position: absolute;
+      left: 3px;
+      bottom: 1px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 9px;
+      line-height: 1;
+      font-weight: 750;
+      opacity: .82;
+    }
+    .light .coord { color: #82977d; }
+    .dark .coord { color: #f0eadb; }
+    .board-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 9px 2px 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .board-caption span:last-child { text-align: right; }
+    @media (min-width: 480px) {
+      .square { font-size: 43px; }
+    }
+\n    @media (min-width: 600px) {
       body { padding: 24px 0; }
       .app { min-height: calc(100svh - 48px); border: 1px solid var(--line); border-radius: 22px; padding: 28px 25px 22px; }
     }
@@ -139,5 +217,45 @@
     <div class="bottom"></div>
     <footer>CHESS TRAP LAB</footer>
   </main>
+  <script>
+    const board = document.getElementById('chessboard');
+    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    const setup = [
+      ['♜','♞','♝','♛','♚','♝','♞','♜'],
+      ['♟','♟','♟','♟','♟','♟','♟','♟'],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['','','','','','','',''],
+      ['♙','♙','♙','♙','♙','♙','♙','♙'],
+      ['♖','♘','♗','♕','♔','♗','♘','♖']
+    ];
+    setup.forEach((row, rowIndex) => {
+      row.forEach((piece, colIndex) => {
+        const square = document.createElement('div');
+        const light = (rowIndex + colIndex) % 2 === 0;
+        square.className = 'square ' + (light ? 'light' : 'dark');
+        if (piece) {
+          const pieceEl = document.createElement('span');
+          pieceEl.textContent = piece;
+          pieceEl.className = rowIndex < 2 ? 'piece-black' : 'piece-white';
+          square.appendChild(pieceEl);
+        }
+        if (colIndex === 0) {
+          const rank = document.createElement('span');
+          rank.className = 'coord';
+          rank.textContent = String(8 - rowIndex);
+          square.appendChild(rank);
+        }
+        if (rowIndex === 7) {
+          const file = document.createElement('span');
+          file.className = 'coord';
+          file.textContent = files[colIndex];
+          square.appendChild(file);
+        }
+        board.appendChild(square);
+      });
+    });
+  </script>
 </body>
 </html>
