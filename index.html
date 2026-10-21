@@ -85,7 +85,7 @@
           if(move) {
             if(move.color==='b') {
               if(move.from==='b8' && move.to==='c6') { solved=true; feedback.innerHTML='<strong>Stark! ♞</strong><p>…Nc6 entwickelt den Springer und deckt den angegriffenen Bauern e5. Genau die ruhige Antwort, die du suchst.</p>';statusText.textContent='Richtig — Schwarz steht solide.'; }
-              else { feedback.innerHTML='<strong>Zug gespielt: '+move.san+'</strong><p>Legal, aber nicht die gesuchte Hauptantwort. Versuch es nochmal, oder schau dir einen Hinweis an.</p>'; statusText.textContent='Der Zug ist legal. Ist er auch stark?'; }
+              else { game.undo(); feedback.innerHTML='<strong>Noch nicht ganz.</strong><p>'+move.san+' ist legal, aber probier einen Zug, der den Bauern e5 zusätzlich deckt. Du kannst einen Hinweis nutzen.</p>'; statusText.textContent='Such weiter nach der besten Antwort.'; }
             }
           }
           render();return;
