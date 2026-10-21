@@ -113,7 +113,8 @@
       transition: border-color .15s, background .15s;
     }
     .opening:focus-visible { outline: 3px solid #86a68e; outline-offset: 3px; }
-    .opening.selected { border-color: var(--green); background: #fbfcf7; }
+    .opening { text-decoration: none; }
+    .opening:active { background: #f6f7f1; }
     .piece {
       flex: 0 0 49px;
       width: 49px;
@@ -152,7 +153,7 @@
       font-size: 13px;
       font-weight: 800;
     }
-    .selected .check { background: var(--green); border-color: var(--green); color: white; }
+    .arrow { color: var(--green); font-size: 24px; line-height: 1; }
     .bottom { flex: 1; min-height: 34px; }
     .footnote {
       padding-top: 17px;
@@ -194,25 +195,18 @@
         <h2 id="openingHeading">Eröffnungen</h2>
         <span class="count">1 verfügbar</span>
       </div>
-      <button class="opening selected" id="openingBtn" type="button" aria-pressed="true">
+      <a class="opening" href="early-queen-development.html">
         <span class="piece" aria-hidden="true">♛</span>
         <span class="details">
           <span class="name">Early Queen Development</span>
           <span class="subtitle">Frühe Damenentwicklung</span>
         </span>
-        <span class="check" aria-hidden="true">✓</span>
-      </button>
+        <span class="arrow" aria-hidden="true">›</span>
+      </a>
     </section>
 
     <div class="bottom"></div>
     <footer class="footnote">CHESS TRAP LAB</footer>
   </main>
-  <script>
-    const opening = document.getElementById('openingBtn');
-    opening.addEventListener('click', () => {
-      const selected = opening.classList.toggle('selected');
-      opening.setAttribute('aria-pressed', String(selected));
-    });
-  </script>
 </body>
 </html>
