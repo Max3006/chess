@@ -186,7 +186,8 @@
     @media (min-width: 480px) {
       .square { font-size: 43px; }
     }
-\n    @media (min-width: 600px) {
+
+    @media (min-width: 600px) {
       body { padding: 24px 0; }
       .app { min-height: calc(100svh - 48px); border: 1px solid var(--line); border-radius: 22px; padding: 28px 25px 22px; }
     }
@@ -206,6 +207,21 @@
       <h1>Early Queen Development</h1>
       <p class="translation">Frühe Damenentwicklung</p>
       <div class="queen" aria-hidden="true">♛</div>
+    </section>
+
+
+    <section class="board-section" aria-labelledby="boardTitle">
+      <div class="board-heading">
+        <h2 id="boardTitle">Das Schachbrett</h2>
+        <span class="turn-label">Startposition</span>
+      </div>
+      <div class="board-frame">
+        <div class="chessboard" id="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Weiß unten"></div>
+      </div>
+      <div class="board-caption">
+        <span>Weiß unten</span>
+        <span>Alle Figuren in Startposition</span>
+      </div>
     </section>
 
     <div class="rule"></div>
