@@ -2,114 +2,114 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111714">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101611">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Chess Trap Lab</title>
   <style>
-    :root{color-scheme:dark;--bg:#111714;--panel:#1b241f;--muted:#9aa99f;--text:#f1f5f0;--accent:#a3e635;--light:#e7edda;--dark:#77936b;--border:#344238}
-    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#253329 0,var(--bg) 55%);color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
-    .wrap{max-width:1120px;margin:auto;padding:26px 18px 44px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;width:46px;height:46px;background:var(--accent);color:#172014;border-radius:14px;font-size:27px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.brand h1{font-size:22px;margin:2px 0 0;letter-spacing:-.04em}.pill{border:1px solid var(--border);border-radius:999px;padding:7px 12px;color:var(--muted);font-size:12px}
-    .intro{margin:0 0 22px}.intro h2{font-size:clamp(28px,5vw,42px);line-height:1.08;letter-spacing:-.05em;margin:0 0 10px}.intro p{color:var(--muted);max-width:650px;margin:0}
-    .layout{display:grid;grid-template-columns:minmax(280px,1.15fr) minmax(280px,.85fr);gap:22px;align-items:start}.panel{background:color-mix(in srgb,var(--panel) 94%,transparent);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:0 18px 50px #0002}.board-top,.board-bottom{display:flex;align-items:center;gap:10px;padding:5px 2px 12px}.avatar{width:36px;height:36px;border-radius:10px;background:#2b392f;display:grid;place-items:center;font-size:21px}.player-name{font-weight:700}.sub{color:var(--muted);font-size:12px}.push{margin-left:auto}.board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:1;border-radius:7px;overflow:hidden;border:1px solid #52634f;user-select:none;touch-action:manipulation}.sq{position:relative;display:grid;place-items:center;aspect-ratio:1;border:0;padding:0;cursor:pointer;font-size:clamp(23px,5.5vw,56px);line-height:1}.sq.light{background:var(--light)}.sq.dark{background:var(--dark)}.sq.selected{box-shadow:inset 0 0 0 4px #a3e635}.sq.legal:after{content:"";position:absolute;width:26%;height:26%;border-radius:50%;background:#233e28a8}.sq.legal.has-piece:after{width:86%;height:86%;background:transparent;border:5px solid #233e28a8}.piece.white{color:#fff;text-shadow:0 2px 2px #182018,1px 0 #182018,-1px 0 #182018}.piece.black{color:#202922;text-shadow:0 1px 1px #fff7}.coord{position:absolute;font-size:10px;font-weight:800;left:4px;top:2px;opacity:.75;color:#253126}.sq.dark .coord{color:#f3f6e9}
-    .status{display:flex;align-items:center;gap:9px;margin-top:14px;padding:12px 13px;border-radius:12px;background:#101812;border:1px solid var(--border)}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}.status p{margin:0;font-size:13px}.section-label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:800;margin:0 0 8px}.right h3{font-size:23px;letter-spacing:-.04em;margin:0 0 8px}.right .desc{color:var(--muted);font-size:14px;margin:0 0 18px}.move-list{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 18px}.move{background:#121a15;border:1px solid var(--border);padding:7px 10px;border-radius:9px;font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace}.move.current{border-color:var(--accent);color:var(--accent)}.divider{height:1px;background:var(--border);margin:18px 0}.feedback{padding:14px;border-radius:12px;background:#111914;border:1px solid var(--border);font-size:14px;min-height:74px}.feedback strong{display:block;margin-bottom:4px}.feedback p{margin:0;color:var(--muted)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.btn{border:1px solid var(--border);border-radius:11px;background:#26342a;color:var(--text);padding:11px 12px;font:700 13px system-ui;cursor:pointer}.btn.primary{background:var(--accent);border-color:var(--accent);color:#192315}.btn:disabled{opacity:.4;cursor:not-allowed}.mini{display:flex;gap:8px;margin-top:18px}.mini .btn{flex:1}.note{font-size:12px;color:var(--muted);margin-top:14px}.foot{text-align:center;color:#748378;font-size:12px;margin-top:24px}
-    @media(max-width:760px){.wrap{padding:18px 12px 30px}.layout{grid-template-columns:1fr;gap:14px}.panel{padding:13px}.top{margin-bottom:22px}.pill{display:none}.sq{font-size:clamp(25px,9vw,52px)}.intro{margin-bottom:18px}}
+    :root{color-scheme:dark;--bg:#101611;--panel:#1b241d;--panel2:#222d24;--muted:#9ba99d;--text:#f4f6ef;--lime:#c4f36b;--line:#344237}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#30402e 0,transparent 48%),var(--bg);color:var(--text);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button{font:inherit;color:inherit}
+    .app{width:100%;max-width:480px;min-height:100svh;margin:0 auto;padding:calc(env(safe-area-inset-top) + 20px) 20px calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column}
+    .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px}
+    .brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:15px;background:var(--lime);display:grid;place-items:center;color:#172015;font-size:27px}.brand-name{font-size:18px;font-weight:850;letter-spacing:-.6px}.brand-tag{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:800;margin-top:1px}
+    .icon-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:14px;background:#1b241dcc;font-size:19px;display:grid;place-items:center}
+    .welcome{margin-bottom:26px}.eyebrow{color:var(--lime);font-size:11px;letter-spacing:2.3px;font-weight:850;text-transform:uppercase;margin-bottom:9px}.welcome h1{font-size:clamp(35px,10vw,46px);letter-spacing:-2px;line-height:1.02;margin:0 0 13px;font-weight:850}.welcome p{color:var(--muted);font-size:14px;line-height:1.65;margin:0;max-width:340px}
+    .feature{position:relative;overflow:hidden;border:1px solid #3c4b3d;border-radius:25px;background:linear-gradient(135deg,#26382a,#1b261e 65%,#172019);padding:20px;margin-bottom:22px;min-height:184px}
+    .feature:after{content:"♞";position:absolute;right:3px;bottom:-45px;font-size:180px;line-height:1;color:#c4f36b0b;transform:rotate(-12deg);pointer-events:none}
+    .feature-top{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:850;letter-spacing:1.5px;color:#d4e2cf;text-transform:uppercase}.live-dot{width:7px;height:7px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px #c4f36b66}
+    .feature h2{font-size:25px;line-height:1.08;letter-spacing:-.9px;margin:20px 0 8px;max-width:250px;position:relative;z-index:1}.feature p{font-size:12px;color:#b7c5b8;margin:0;max-width:240px;position:relative;z-index:1}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.section-head h3{margin:0;font-size:16px;letter-spacing:-.3px}.tiny-label{font-size:10px;color:var(--muted);letter-spacing:1.2px;font-weight:800;text-transform:uppercase}
+    .empty-state{border:1px dashed #3a493c;border-radius:18px;padding:17px;display:flex;align-items:center;gap:13px;background:#151d17}.empty-icon{width:42px;height:42px;border-radius:13px;background:#263329;display:grid;place-items:center;font-size:20px;flex-shrink:0}.empty-state strong{display:block;font-size:13px;margin-bottom:3px}.empty-state p{font-size:12px;color:var(--muted);margin:0;line-height:1.45}
+    .spacer{flex:1;min-height:26px}
+    .picker{border:1px solid #465543;border-radius:23px;background:linear-gradient(160deg,#263329,#1b241d);padding:16px;margin-bottom:14px;box-shadow:0 16px 40px #0002}
+    .picker-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.picker-head h3{font-size:14px;margin:0;font-weight:800}.picker-head span{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:800}
+    .opening{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:13px;border:1px solid #526447;border-radius:17px;background:#141c16;cursor:pointer;transition:transform .15s,border-color .15s}.opening:active{transform:scale(.985)}.opening.selected{border-color:var(--lime);background:#1b291b}
+    .opening-symbol{width:48px;height:48px;flex-shrink:0;border-radius:14px;background:#dce8ce;color:#1c2a1d;display:grid;place-items:center;font-size:27px}.opening-info{flex:1;min-width:0}.opening-info strong{display:block;font-size:14px;line-height:1.25;margin-bottom:5px}.opening-info small{display:block;color:var(--muted);font-size:11px}.arrow{font-size:21px;color:var(--lime);padding-left:3px}
+    .bottom-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:9px 6px calc(3px + env(safe-area-inset-bottom));border:1px solid #2d392f;background:#151d17;border-radius:19px}.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 2px;border:0;background:transparent;color:#879588;font-size:10px;font-weight:700;border-radius:12px}.nav-item .nav-icon{font-size:19px;line-height:1.1}.nav-item.active{color:var(--lime);background:#263329}
+    .toast{position:fixed;left:20px;right:20px;bottom:calc(env(safe-area-inset-bottom) + 100px);max-width:440px;margin:auto;background:#d4f69a;color:#192317;border-radius:14px;padding:13px 16px;font-size:13px;font-weight:750;box-shadow:0 12px 35px #0005;display:none;z-index:5}.toast.show{display:block;animation:pop .2s ease-out}@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+    @media(min-width:600px){body{padding:24px 0}.app{min-height:calc(100svh - 48px);border:1px solid #263329;border-radius:30px;box-shadow:0 25px 90px #0004;padding:28px 22px 20px}.welcome h1{font-size:44px}}
+    @media(max-height:760px){.top{margin-bottom:22px}.welcome{margin-bottom:20px}.welcome h1{font-size:36px}.feature{min-height:155px;padding:17px}.feature h2{margin-top:14px;font-size:23px}.spacer{min-height:14px}.picker{padding:13px;margin-bottom:10px}}
   </style>
 </head>
 <body>
-  <main class="wrap">
+  <main class="app">
     <header class="top">
-      <div class="brand"><div class="logo">♞</div><div><div class="eyebrow">Training room</div><h1>Chess Trap Lab</h1></div></div>
-      <div class="pill">EARLY BUILD · 01</div>
+      <div class="brand"><div class="logo">♞</div><div><div class="brand-name">Chess Trap Lab</div><div class="brand-tag">Think one move ahead</div></div></div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Einstellungen">⚙</button>
     </header>
-    <section class="intro"><h2>Fallen stellen.<br>Fallen erkennen.</h2><p>Trainiere Eröffnungsfallen Zug für Zug. Du bekommst eine Stellung und musst den starken Zug selbst finden — kein blindes Auswendiglernen.</p></section>
-    <section class="layout">
-      <div class="panel">
-        <div class="board-top"><div class="avatar">♟</div><div><div class="player-name">Schwarz</div><div class="sub">Du bist am Zug</div></div><div class="push sub" id="turnLabel">Zug 2 …</div></div>
-        <div class="board" id="board" role="group" aria-label="Schachbrett"></div>
-        <div class="board-bottom"><div class="avatar">♙</div><div><div class="player-name">Weiß</div><div class="sub">Wayward Queen Attack</div></div><div class="push sub">Du spielst Schwarz</div></div>
-        <div class="status"><span class="dot"></span><p id="statusText">Finde den besten Zug für Schwarz.</p></div>
-      </div>
-      <aside class="panel right">
-        <div class="section-label">Eröffnungs-Challenge · 01</div>
-        <h3>Wayward Queen Attack</h3>
-        <p class="desc">Weiß bringt die Dame früh heraus und greift den Bauern auf e5 an. Bleib ruhig und entwickle eine Figur, die den Bauern deckt.</p>
-        <div class="section-label">Bisherige Züge</div>
-        <div class="move-list" id="moves"><span class="move">1. e4</span><span class="move">… e5</span><span class="move">2. Qh5</span></div>
-        <div class="divider"></div>
-        <div class="section-label">Dein Feedback</div>
-        <div class="feedback" id="feedback"><strong>Du bist dran.</strong><p>Welcher Zug entwickelt eine Figur und schützt gleichzeitig e5?</p></div>
-        <div class="actions"><button class="btn primary" id="hintBtn">Hinweis zeigen</button><button class="btn" id="resetBtn">Neu starten</button></div>
-        <div class="mini"><button class="btn" id="solutionBtn">Lösung ansehen</button><button class="btn" id="flipBtn">Brett drehen</button></div>
-        <p class="note">Hinweis: Das Brett prüft legale Züge. Die Engine-Auswertung mit Stockfish kommt als nächster Ausbau.</p>
-      </aside>
+
+    <section class="welcome">
+      <div class="eyebrow">Dein Schach. Dein Plan.</div>
+      <h1>Spiel clever.<br>Finde Fallen.</h1>
+      <p>Trainiere Eröffnungen, erkenne Ideen und finde den Zug, den dein Gegner übersieht.</p>
     </section>
-    <div class="foot">Chess Trap Lab · Built for better moves, not just more moves.</div>
+
+    <section class="feature">
+      <div class="feature-top"><span class="live-dot"></span> Dein Trainingsbereich</div>
+      <h2>Bereit für deinen nächsten Zug?</h2>
+      <p>Wähle unten eine Eröffnung aus. Deine Trainingsreise beginnt hier.</p>
+    </section>
+
+    <section>
+      <div class="section-head"><h3>Dein Fortschritt</h3><span class="tiny-label">Start bei null</span></div>
+      <div class="empty-state">
+        <div class="empty-icon">♙</div>
+        <div><strong>Hier entsteht dein Training</strong><p>Deine gespielten Eröffnungen und Erfolge werden später hier angezeigt.</p></div>
+      </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <section class="picker" aria-label="Eröffnung auswählen">
+      <div class="picker-head"><h3>Eröffnung auswählen</h3><span>01 verfügbar</span></div>
+      <button class="opening selected" id="openingBtn">
+        <div class="opening-symbol">♛</div>
+        <div class="opening-info"><strong>Early Queen Development</strong><small>Frühe Damenentwicklung · Eröffnung 01</small></div>
+        <span class="arrow">›</span>
+      </button>
+    </section>
+
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="nav-item active" data-tab="home"><span class="nav-icon">⌂</span><span>Start</span></button>
+      <button class="nav-item" data-tab="openings"><span class="nav-icon">♟</span><span>Eröffnungen</span></button>
+      <button class="nav-item" data-tab="profile"><span class="nav-icon">◉</span><span>Profil</span></button>
+    </nav>
+    <div class="toast" id="toast" role="status"></div>
   </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script>
     (() => {
-      const game = new Chess();
-      const boardEl = document.getElementById('board');
-      const feedback = document.getElementById('feedback');
-      const statusText = document.getElementById('statusText');
-      const turnLabel = document.getElementById('turnLabel');
-      const glyph = {wk:'♔',wq:'♕',wr:'♖',wb:'♗',wn:'♘',wp:'♙',bk:'♚',bq:'♛',br:'♜',bb:'♝',bn:'♞',bp:'♟'};
-      let selected = null, legalTargets = [], flipped = false, solved = false, hints = 0;
-      const squares = () => {
-        const out = [];
-        for (let r=0;r<8;r++) for(let c=0;c<8;c++) out.push(String.fromCharCode(97+c)+(8-r));
-        return flipped ? out.reverse().map((_,i)=> { const r=Math.floor(i/8),c=i%8; return String.fromCharCode(104-c)+(r+1); }) : out;
-      };
-      function render() {
-        boardEl.innerHTML = '';
-        const order = [];
-        if (!flipped) { for(let r=8;r>=1;r--) for(let c=0;c<8;c++) order.push(String.fromCharCode(97+c)+r); }
-        else { for(let r=1;r<=8;r++) for(let c=7;c>=0;c--) order.push(String.fromCharCode(97+c)+r); }
-        order.forEach((sq,i) => {
-          const piece = game.get(sq), btn = document.createElement('button');
-          btn.type='button'; btn.className='sq '+(((parseInt(sq[1])+sq.charCodeAt(0)-97)%2===0)?'light':'dark');
-          if(selected===sq) btn.classList.add('selected');
-          if(legalTargets.includes(sq)) btn.classList.add('legal');
-          if(piece) btn.classList.add('has-piece');
-          if(i%8===0 || sq[1]==='1') { const coord=document.createElement('span'); coord.className='coord'; coord.textContent=i%8===0?sq[1]:sq[0]; btn.appendChild(coord); }
-          if(piece) { const p=document.createElement('span'); p.className='piece '+(piece.color==='w'?'white':'black'); p.textContent=glyph[piece.color+piece.type]; btn.appendChild(p); }
-          btn.setAttribute('aria-label',sq+(piece?' '+piece.type:''));
-          btn.addEventListener('click',()=>onSquare(sq)); boardEl.appendChild(btn);
-        });
+      const toast = document.getElementById('toast');
+      let toastTimer;
+      function notify(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
       }
-      function onSquare(sq) {
-        if(solved) return;
-        const piece=game.get(sq);
-        if(selected && legalTargets.includes(sq)) {
-          const move=game.move({from:selected,to:sq,promotion:'q'}); selected=null;legalTargets=[];
-          if(move) {
-            if(move.color==='b') {
-              if(move.from==='b8' && move.to==='c6') { solved=true; feedback.innerHTML='<strong>Stark! ♞</strong><p>…Nc6 entwickelt den Springer und deckt den angegriffenen Bauern e5. Genau die ruhige Antwort, die du suchst.</p>';statusText.textContent='Richtig — Schwarz steht solide.'; }
-              else { game.undo(); feedback.innerHTML='<strong>Noch nicht ganz.</strong><p>'+move.san+' ist legal, aber probier einen Zug, der den Bauern e5 zusätzlich deckt. Du kannst einen Hinweis nutzen.</p>'; statusText.textContent='Such weiter nach der besten Antwort.'; }
-            }
+      document.getElementById('openingBtn').addEventListener('click', () => {
+        notify('Early Queen Development ausgewählt');
+      });
+      document.getElementById('settingsBtn').addEventListener('click', () => {
+        notify('Einstellungen kommen später dazu');
+      });
+      document.querySelectorAll('.nav-item').forEach(button => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+          button.classList.add('active');
+          const labels = {home:'Startseite',openings:'Eröffnungen',profile:'Profil'};
+          if (button.dataset.tab === 'openings') {
+            document.getElementById('openingBtn').scrollIntoView({behavior:'smooth',block:'center'});
+            notify('Deine erste Eröffnung: Early Queen Development');
+          } else if (button.dataset.tab === 'profile') {
+            notify('Dein Profil kommt später dazu');
+          } else {
+            notify('Willkommen zurück!');
           }
-          render();return;
-        }
-        if(piece && piece.color===game.turn()) { selected=sq;legalTargets=game.moves({square:sq,verbose:true}).map(m=>m.to); }
-        else { selected=null;legalTargets=[]; }
-        render();
-      }
-      document.getElementById('hintBtn').addEventListener('click',()=>{
-        hints++;
-        const messages=['Denk an den Springer auf b8. Wohin kann er ziehen, um e5 zu decken?','Der Zug beginnt mit …Nc — der Springer entwickelt sich nach c6.'];
-        feedback.innerHTML='<strong>Hinweis '+Math.min(hints,2)+'/2</strong><p>'+messages[Math.min(hints-1,1)]+'</p>';
+        });
       });
-      document.getElementById('solutionBtn').addEventListener('click',()=>{
-        feedback.innerHTML='<strong>Lösung: 2…Nc6</strong><p>Der Springer entwickelt sich und schützt den Bauern e5. Weiß kann die Dame nicht einfach nehmen, ohne dass Schwarz vorbereitet ist.</p>';
-        if(!solved) statusText.textContent='Lösung angezeigt — spiele …Nc6 auf dem Brett.';
-      });
-      document.getElementById('resetBtn').addEventListener('click',()=>{
-        game.reset();game.move('e4');game.move('e5');game.move('Qh5');selected=null;legalTargets=[];solved=false;hints=0;
-        feedback.innerHTML='<strong>Du bist dran.</strong><p>Welcher Zug entwickelt eine Figur und schützt gleichzeitig e5?</p>';
-        statusText.textContent='Finde den besten Zug für Schwarz.';turnLabel.textContent='Zug 2 …';render();
-      });
-      document.getElementById('flipBtn').addEventListener('click',()=>{flipped=!flipped;render();});
-      game.move('e4');game.move('e5');game.move('Qh5');render();
     })();
   </script>
 </body>
