@@ -216,7 +216,72 @@
         <span class="turn-label">Startposition</span>
       </div>
       <div class="board-frame">
-        <div class="chessboard" id="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Weiß unten"></div>
+        <div class="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Weiß unten">
+          <div class="square light"><span class="piece-black">♜</span><span class="coord">8</span></div>
+          <div class="square dark"><span class="piece-black">♞</span></div>
+          <div class="square light"><span class="piece-black">♝</span></div>
+          <div class="square dark"><span class="piece-black">♛</span></div>
+          <div class="square light"><span class="piece-black">♚</span></div>
+          <div class="square dark"><span class="piece-black">♝</span></div>
+          <div class="square light"><span class="piece-black">♞</span></div>
+          <div class="square dark"><span class="piece-black">♜</span></div>
+          <div class="square dark"><span class="piece-black">♟</span><span class="coord">7</span></div>
+          <div class="square light"><span class="piece-black">♟</span></div>
+          <div class="square dark"><span class="piece-black">♟</span></div>
+          <div class="square light"><span class="piece-black">♟</span></div>
+          <div class="square dark"><span class="piece-black">♟</span></div>
+          <div class="square light"><span class="piece-black">♟</span></div>
+          <div class="square dark"><span class="piece-black">♟</span></div>
+          <div class="square light"><span class="piece-black">♟</span></div>
+          <div class="square light"><span class="coord">6</span></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square dark"><span class="coord">5</span></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square light"><span class="coord">4</span></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square dark"><span class="coord">3</span></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square dark"></div>
+          <div class="square light"></div>
+          <div class="square light"><span class="piece-white">♙</span><span class="coord">2</span></div>
+          <div class="square dark"><span class="piece-white">♙</span></div>
+          <div class="square light"><span class="piece-white">♙</span></div>
+          <div class="square dark"><span class="piece-white">♙</span></div>
+          <div class="square light"><span class="piece-white">♙</span></div>
+          <div class="square dark"><span class="piece-white">♙</span></div>
+          <div class="square light"><span class="piece-white">♙</span></div>
+          <div class="square dark"><span class="piece-white">♙</span></div>
+          <div class="square dark"><span class="piece-white">♖</span><span class="coord">1</span><span class="coord">a</span></div>
+          <div class="square light"><span class="piece-white">♘</span><span class="coord">b</span></div>
+          <div class="square dark"><span class="piece-white">♗</span><span class="coord">c</span></div>
+          <div class="square light"><span class="piece-white">♕</span><span class="coord">d</span></div>
+          <div class="square dark"><span class="piece-white">♔</span><span class="coord">e</span></div>
+          <div class="square light"><span class="piece-white">♗</span><span class="coord">f</span></div>
+          <div class="square dark"><span class="piece-white">♘</span><span class="coord">g</span></div>
+          <div class="square light"><span class="piece-white">♖</span><span class="coord">h</span></div>
+        </div>
       </div>
       <div class="board-caption">
         <span>Weiß unten</span>
@@ -233,45 +298,5 @@
     <div class="bottom"></div>
     <footer>CHESS TRAP LAB</footer>
   </main>
-  <script>
-    const board = document.getElementById('chessboard');
-    const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const setup = [
-      ['♜','♞','♝','♛','♚','♝','♞','♜'],
-      ['♟','♟','♟','♟','♟','♟','♟','♟'],
-      ['','','','','','','',''],
-      ['','','','','','','',''],
-      ['','','','','','','',''],
-      ['','','','','','','',''],
-      ['♙','♙','♙','♙','♙','♙','♙','♙'],
-      ['♖','♘','♗','♕','♔','♗','♘','♖']
-    ];
-    setup.forEach((row, rowIndex) => {
-      row.forEach((piece, colIndex) => {
-        const square = document.createElement('div');
-        const light = (rowIndex + colIndex) % 2 === 0;
-        square.className = 'square ' + (light ? 'light' : 'dark');
-        if (piece) {
-          const pieceEl = document.createElement('span');
-          pieceEl.textContent = piece;
-          pieceEl.className = rowIndex < 2 ? 'piece-black' : 'piece-white';
-          square.appendChild(pieceEl);
-        }
-        if (colIndex === 0) {
-          const rank = document.createElement('span');
-          rank.className = 'coord';
-          rank.textContent = String(8 - rowIndex);
-          square.appendChild(rank);
-        }
-        if (rowIndex === 7) {
-          const file = document.createElement('span');
-          file.className = 'coord';
-          file.textContent = files[colIndex];
-          square.appendChild(file);
-        }
-        board.appendChild(square);
-      });
-    });
-  </script>
 </body>
 </html>
