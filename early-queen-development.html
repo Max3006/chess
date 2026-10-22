@@ -646,7 +646,17 @@
         opponentTimer = setTimeout(() => {
           opponentThinking = false;
           opponentTimer = null;
-          playBranch(Math.random() < 0.5 ? "Na3" : "Kd1");
+          // Pick randomly from the two legal White replies in this position.
+          const legalWhiteReplies = game.moves({verbose:true}).filter(move =>
+            (move.from === "b1" && move.to === "a3") ||
+            (move.from === "e1" && move.to === "d1")
+          );
+          const chosenReply = legalWhiteReplies[Math.floor(Math.random() * legalWhiteReplies.length)];
+          if (!chosenReply) {
+            statusEl.textContent = "Weiß konnte keine der beiden Antworten ausführen.";
+            return;
+          }
+          playBranch(chosenReply.san);
         }, 2000);
         return;
       }
@@ -676,7 +686,7 @@
     function playBranch(san) {
       const legalReply = game.moves({verbose:true}).find(move => move.san === san);
       const animationMove = legalReply ? {from:legalReply.from, to:legalReply.to, piece:{color:legalReply.color, type:legalReply.piece}} : null;
-      const whiteMove = game.move(san);
+      const whiteMove = game.move(legalReply ? legalReply.san : san);
       if (!whiteMove) { statusEl.textContent="Diese Antwort ist in der Stellung nicht legal."; return; }
       branchStep = null;
       moveLog.push(whiteMove.san);
