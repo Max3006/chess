@@ -350,10 +350,15 @@
     function showEngineError(message) {
       engineReady = false;
       engineSearching = false;
+      const detail = String(message || "Stockfish konnte nicht gestartet werden.").trim();
       evalCenterEl.textContent = "Fehler";
       evalWhiteEl.textContent = "W —";
       evalBlackEl.textContent = "S —";
-      evalCenterEl.title = message || "Stockfish konnte nicht gestartet werden.";
+      evalCenterEl.title = detail;
+      // Keep the actual reason visible on mobile, where title tooltips are not accessible.
+      const status = document.getElementById("trainerStatus");
+      if (status) status.textContent = "Stockfish-Fehler: " + detail.slice(0, 180);
+      console.error("Stockfish engine error:", detail);
     }
     function initStockfish() {
       evalCenterEl.textContent = "Lädt";
@@ -392,7 +397,7 @@
             }
           }
         };
-        engineWorker.onerror = event => showEngineError(event.message || "Worker konnte nicht geladen werden.");
+        engineWorker.onerror = event => showEngineError(event.message || event.type || "Worker konnte nicht geladen werden.");
         engineWorker.onmessageerror = () => showEngineError("Antwort der Engine konnte nicht gelesen werden.");
         engineWorker.postMessage("uci");
       } catch (error) {
