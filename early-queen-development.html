@@ -330,48 +330,47 @@
     const lines = [
       {
         title: "Gaining Tempo",
-        intro: "Greife die weiße Dame immer wieder an und entwickle dabei deine Figuren. Während Weiß mit der Dame ausweicht, gewinnt Schwarz Zeit für seine Entwicklung.",
+        intro: "Schwarz verteidigt zuerst den e5-Bauern und entwickelt dann mit Tempo. Die weiße Dame muss mehrfach ziehen, während Schwarz Figuren ins Spiel bringt.",
         moves: [
-          ["e4 e5", "Beide Seiten spielen zunächst um das Zentrum."],
-          ["Qc6 · …Nc6", "Der Springer entwickelt sich und soll die Dame angreifen."],
-          ["Nc3 · …Nf6", "Eine weitere Entwicklung mit Angriff auf die Dame."],
-          ["Qh3 · …d5", "Schwarz stößt im Zentrum vor und öffnet die Diagonale des Läufers."],
-          ["Qf3 · …Bg4", "Der Läufer kommt heraus und greift die Dame an."]
+          ["1. e4 e5", "Schwarz besetzt das Zentrum."],
+          ["2. Qh5 Nc6", "…Nc6 entwickelt den Springer und verteidigt den Bauern e5. Die Dame wird hier noch nicht angegriffen."],
+          ["3. Nc3 Nf6", "…Nf6 entwickelt den zweiten Springer und greift die Dame auf h5 an."],
+          ["4. Qh3 d5!", "Der Bauernstoß öffnet die Diagonale des Läufers c8: d7–e6–f5–g4–h3. Die Dame wird erneut angegriffen."],
+          ["5. Qf3 Bg4!", "…Bg4 entwickelt den Läufer und greift die Dame auf f3 an."]
         ],
-        note: "Die Idee steht fest. Die notierte Zugfolge muss vor einer Brettanimation noch auf legale Züge und Zugreihenfolge geprüft werden."
+        note: "Schwarz bekommt Entwicklung mit Tempo. Weiß sollte die Dame aus dem Angriff ziehen; Schwarz sollte danach normal weiterentwickeln und nicht nur weitere Bauern jagen."
       },
       {
         title: "Scholar’s Mate kontern",
-        intro: "Weiß versucht, mit Dame und Läufer auf f7 Druck zu machen. Schwarz verteidigt sich und nutzt die wiederholten Damenzüge für Entwicklung und Gegenangriffe.",
+        intro: "Weiß baut mit Läufer und Dame Druck auf f7 auf. Schwarz muss die Mattdrohung blockieren und danach auf den erneuten Angriff vorbereitet sein.",
         moves: [
-          ["Bc4 · …g6", "Mattmotiv auf f7 erkennen, die Dame angreifen und die Drohung entschärfen."],
-          ["Qf3 · …Nf6", "Den Springer entwickeln und die Mattdrohung blockieren."],
-          ["Qb3", "Weiß richtet den Blick erneut auf f7."],
-          ["Einfache Idee", "Eine unkomplizierte Verteidigung finden, statt der Dame hinterherzulaufen."],
-          ["Taktische Idee", "Mit einem Springerzug Gegendrohungen erzeugen. In deiner Variante folgen Bxf7+, …Ke7 und weitere Angriffe auf die Figuren."]
+          ["1. e4 e5 2. Bc4 g6", "…g6 greift die früh entwickelte Dame an und bereitet die Verteidigung vor."],
+          ["3. Qf3 Nf6!", "Der Springer auf f6 blockiert die Linie der Dame nach f7 und entwickelt gleichzeitig eine Figur."],
+          ["4. Qb3 — Schwarz am Zug", "Die weiße Idee ist Bxf7+: Wenn der Läufer von c4 nach f7 zieht, wird die Diagonale der Dame nach f7 frei."],
+          ["Solide Antwort: …Qe7", "Die Dame unterstützt f7. Damit wird die direkte Läuferopfer-Idee deutlich entschärft, statt passiv auf die Drohung zu warten."],
+          ["Taktische Idee: …Nxe4", "Das ist die schärfere Gegenidee: Schwarz nimmt den e4-Bauern und bietet Weiß taktische Chancen. Vor einer erzwungenen Fortsetzung müssen die Schachs und Rückschläge genau berechnet werden."]
         ],
-        note: "Die konkreten Züge „Re2“ und „Nc4“ sowie die Fortsetzung nach Bxf7+ brauchen vor einer interaktiven Zugfolge eine genaue Stellungsprüfung."
+        note: "Praktischer Plan: zuerst die konkrete Mattdrohung neutralisieren. …Qe7 ist die solide Verteidigung; …Nxe4 ist die schärfere, taktische Alternative."
       },
       {
         title: "Tempo statt Material",
-        intro: "Ein Bauer ist nicht alles: Schwarz darf Material abgeben, wenn er dafür seine Figuren entwickelt und die weiße Dame immer wieder zum Ziehen zwingt.",
+        intro: "Schwarz kann einen Bauern abgeben, wenn er dadurch Figuren entwickelt und Weiß wiederholt zu Damenzügen zwingt. Der taktische Schlüssel ist die Springergabel auf c2.",
         moves: [
-          ["…Nf3 · Qxe5+ · …Be7 · d3", "Die von dir genannte Einleitung zur Stellung – die Zugreihenfolge prüfen wir noch."],
-          ["…Nc6 · Qg3", "Schwarz entwickelt mit Angriff auf die Dame."],
-          ["…Nd4", "Die Springergabel auf c2 wird zur zentralen Drohung."]
+          ["Grundidee", "Nicht am Bauern festhalten um jeden Preis: Entwicklung, offene Linien und Tempi können wichtiger sein."],
+          ["…Nd4!", "Der Springer springt ins Zentrum und droht eine Gabel auf c2. Weiß muss die Drohung beachten."],
         ],
         branches: [
           {title: "Linie 3.1 · Na3", moves: [
-            ["Na3 · …Bxa3", "Schwarz nimmt den Springer."],
-            ["bxa3 · …Nxc2+", "Springergabel: Schwarz gewinnt anschließend Material am Turm."]
+            ["Na3 · …Bxa3", "Schwarz nimmt den Springer auf a3."],
+            ["bxa3 · …Nxc2+", "Der Springer auf d4 nimmt c2 mit Schach und gabelt König und Turm. Das ist der taktische Kern dieser Variante."]
           ]},
           {title: "Linie 3.2 · Kd1", moves: [
-            ["Kd1 · …d5", "Schwarz setzt auf Tempo, auch wenn der g7-Bauer angegriffen werden kann."],
-            ["Qxg7 · …Rg8", "Der Turm entwickelt sich mit Angriff auf die Dame."],
-            ["Qh6 · …dxe4 · dxe4", "Danach sind …Nxe4 oder …Bg4+ interessante Entwicklungsideen."]
+            ["Kd1 · …d5", "Weiß weicht der Gabel aus. Schwarz schlägt im Zentrum zurück und akzeptiert, dass g7 vorübergehend ungedeckt sein kann."],
+            ["Qxg7 · …Rg8!", "Der Turm kommt mit Tempo ins Spiel und greift die Dame an."],
+            ["Qh6 · …dxe4 · dxe4", "Danach sind die Entwicklungs- und Taktikideen …Nxe4 oder …Bg4+ zu prüfen."]
           ]}
         ],
-        note: "Die Zugnotation und taktischen Varianten werden vor dem Nachspielen auf dem Brett noch überprüft."
+        note: "Die Hauptidee ist klar: …Nd4 erzeugt die Gabeldrohung, und …Nxc2+ gewinnt Material, wenn Weiß den Springer nicht passend behandelt."
       }
     ];
     const panel = document.getElementById("lessonPanel");
