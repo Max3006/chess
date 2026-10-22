@@ -350,15 +350,36 @@
     function showEngineError(message) {
       engineReady = false;
       engineSearching = false;
-      const detail = String(message || "Stockfish konnte nicht gestartet werden.").trim();
+      let detail = String(message || "Keine weitere Fehlermeldung verfügbar.").trim();
+      try {
+        const parsed = JSON.parse(detail);
+        detail = [
+          "Phase: " + (parsed.phase || "unbekannt"),
+          "Fehlertyp: " + (parsed.name || "unbekannt"),
+          "Meldung: " + (parsed.message || "keine"),
+          parsed.stack ? "Stack: " + parsed.stack : "",
+          parsed.url ? "Datei: " + parsed.url : "",
+          parsed.worker ? "Worker: " + parsed.worker : ""
+        ].filter(Boolean).join("\\n");
+      } catch (_) {}
+      const diagnostics = [
+        "Stockfish-Diagnose",
+        detail,
+        "Seite: " + location.href,
+        "Browser: " + navigator.userAgent
+      ].join("\\n");
       evalCenterEl.textContent = "Fehler";
       evalWhiteEl.textContent = "W —";
       evalBlackEl.textContent = "S —";
-      evalCenterEl.title = detail;
-      // Keep the actual reason visible on mobile, where title tooltips are not accessible.
+      evalCenterEl.title = diagnostics;
       const status = document.getElementById("trainerStatus");
-      if (status) status.textContent = "Stockfish-Fehler: " + detail.slice(0, 180);
-      console.error("Stockfish engine error:", detail);
+      if (status) {
+        status.style.whiteSpace = "pre-wrap";
+        status.style.overflowWrap = "anywhere";
+        status.style.color = "#b42318";
+        status.textContent = diagnostics;
+      }
+      console.error("Stockfish engine diagnostics:", diagnostics);
     }
     function initStockfish() {
       evalCenterEl.textContent = "Lädt";
@@ -395,7 +416,15 @@
             }
           }
         };
-        engineWorker.onerror = event => showEngineError(event.message || event.type || "Worker konnte nicht geladen werden.");
+        engineWorker.onerror = event => showEngineError(JSON.stringify({
+          phase: "Worker-Fehler",
+          name: event.error && event.error.name ? event.error.name : "ErrorEvent",
+          message: event.message || event.type || "Unbekannter Worker-Fehler",
+          url: event.filename || "keine Datei-URL vom Browser gemeldet",
+          line: event.lineno || 0,
+          column: event.colno || 0,
+          worker: "stockfish-loader.js"
+        }));
         engineWorker.onmessageerror = () => showEngineError("Antwort der Engine konnte nicht gelesen werden.");
         engineWorker.postMessage("uci");
       } catch (error) {
