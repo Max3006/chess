@@ -641,12 +641,12 @@
         branchStep = false;
         opponentThinking = true;
         renderTrainer();
-        statusEl.textContent = "Richtig! …Nd4. Weiß antwortet …";
+        statusEl.textContent = "Richtig! …Nd4. Weiß überlegt …";
         feedbackEl.textContent = option.goal;
         opponentTimer = setTimeout(() => {
           opponentThinking = false;
           opponentTimer = null;
-          playBranch("Na3");
+          playBranch(Math.random() < 0.5 ? "Na3" : "Kd1");
         }, 2000);
         return;
       }
