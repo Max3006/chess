@@ -309,22 +309,22 @@
           <div class="square light"></div>
           <div class="square dark"></div>
           <div class="square light"></div>
-          <div class="square light"><span class="piece-white">♙</span><span class="coord">2</span></div>
-          <div class="square dark"><span class="piece-white">♙</span></div>
-          <div class="square light"><span class="piece-white">♙</span></div>
-          <div class="square dark"><span class="piece-white">♙</span></div>
-          <div class="square light"><span class="piece-white">♙</span></div>
-          <div class="square dark"><span class="piece-white">♙</span></div>
-          <div class="square light"><span class="piece-white">♙</span></div>
-          <div class="square dark"><span class="piece-white">♙</span></div>
-          <div class="square dark"><span class="piece-white">♖</span><span class="coord">1</span><span class="coord">a</span></div>
-          <div class="square light"><span class="piece-white">♘</span><span class="coord">b</span></div>
-          <div class="square dark"><span class="piece-white">♗</span><span class="coord">c</span></div>
-          <div class="square light"><span class="piece-white">♕</span><span class="coord">d</span></div>
-          <div class="square dark"><span class="piece-white">♔</span><span class="coord">e</span></div>
-          <div class="square light"><span class="piece-white">♗</span><span class="coord">f</span></div>
-          <div class="square dark"><span class="piece-white">♘</span><span class="coord">g</span></div>
-          <div class="square light"><span class="piece-white">♖</span><span class="coord">h</span></div>
+          <div class="square light"><span class="piece-white">♟</span><span class="coord">2</span></div>
+          <div class="square dark"><span class="piece-white">♟</span></div>
+          <div class="square light"><span class="piece-white">♟</span></div>
+          <div class="square dark"><span class="piece-white">♟</span></div>
+          <div class="square light"><span class="piece-white">♟</span></div>
+          <div class="square dark"><span class="piece-white">♟</span></div>
+          <div class="square light"><span class="piece-white">♟</span></div>
+          <div class="square dark"><span class="piece-white">♟</span></div>
+          <div class="square dark"><span class="piece-white">♜</span><span class="coord">1</span><span class="coord">a</span></div>
+          <div class="square light"><span class="piece-white">♞</span><span class="coord">b</span></div>
+          <div class="square dark"><span class="piece-white">♝</span><span class="coord">c</span></div>
+          <div class="square light"><span class="piece-white">♛</span><span class="coord">d</span></div>
+          <div class="square dark"><span class="piece-white">♚</span><span class="coord">e</span></div>
+          <div class="square light"><span class="piece-white">♝</span><span class="coord">f</span></div>
+          <div class="square dark"><span class="piece-white">♞</span><span class="coord">g</span></div>
+          <div class="square light"><span class="piece-white">♜</span><span class="coord">h</span></div>
         </div>
       </div>
       <div class="board-caption">
@@ -400,7 +400,7 @@
       }
     ];
     const files = "abcdefgh";
-    const symbols = {wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
+    const symbols = {wk:"♚",wq:"♛",wr:"♜",wb:"♝",wn:"♞",wp:"♟",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
     let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null, opponentThinking = false, opponentTimer = null;
     const boardEl = document.getElementById("trainingBoard");
     const statusEl = document.getElementById("trainerStatus");
