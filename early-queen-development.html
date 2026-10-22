@@ -346,10 +346,11 @@
     const evalCenterEl = document.getElementById("evalCenter");
     const evalWhiteFill = document.getElementById("evalWhiteFill");
     const evalBlackFill = document.getElementById("evalBlackFill");
-    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineActiveFen = null, engineActiveTurn = "w", engineSearching = false;
+    let engineWorker = null, engineReady = false, engineLoadReported = false, engineReadyTimer = null, pendingEvalFen = null, engineActiveFen = null, engineActiveTurn = "w", engineSearching = false;
     function showEngineError(message) {
       engineReady = false;
       engineSearching = false;
+      if (engineReadyTimer) { clearTimeout(engineReadyTimer); engineReadyTimer = null; }
       let detail = String(message || "Keine weitere Fehlermeldung verfügbar.").trim();
       try {
         const parsed = JSON.parse(detail);
@@ -393,6 +394,24 @@
           const lines = String(event.data || "").split(/\\r?\\n/).map(line => line.trim()).filter(Boolean);
           for (const line of lines) {
             if (line.startsWith("ENGINE_LOAD_ERROR:")) { showEngineError(line.slice("ENGINE_LOAD_ERROR:".length)); continue; }
+            if (line.startsWith("ENGINE_LOAD_OK:")) {
+              engineLoadReported = true;
+              if (engineReadyTimer) clearTimeout(engineReadyTimer);
+              engineReadyTimer = setTimeout(() => {
+                if (!engineReady) showEngineError(JSON.stringify({
+                  phase: "UCI-Handshake",
+                  name: "Timeout",
+                  message: "Stockfish-Datei wurde geladen, aber die Engine hat nicht rechtzeitig mit uciok geantwortet.",
+                  worker: "stockfish-loader.js",
+                  loaded: true,
+                  seconds: 30
+                }));
+              }, 30000);
+              evalCenterEl.textContent = "Startet";
+              evalCenterEl.title = "Stockfish-Datei geladen; warte auf UCI-Antwort.";
+              engineWorker.postMessage("uci");
+              continue;
+            }
             if (line === "uciok") { engineWorker.postMessage("isready"); continue; }
             if (line === "readyok") {
               engineReady = true;
@@ -426,7 +445,7 @@
           worker: "stockfish-loader.js"
         }));
         engineWorker.onmessageerror = () => showEngineError("Antwort der Engine konnte nicht gelesen werden.");
-        engineWorker.postMessage("uci");
+        // Wait for the loader to confirm that Stockfish has been imported before starting UCI.
       } catch (error) {
         showEngineError(error && error.message ? error.message : String(error));
       }
