@@ -346,10 +346,10 @@
     const evalCenterEl = document.getElementById("evalCenter");
     const evalWhiteFill = document.getElementById("evalWhiteFill");
     const evalBlackFill = document.getElementById("evalBlackFill");
-    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineSearchId = 0;
+    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineSearchId = 0, evalRootTurn = 'w';
     function initStockfish() {
       try {
-        const workerCode = "self.Module={locateFile:function(path){return 'https://cdn.jsdelivr.net/npm/stockfish@19.0.0/'+path;}};importScripts('https://cdn.jsdelivr.net/npm/stockfish@19.0.0/stockfish-19-lite-single.js');";
+        const workerCode = "self.Module={locateFile:function(path){return 'https://cdn.jsdelivr.net/npm/stockfish@19.0.0/bin/'+path;}};importScripts('https://cdn.jsdelivr.net/npm/stockfish@19.0.0/bin/stockfish-19-lite-single.js');";
         const blobUrl = URL.createObjectURL(new Blob([workerCode], {type:"text/javascript"}));
         engineWorker = new Worker(blobUrl);
         engineWorker.onmessage = event => {
@@ -359,7 +359,7 @@
           const match = line.match(/\bscore (cp|mate) (-?\d+)/);
           if (match) {
             let value = match[1] === "mate" ? (Number(match[2]) > 0 ? 99 : -99) : Number(match[2]) / 100;
-            if (game && game.turn() === "b") value = -value;
+            if (evalRootTurn === "b") value = -value;
             renderEvaluation(value, match[1] === "mate" ? Number(match[2]) : null);
           }
         };
@@ -384,6 +384,7 @@
     function updateEvaluation() {
       if (!game || !engineWorker || !engineReady) return;
       pendingEvalFen = game.fen();
+      evalRootTurn = game.turn();
       engineWorker.postMessage("stop");
       engineWorker.postMessage("position fen " + pendingEvalFen);
       engineWorker.postMessage("go depth 10");
