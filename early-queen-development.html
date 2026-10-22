@@ -638,7 +638,7 @@
       selected=null; revealed=false;
       feedbackEl.textContent = option.goal;
       if (option.branchAfter) {
-        branchStep = true;
+        branchStep = false;
         opponentThinking = true;
         renderTrainer();
         statusEl.textContent = "Richtig! …Nd4. Weiß antwortet …";
