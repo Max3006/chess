@@ -380,13 +380,12 @@
         ]
       },
       {
-        title: "Scholar’s Mate kontern",
-        setup: ["e4","e5","Bc4","g6","Qf3","Nf6","Qb3"],
-        startLabel: "1. e4 e5 2. Lc4 g6 3. Df3 Sf6 4. Db3",
+        title: "Mattabwehr",
+        setup: ["e4","e5","Qh5","Nc6","Bc4","g6","Qf3","Nf6","Qb3"],
+        startLabel: "1. e4 e5 2. Dh5 Sc6 3. Lc4 g6 4. Df3 Sf6 5. Db3",
         steps: [
           {choices:[
-            {from:"d8",to:"e7",san:"Qe7",label:"2.1 · Solide verteidigen",hint:"Sichere f7, damit die Läufer-Dame-Batterie nicht einfach durchschlägt.",goal:"…De7 ist die solide Verteidigungsidee: Schwarz unterstützt f7 und entschärft den direkten Mattplan."},
-            {from:"f6",to:"e4",san:"Nxe4",label:"2.2 · Taktisch kontern",hint:"Prüfe, ob du den Bauern e4 nehmen kannst, während Weiß seine Drohung vorbereitet.",goal:"…Sxe4 ist die taktische Gegenidee. Danach müssen die Schachs und Rückschläge konkret berechnet werden."}
+            {from:"d8",to:"e7",san:"Qe7",label:"…De7 · Beste Antwort",hint:"Stell deine Dame so, dass du f7 verteidigst. Danach zeigt Weiß seinen taktischen Versuch.",goal:"…De7 verteidigt f7. Weiß antwortet mit dem Schachgebot 6. Lxf7+.",reply:"Bxf7+",replyLabel:"6. Lxf7+"}
           ]}
         ]
       },
@@ -525,7 +524,6 @@
       moveLog.push("…" + option.san);
       selected=null; revealed=false;
       feedbackEl.textContent = option.goal;
-      if (lineIndex===1) { finished=true; renderTrainer(); feedbackEl.textContent=option.goal + " Aufgabe erledigt."; return; }
       if (option.branchAfter) { branchStep = true; renderTrainer(); statusEl.textContent="Richtig! …Sd4. Jetzt wählt Weiß seine Antwort."; feedbackEl.textContent=option.goal; return; }
       if (option.reply) {
         opponentThinking = true;
