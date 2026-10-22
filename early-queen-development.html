@@ -260,7 +260,7 @@
         <span class="turn-label">Startposition</span>
       </div>
       <div class="board-frame">
-        <div class="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Weiß unten">
+        <div class="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Schwarz unten">
           <div class="square light"><span class="piece-black">♜</span><span class="coord">8</span></div>
           <div class="square dark"><span class="piece-black">♞</span></div>
           <div class="square light"><span class="piece-black">♝</span></div>
@@ -328,7 +328,7 @@
         </div>
       </div>
       <div class="board-caption">
-        <span>Weiß unten</span>
+        <span>Schwarz unten</span>
         <span>Alle Figuren in Startposition</span>
       </div>
     </section>
@@ -354,7 +354,7 @@
           <button class="reset-btn" id="resetTraining" type="button">Neu starten ↻</button>
         </div>
         <p id="trainerHint">Entwickle eine Figur und greife dabei die weiße Dame an.</p>
-        <div class="board-frame trainer-frame"><div id="trainingBoard" class="training-board" role="group" aria-label="Interaktives Schachbrett"></div></div>
+        <div class="board-frame trainer-frame"><div id="trainingBoard" class="training-board black-bottom" role="group" aria-label="Interaktives Schachbrett, Schwarz unten"></div></div>
         <div class="trainer-status" id="trainerStatus" role="status">Schwarz am Zug · Wähle eine Figur.</div>
         <div class="move-history" id="moveHistory">Züge: 1. e4 e5 2. Dh5</div>
         <div class="branch-choices" id="branchChoices" hidden></div>
@@ -434,7 +434,7 @@
       boardEl.replaceChildren();
       const board = game.board();
       const legalFrom = selected ? game.moves({square:selected, verbose:true}).map(m => m.to) : [];
-      for (let row=0; row<8; row++) for (let col=0; col<8; col++) {
+      for (let row=7; row>=0; row--) for (let col=7; col>=0; col--) {
         const sq = files[col] + (8-row), piece = board[row][col];
         const cell = document.createElement("button");
         cell.type = "button"; cell.className = "training-square " + ((row+col)%2===0 ? "sq-light" : "sq-dark");
