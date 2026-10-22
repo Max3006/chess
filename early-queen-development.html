@@ -392,9 +392,12 @@
       },
       {
         title: "Springergabel",
-        setup: ["e4","e5","Qh5","Nf6","Qxe5+","Be7","d3","Nc6","Qg3"],
-        startLabel: "1. e4 e5 2. Dh5 Sf6 3. Dxe5+ Le7 4. d3 Sc6 5. Dg3",
+        setup: ["e4","e5","Qh5"],
+        startLabel: "1. e4 e5 2. Dh5",
         steps: [
+          {from:"g8",to:"f6",san:"Nf6",hint:"Entwickle den Springer und greife die Dame auf h5 an.",goal:"…Sf6 greift die Dame mit Tempo an.",reply:"Qxe5+"},
+          {from:"f8",to:"e7",san:"Be7",hint:"Blockiere das Schachgebot mit dem Läufer.",goal:"…Le7 wehrt das Schach ab.",reply:"d3"},
+          {from:"b8",to:"c6",san:"Nc6",hint:"Entwickle den zweiten Springer und greife die Dame auf e5 an.",goal:"…Sc6 greift die Dame an.",reply:"Qg3"},
           {from:"c6",to:"d4",san:"Nd4",hint:"Springe ins Zentrum und drohe mit einer Gabel auf c2.",goal:"…Sd4 droht mit …Sxc2+.",branchAfter:true}
         ]
       }
