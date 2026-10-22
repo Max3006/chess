@@ -392,7 +392,7 @@
         // Load a same-origin worker file; blob workers can fail when importing a cross-origin script on mobile Safari.
         engineWorker = new Worker("stockfish-loader.js");
         engineWorker.onmessage = event => {
-          const lines = String(event.data || "").split(/\\r?\\n/).map(line => line.trim()).filter(Boolean);
+          const lines = String(event.data || "").split(/\r?\n/).map(line => line.trim()).filter(Boolean);
           for (const line of lines) {
             if (line.startsWith("ENGINE_LOAD_ERROR:")) { showEngineError(line.slice("ENGINE_LOAD_ERROR:".length)); continue; }
             if (line.startsWith("ENGINE_LOAD_OK:")) {
@@ -434,7 +434,7 @@
               continue;
             }
             if (!engineSearching || engineActiveFen !== pendingEvalFen) continue;
-            const match = line.match(/\\bscore (cp|mate) (-?\\d+)/);
+            const match = line.match(/\bscore (cp|mate) (-?\d+)/);
             if (match) {
               const rawScore = Number(match[2]);
               const mateWhite = match[1] === "mate" ? rawScore * (engineActiveTurn === "b" ? -1 : 1) : null;
