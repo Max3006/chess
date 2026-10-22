@@ -421,7 +421,7 @@
       const board = game.board();
       const legalFrom = selected ? game.moves({square:selected, verbose:true}).map(m => m.to) : [];
       for (let row=7; row>=0; row--) for (let col=7; col>=0; col--) {
-        const sq = files[7-col] + (8-row), piece = board[row][7-col];
+        const sq = files[col] + (8-row), piece = board[row][col];
         const cell = document.createElement("button");
         cell.type = "button"; cell.className = "training-square " + ((row+col)%2===0 ? "sq-light" : "sq-dark");
         cell.dataset.square = sq;
@@ -430,7 +430,7 @@
         if (legalFrom.includes(sq)) cell.classList.add("sq-legal");
         if (piece) { const glyph = document.createElement("span"); glyph.className = piece.color === "w" ? "piece-white" : "piece-black"; glyph.textContent = symbols[piece.color + piece.type]; cell.append(glyph); }
         if (col === 0) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
-        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[7-col]; cell.append(coord); }
+        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
         cell.addEventListener("click", () => clickSquare(sq));
         if (animationMove && sq === animationMove.to && piece) {
           const destinationGlyph = cell.querySelector("span.piece-white, span.piece-black");
