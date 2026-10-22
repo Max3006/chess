@@ -199,6 +199,34 @@
     .move-row span { display: block; font-size: 13px; color: #586159; line-height: 1.55; }
     .branch-title { font-weight: 750; font-size: 15px; margin: 17px 0 5px; }
     .verification { margin-top: 15px !important; padding: 11px 12px; background: #f3f1e8; border-radius: 10px; font-size: 12px !important; }
+
+    .trainer { padding: 16px 14px; }
+    .trainer-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .trainer-label { color:var(--green); font-size:10px; font-weight:800; letter-spacing:1.4px; }
+    .trainer-top h3 { margin-top:5px; }
+    .reset-btn,.secondary-btn,.branch-btn { border:1px solid var(--line); border-radius:10px; background:#fffefa; color:var(--ink); padding:9px 10px; font:650 12px/1.3 inherit; font-family:inherit; cursor:pointer; }
+    .reset-btn { flex-shrink:0; }
+    .trainer-frame { margin-top:14px; padding:6px; }
+    .training-board { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); width:100%; aspect-ratio:1; overflow:hidden; border-radius:5px; }
+    .training-square { position:relative; min-width:0; min-height:0; aspect-ratio:1; border:0; margin:0; padding:0; display:grid; place-items:center; font-size:clamp(27px,8vw,43px); line-height:1; cursor:pointer; }
+    .sq-light { background:#f0eadb; } .sq-dark { background:#82977d; }
+    .training-square .piece-white { -webkit-text-stroke:.6px #343a32; text-shadow:0 1px 1px #0003; }
+    .training-square .piece-black { color:#28332b; }
+    .training-square.sq-selected { box-shadow:inset 0 0 0 4px #e5b94b; }
+    .training-square.sq-legal::after { content:""; position:absolute; width:24%; height:24%; border-radius:50%; background:#24372b66; }
+    .training-square:focus-visible { outline:3px solid #d29d27; outline-offset:-3px; z-index:2; }
+    .board-coord { position:absolute; left:3px; top:2px; font:750 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#536650; }
+    .sq-dark .board-coord { color:#f0eadb; }
+    .file-coord { top:auto; bottom:2px; left:auto; right:3px; }
+    .trainer-status { margin:12px 2px 7px; color:var(--green); font-size:13px; font-weight:750; }
+    .move-history { margin:0 2px; color:var(--muted); font-size:11px; line-height:1.6; overflow-wrap:anywhere; }
+    .trainer-bottom { display:flex; gap:8px; margin-top:13px; }
+    .trainer-bottom button { flex:1; }
+    .branch-choices { display:flex; flex-wrap:wrap; gap:8px; margin-top:13px; }
+    .branch-prompt { flex-basis:100%; margin:0 !important; font-weight:700; color:var(--ink) !important; }
+    .branch-btn { flex:1; min-width:120px; background:#e8ece2; border-color:#d2d9cc; color:var(--green); }
+    .verification { margin-bottom:0 !important; }
+
     @media (min-width: 480px) {
       .square { font-size: 43px; }
     }
@@ -312,106 +340,209 @@
     </section>
 
     <section class="lesson" aria-labelledby="lessonTitle">
-      <p class="kicker">Lektion 01 · Aus Sicht von Schwarz</p>
-      <h2 id="lessonTitle">Bestrafe die frühe Dame.</h2>
-      <p class="lesson-intro">Drei Wege, um frühe Damenausflüge auszunutzen: Entwickle deine Figuren mit Tempo, verhindere Mattdrohungen und nutze taktische Chancen.</p>
-      <div class="line-tabs" role="tablist" aria-label="Linie auswählen">
-        <button class="line-tab" type="button" role="tab" aria-selected="true" data-line="0">Linie 1<br>Tempo</button>
-        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="1">Linie 2<br>Mattabwehr</button>
-        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="2">Linie 3<br>Material</button>
+      <p class="kicker">Interaktives Training · Aus Sicht von Schwarz</p>
+      <h2 id="lessonTitle">Finde den besten Zug.</h2>
+      <p class="lesson-intro">Zieh eine schwarze Figur, indem du erst das Startfeld und dann das Zielfeld antippst. Du bekommst einen Tipp, aber nicht sofort die Lösung. Nach deinem Zug antwortet Weiß automatisch.</p>
+      <div class="line-tabs" role="tablist" aria-label="Trainingslinie auswählen">
+        <button class="line-tab" type="button" role="tab" aria-selected="true" data-line="0">1 · Tempo</button>
+        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="1">2 · Mattabwehr</button>
+        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="2">3 · Gabel</button>
       </div>
-      <div class="lesson-panel" id="lessonPanel" role="tabpanel" aria-live="polite"></div>
+      <div class="lesson-panel trainer" id="lessonPanel" role="tabpanel" aria-live="polite">
+        <div class="trainer-top">
+          <div><span class="trainer-label" id="trainerStep">AUFGABE 1</span><h3 id="trainerTitle">Greif die Dame mit Tempo an.</h3></div>
+          <button class="reset-btn" id="resetTraining" type="button">Neu starten ↻</button>
+        </div>
+        <p id="trainerHint">Entwickle eine Figur und greife dabei die weiße Dame an.</p>
+        <div class="board-frame trainer-frame"><div id="trainingBoard" class="training-board" role="group" aria-label="Interaktives Schachbrett"></div></div>
+        <div class="trainer-status" id="trainerStatus" role="status">Schwarz am Zug · Wähle eine Figur.</div>
+        <div class="move-history" id="moveHistory">Züge: 1. e4 e5 2. Dh5</div>
+        <div class="branch-choices" id="branchChoices" hidden></div>
+        <div class="trainer-bottom"><button class="secondary-btn" id="showHint" type="button">Tipp anzeigen</button><button class="secondary-btn" id="showSolution" type="button">Zug aufdecken</button></div>
+        <p class="verification" id="trainerFeedback">Ein guter Zug erfüllt den Plan der Aufgabe – nicht nur irgendein legaler Zug.</p>
+      </div>
     </section>
-
     <div class="bottom"></div>
     <footer>CHESS TRAP LAB</footer>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script>
-    const lines = [
+    const trainingLines = [
       {
         title: "Gaining Tempo",
-        intro: "Schwarz verteidigt zuerst den e5-Bauern und entwickelt dann mit Tempo. Die weiße Dame muss mehrfach ziehen, während Schwarz Figuren ins Spiel bringt.",
-        moves: [
-          ["1. e4 e5", "Schwarz besetzt das Zentrum."],
-          ["2. Qh5 Nc6", "…Nc6 entwickelt den Springer und verteidigt den Bauern e5. Die Dame wird hier noch nicht angegriffen."],
-          ["3. Nc3 Nf6", "…Nf6 entwickelt den zweiten Springer und greift die Dame auf h5 an."],
-          ["4. Qh3 d5!", "Der Bauernstoß öffnet die Diagonale des Läufers c8: d7–e6–f5–g4–h3. Die Dame wird erneut angegriffen."],
-          ["5. Qf3 Bg4!", "…Bg4 entwickelt den Läufer und greift die Dame auf f3 an."]
-        ],
-        note: "Schwarz bekommt Entwicklung mit Tempo. Weiß sollte die Dame aus dem Angriff ziehen; Schwarz sollte danach normal weiterentwickeln und nicht nur weitere Bauern jagen."
+        setup: ["e4", "e5", "Qh5"],
+        startLabel: "1. e4 e5 2. Dh5",
+        steps: [
+          {from:"b8",to:"c6",san:"Nc6",hint:"Entwickle einen Springer und sichere gleichzeitig den Bauern e5.",goal:"…Sc6 entwickelt den Springer und verteidigt e5.",reply:"Nc3",replyLabel:"3. Sc3"},
+          {from:"g8",to:"f6",san:"Nf6",hint:"Finde einen Entwicklungszug, der die weiße Dame auf h5 direkt angreift.",goal:"…Sf6 entwickelt den zweiten Springer und greift die Dame an.",reply:"Qh3",replyLabel:"3…Sf6 4. Dh3"},
+          {from:"d7",to:"d5",san:"d5",hint:"Greife die Dame erneut an – diesmal mit einem Bauernzug, der auch eine Läuferdiagonale öffnet.",goal:"…d5 öffnet die Diagonale des Läufers c8 nach h3 und setzt die Dame erneut unter Druck.",reply:"Qf3",replyLabel:"4…d5 5. Df3"},
+          {from:"c8",to:"g4",san:"Bg4",hint:"Entwickle den Läufer mit Tempo: Welcher Zug greift die Dame auf f3 an?",goal:"…Lg4 entwickelt den Läufer und greift die Dame auf f3 an.",reply:null}
+        ]
       },
       {
         title: "Scholar’s Mate kontern",
-        intro: "Weiß baut mit Läufer und Dame Druck auf f7 auf. Schwarz muss die Mattdrohung blockieren und danach auf den erneuten Angriff vorbereitet sein.",
-        moves: [
-          ["1. e4 e5 2. Bc4 g6", "…g6 greift die früh entwickelte Dame an und bereitet die Verteidigung vor."],
-          ["3. Qf3 Nf6!", "Der Springer auf f6 blockiert die Linie der Dame nach f7 und entwickelt gleichzeitig eine Figur."],
-          ["4. Qb3 — Schwarz am Zug", "Die weiße Idee ist Bxf7+: Wenn der Läufer von c4 nach f7 zieht, wird die Diagonale der Dame nach f7 frei."],
-          ["Solide Antwort: …Qe7", "Die Dame unterstützt f7. Damit wird die direkte Läuferopfer-Idee deutlich entschärft, statt passiv auf die Drohung zu warten."],
-          ["Taktische Idee: …Nxe4", "Das ist die schärfere Gegenidee: Schwarz nimmt den e4-Bauern und bietet Weiß taktische Chancen. Vor einer erzwungenen Fortsetzung müssen die Schachs und Rückschläge genau berechnet werden."]
-        ],
-        note: "Praktischer Plan: zuerst die konkrete Mattdrohung neutralisieren. …Qe7 ist die solide Verteidigung; …Nxe4 ist die schärfere, taktische Alternative."
+        setup: ["e4","e5","Bc4","g6","Qf3","Nf6","Qb3"],
+        startLabel: "1. e4 e5 2. Lc4 g6 3. Df3 Sf6 4. Db3",
+        steps: [
+          {choices:[
+            {from:"d8",to:"e7",san:"Qe7",label:"2.1 · Solide verteidigen",hint:"Sichere f7, damit die Läufer-Dame-Batterie nicht einfach durchschlägt.",goal:"…De7 ist die solide Verteidigungsidee: Schwarz unterstützt f7 und entschärft den direkten Mattplan."},
+            {from:"f6",to:"e4",san:"Nxe4",label:"2.2 · Taktisch kontern",hint:"Prüfe, ob du den Bauern e4 nehmen kannst, während Weiß seine Drohung vorbereitet.",goal:"…Sxe4 ist die taktische Gegenidee. Danach müssen die Schachs und Rückschläge konkret berechnet werden."}
+          ]}
+        ]
       },
       {
         title: "Tempo statt Material",
-        intro: "Schwarz kann einen Bauern abgeben, wenn er dadurch Figuren entwickelt und Weiß wiederholt zu Damenzügen zwingt. Der taktische Schlüssel ist die Springergabel auf c2.",
-        moves: [
-          ["Grundidee", "Nicht am Bauern festhalten um jeden Preis: Entwicklung, offene Linien und Tempi können wichtiger sein."],
-          ["…Nd4!", "Der Springer springt ins Zentrum und droht eine Gabel auf c2. Weiß muss die Drohung beachten."],
-        ],
-        branches: [
-          {title: "Linie 3.1 · Na3", moves: [
-            ["Na3 · …Bxa3", "Schwarz nimmt den Springer auf a3."],
-            ["bxa3 · …Nxc2+", "Der Springer auf d4 nimmt c2 mit Schach und gabelt König und Turm. Das ist der taktische Kern dieser Variante."]
-          ]},
-          {title: "Linie 3.2 · Kd1", moves: [
-            ["Kd1 · …d5", "Weiß weicht der Gabel aus. Schwarz schlägt im Zentrum zurück und akzeptiert, dass g7 vorübergehend ungedeckt sein kann."],
-            ["Qxg7 · …Rg8!", "Der Turm kommt mit Tempo ins Spiel und greift die Dame an."],
-            ["Qh6 · …dxe4 · dxe4", "Danach sind die Entwicklungs- und Taktikideen …Nxe4 oder …Bg4+ zu prüfen."]
-          ]}
-        ],
-        note: "Die Hauptidee ist klar: …Nd4 erzeugt die Gabeldrohung, und …Nxc2+ gewinnt Material, wenn Weiß den Springer nicht passend behandelt."
+        setup: ["e4","e5","Nf3","Nc6","Bc4","Nf6","d3","Bb4+","c3"],
+        startLabel: "1. e4 e5 2. Sf3 Sc6 3. Lc4 Sf6 4. d3 Lb4+ 5. c3",
+        steps: [
+          {from:"c6",to:"d4",san:"Nd4",hint:"Suche einen aktiven Springerzug, der c2 angreift und eine Gabel auf c2 vorbereitet.",goal:"…Sd4 greift ins Zentrum ein und droht …Sxc2+ mit Gabel auf König und Turm.",branchAfter:true}
+        ]
       }
     ];
-    const panel = document.getElementById("lessonPanel");
-    function moveHtml(move) {
-      const row = document.createElement("div");
-      row.className = "move-row";
-      const strong = document.createElement("strong");
-      strong.textContent = move[0];
-      const desc = document.createElement("span");
-      desc.textContent = move[1];
-      row.append(strong, desc);
-      return row;
+    const files = "abcdefgh";
+    const symbols = {wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
+    let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null;
+    const boardEl = document.getElementById("trainingBoard");
+    const statusEl = document.getElementById("trainerStatus");
+    const hintEl = document.getElementById("trainerHint");
+    const titleEl = document.getElementById("trainerTitle");
+    const stepEl = document.getElementById("trainerStep");
+    const historyEl = document.getElementById("moveHistory");
+    const feedbackEl = document.getElementById("trainerFeedback");
+    const branchEl = document.getElementById("branchChoices");
+    const lineNow = () => trainingLines[lineIndex];
+    const stepsNow = () => lineNow().steps;
+    const stepNow = () => stepsNow()[stepIndex];
+    function loadTraining(index) {
+      lineIndex = index; stepIndex = 0; selected = null; revealed = false; finished = false; branchStep = null; moveLog = [];
+      game = new Chess();
+      for (const san of lineNow().setup) {
+        const result = game.move(san);
+        if (!result) { statusEl.textContent = "Diese Trainingsstellung konnte nicht geladen werden."; return; }
+      }
+      moveLog = [lineNow().startLabel];
+      document.querySelectorAll(".line-tab").forEach(tab => tab.setAttribute("aria-selected", String(Number(tab.dataset.line) === index)));
+      branchEl.hidden = true; branchEl.replaceChildren();
+      renderTrainer();
     }
-    function showLine(index) {
-      const line = lines[index];
-      panel.replaceChildren();
-      const heading = document.createElement("h3");
-      heading.textContent = line.title;
-      const intro = document.createElement("p");
-      intro.textContent = line.intro;
-      panel.append(heading, intro);
-      line.moves.forEach(move => panel.append(moveHtml(move)));
-      (line.branches || []).forEach(branch => {
-        const sub = document.createElement("div");
-        sub.className = "branch-title";
-        sub.textContent = branch.title;
-        panel.append(sub);
-        branch.moves.forEach(move => panel.append(moveHtml(move)));
-      });
-      const note = document.createElement("p");
-      note.className = "verification";
-      note.textContent = "Hinweis: " + line.note;
-      panel.append(note);
-      document.querySelectorAll(".line-tab").forEach(tab => {
-        tab.setAttribute("aria-selected", String(Number(tab.dataset.line) === index));
-      });
+    function currentOptions() {
+      const step = stepNow();
+      if (!step) return [];
+      return step.choices || [step];
     }
-    document.querySelectorAll(".line-tab").forEach(tab => {
-      tab.addEventListener("click", () => showLine(Number(tab.dataset.line)));
+    function renderBoard() {
+      boardEl.replaceChildren();
+      const board = game.board();
+      const legalFrom = selected ? game.moves({square:selected, verbose:true}).map(m => m.to) : [];
+      for (let row=0; row<8; row++) for (let col=0; col<8; col++) {
+        const sq = files[col] + (8-row), piece = board[row][col];
+        const cell = document.createElement("button");
+        cell.type = "button"; cell.className = "training-square " + ((row+col)%2===0 ? "sq-light" : "sq-dark");
+        cell.setAttribute("aria-label", sq + (piece ? " " + (piece.color === "w" ? "weiße " : "schwarze ") + piece.type : ""));
+        if (selected === sq) cell.classList.add("sq-selected");
+        if (legalFrom.includes(sq)) cell.classList.add("sq-legal");
+        if (piece) { const glyph = document.createElement("span"); glyph.className = piece.color === "w" ? "piece-white" : "piece-black"; glyph.textContent = symbols[piece.color + piece.type]; cell.append(glyph); }
+        if (col === 0) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
+        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
+        cell.addEventListener("click", () => clickSquare(sq));
+        boardEl.append(cell);
+      }
+    }
+    function renderTrainer() {
+      renderBoard();
+      const step = stepNow();
+      const isChoice = step && step.choices;
+      stepEl.textContent = finished ? "LINIE ABGESCHLOSSEN" : "AUFGABE " + (stepIndex+1) + " / " + stepsNow().length;
+      titleEl.textContent = finished ? "Stark gespielt." : lineNow().title;
+      hintEl.textContent = finished ? "Du hast diese Trainingslinie durchgespielt. Starte neu oder wähle eine andere Linie." : (revealed ? "Lösung: " + currentOptions().map(o=>o.san).join(" / ") : (step.hint || step.choices[0].hint));
+      statusEl.textContent = finished ? "Training abgeschlossen ✓" : "Schwarz am Zug · Wähle eine schwarze Figur.";
+      historyEl.textContent = "Stellung: " + moveLog.join(" · ");
+      branchEl.hidden = true; branchEl.replaceChildren();
+      if (finished) { feedbackEl.textContent = "Linie abgeschlossen. Du kannst sie erneut spielen oder oben eine andere Variante wählen."; return; }
+      feedbackEl.textContent = revealed ? currentOptions().map(o=>o.goal).join(" ") : "Finde den Zug selbst. Du kannst „Tipp anzeigen“ drücken, wenn du einen Schubs brauchst.";
+      if (branchStep) {
+        branchEl.hidden = false;
+        const label = document.createElement("p"); label.className = "branch-prompt"; label.textContent = "Wie antwortet Weiß? Wähle eine Fortsetzung:"; branchEl.append(label);
+        [{label:"3.1 · Na3",san:"Na3"},{label:"3.2 · Kd1",san:"Kd1"}].forEach(choice => {
+          const b = document.createElement("button"); b.type="button"; b.className="branch-btn"; b.textContent=choice.label;
+          b.addEventListener("click",()=>playBranch(choice.san)); branchEl.append(b);
+        });
+      } else if (isChoice && !finished) {
+        branchEl.hidden = false;
+        step.choices.forEach(choice => {
+          const b = document.createElement("button"); b.type="button"; b.className="branch-btn"; b.textContent=choice.label;
+          b.addEventListener("click",()=>attemptMove(choice.from,choice.to)); branchEl.append(b);
+        });
+      }
+    }
+    function clickSquare(sq) {
+      if (finished || branchStep || game.turn() !== "b") return;
+      const piece = game.get(sq);
+      if (!selected) { if (piece && piece.color === "b") { selected=sq; renderBoard(); } return; }
+      if (piece && piece.color === "b") { selected=sq; renderBoard(); return; }
+      attemptMove(selected,sq);
+    }
+    function attemptMove(from,to) {
+      if (finished) return;
+      const step = stepNow(), options = currentOptions();
+      const option = options.find(o=>o.from===from && o.to===to);
+      if (!option) {
+        selected = null; renderBoard();
+        statusEl.textContent = "Noch nicht – probier einen anderen Zug. Tipp: " + (step.hint || step.choices[0].hint);
+        feedbackEl.textContent = "Der Zug passt nicht zur gesuchten Idee. Du kannst weiterprobieren; es wird kein Zug ausgeführt.";
+        return;
+      }
+      const played = game.move({from,to,promotion:"q"});
+      if (!played) { selected=null; renderBoard(); statusEl.textContent="Dieser Zug ist nicht legal."; return; }
+      moveLog.push("…" + option.san);
+      selected=null; revealed=false;
+      feedbackEl.textContent = option.goal;
+      if (lineIndex===1) { finished=true; renderTrainer(); feedbackEl.textContent=option.goal + " Aufgabe erledigt."; return; }
+      if (option.branchAfter) { branchStep = true; renderTrainer(); statusEl.textContent="Richtig! …Sd4. Jetzt wählt Weiß seine Antwort."; feedbackEl.textContent=option.goal; return; }
+      if (option.reply) {
+        const reply = game.move(option.reply);
+        if (reply) moveLog.push(reply.san);
+      }
+      stepIndex++;
+      if (stepIndex >= stepsNow().length) finished=true;
+      renderTrainer();
+      if (!finished) statusEl.textContent="Richtig! Weiß hat geantwortet. Jetzt wieder Schwarz.";
+    }
+    function playBranch(san) {
+      branchStep = null;
+      const whiteMove = game.move(san);
+      if (!whiteMove) { statusEl.textContent="Diese Antwort ist in der Stellung nicht legal."; branchStep=true; renderTrainer(); return; }
+      moveLog.push(whiteMove.san);
+      if (san === "Na3") {
+        const capture = game.move("Bxa3");
+        if (capture) { moveLog.push("…"+capture.san); const recapture=game.move("bxa3"); if (recapture) moveLog.push(recapture.san); }
+        const fork = game.move("Nxc2+");
+        if (fork) { moveLog.push("…"+fork.san); finished=true; renderTrainer(); feedbackEl.textContent="Die Gabel funktioniert: …Sxc2+ nimmt den Bauern mit Schach und greift zugleich den Turm a1 an."; return; }
+        finished=true; renderTrainer(); feedbackEl.textContent="Diese Fortsetzung wurde erreicht, aber die komplette Gabel passt nicht zur Stellung."; return;
+      }
+      if (san === "Kd1") {
+        const d5 = game.move("d5");
+        if (d5) moveLog.push("…"+d5.san);
+        finished=true; renderTrainer(); feedbackEl.textContent="Schwarz nutzt die Zeit für …d5 und das Zentrum. Diese Abzweigung endet hier; die ursprüngliche Folge mit Dame auf g7 benötigt eine andere Ausgangsstellung."; return;
+      }
+      finished=true; renderTrainer();
+    }
+    document.querySelectorAll(".line-tab").forEach(tab=>tab.addEventListener("click",()=>loadTraining(Number(tab.dataset.line))));
+    document.getElementById("resetTraining").addEventListener("click",()=>loadTraining(lineIndex));
+    document.getElementById("showHint").addEventListener("click",()=>{
+      const step=stepNow(); if (!step || finished) return;
+      hintEl.textContent=step.hint || step.choices[0].hint;
+      statusEl.textContent="Tipp: Lies die Idee und finde den Zug selbst.";
     });
-    showLine(0);
+    document.getElementById("showSolution").addEventListener("click",()=>{
+      if (finished) return; revealed=true;
+      hintEl.textContent="Lösung: "+currentOptions().map(o=>o.san).join(" / ");
+      feedbackEl.textContent=currentOptions().map(o=>o.goal).join(" ");
+      statusEl.textContent="Lösung aufgedeckt – du kannst den Zug trotzdem selbst ausführen.";
+    });
+    if (typeof Chess === "undefined") {
+      statusEl.textContent="Das Schachmodul konnte nicht geladen werden. Prüfe die Internetverbindung und lade die Seite neu.";
+    } else loadTraining(0);
   </script>
 </body>
 </html>
