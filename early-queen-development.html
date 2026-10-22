@@ -603,8 +603,8 @@
       feedbackEl.textContent = revealed ? currentOptions().map(o=>o.goal).join(" ") : "Finde den Zug selbst. Du kannst „Tipp anzeigen“ drücken, wenn du einen Schubs brauchst.";
       if (branchStep) {
         branchEl.hidden = false;
-        const label = document.createElement("p"); label.className = "branch-prompt"; label.textContent = "Wie antwortet Weiß? Wähle eine Fortsetzung:"; branchEl.append(label);
-        [{label:"6. Na3",san:"Na3"},{label:"6. Kd1",san:"Kd1"}].forEach(choice => {
+        const label = document.createElement("p"); label.className = "branch-prompt"; label.textContent = "Welche Variante möchtest du trainieren?"; branchEl.append(label);
+        [{label:"Springergabel · 6. Na3",san:"Na3"},{label:"Läuferschach · 6. Kd1",san:"Kd1"}].forEach(choice => {
           const b = document.createElement("button"); b.type="button"; b.className="branch-btn"; b.textContent=choice.label;
           b.addEventListener("click",()=>playBranch(choice.san)); branchEl.append(b);
         });
@@ -639,25 +639,11 @@
       selected=null; revealed=false;
       feedbackEl.textContent = option.goal;
       if (option.branchAfter) {
-        branchStep = false;
-        opponentThinking = true;
+        branchStep = true;
+        opponentThinking = false;
         renderTrainer();
-        statusEl.textContent = "Richtig! …Nd4. Weiß überlegt …";
-        feedbackEl.textContent = option.goal;
-        opponentTimer = setTimeout(() => {
-          opponentThinking = false;
-          opponentTimer = null;
-          // Alternate the two legal replies so both branches definitely get exercised.
-          const preferredSan = nextForkReply;
-          nextForkReply = nextForkReply === "Na3" ? "Kd1" : "Na3";
-          const legalWhiteReplies = game.moves({verbose:true});
-          const chosenReply = legalWhiteReplies.find(move => move.san === preferredSan);
-          if (!chosenReply) {
-            statusEl.textContent = "Weiß konnte " + preferredSan + " nicht ausführen. Verfügbare Züge: " + legalWhiteReplies.map(move => move.san).join(", ");
-            return;
-          }
-          playBranch(chosenReply.san);
-        }, 2000);
+        statusEl.textContent = "Richtig! …Nd4. Such dir selbst eine der beiden Varianten aus.";
+        feedbackEl.textContent = "Wähle die Springergabel mit …Nxc2+ oder die Variante mit …Bg4+.";
         return;
       }
       if (option.reply) {
