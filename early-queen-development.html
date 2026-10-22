@@ -285,9 +285,9 @@
         <p id="trainerHint">Entwickle eine Figur und greife dabei die weiße Dame an.</p>
         <div class="board-frame trainer-frame">
           <div class="eval-column" aria-label="Stockfish-Bewertung">
-            <div class="eval-top" id="evalWhite">W +0.0</div>
+            <div class="eval-top" id="evalWhite">+0.0</div>
             <div class="eval-track"><div class="eval-white-fill" id="evalWhiteFill"></div><div class="eval-black-fill" id="evalBlackFill"></div><div class="eval-center" id="evalCenter">…</div></div>
-            <div class="eval-bottom" id="evalBlack">S −0.0</div>
+            <div class="eval-bottom" id="evalBlack">−0.0</div>
           </div>
           <div id="trainingBoard" class="training-board black-bottom" role="group" aria-label="Interaktives Schachbrett, Schwarz unten"></div>
         </div>
@@ -371,8 +371,8 @@
         "Browser: " + navigator.userAgent
       ].join("\\n");
       evalCenterEl.textContent = "Fehler";
-      evalWhiteEl.textContent = "W —";
-      evalBlackEl.textContent = "S —";
+      evalWhiteEl.textContent = "—";
+      evalBlackEl.textContent = "—";
       evalCenterEl.title = diagnostics;
       const status = document.getElementById("trainerStatus");
       if (status) {
@@ -385,8 +385,8 @@
     }
     function initStockfish() {
       evalCenterEl.textContent = "Lädt";
-      evalWhiteEl.textContent = "W …";
-      evalBlackEl.textContent = "S …";
+      evalWhiteEl.textContent = "…";
+      evalBlackEl.textContent = "…";
       try {
         // Use the JS-only build first: this avoids separate WASM downloads and locateFile issues.
         // Load a same-origin worker file; blob workers can fail when importing a cross-origin script on mobile Safari.
@@ -468,8 +468,8 @@
       const shown = mateIn !== null ? (mateIn > 0 ? "M" + mateIn : "−M" + Math.abs(mateIn)) : (whiteScore > 0 ? "+" : "") + whiteScore.toFixed(1);
       const blackScore = -whiteScore;
       const blackShown = mateIn !== null ? (mateIn < 0 ? "M" + Math.abs(mateIn) : "−M" + Math.abs(mateIn)) : (blackScore > 0 ? "+" : "−") + Math.abs(blackScore).toFixed(1);
-      evalWhiteEl.textContent = "W " + shown;
-      evalBlackEl.textContent = "S " + blackShown;
+      evalWhiteEl.textContent = shown;
+      evalBlackEl.textContent = blackShown;
       evalCenterEl.textContent = shown;
     }
     function startEngineSearch() {
