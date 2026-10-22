@@ -346,11 +346,12 @@
     const evalCenterEl = document.getElementById("evalCenter");
     const evalWhiteFill = document.getElementById("evalWhiteFill");
     const evalBlackFill = document.getElementById("evalBlackFill");
-    let engineWorker = null, engineReady = false, engineLoadReported = false, engineReadyTimer = null, pendingEvalFen = null, engineActiveFen = null, engineActiveTurn = "w", engineSearching = false;
+    let engineWorker = null, engineReady = false, engineLoadReported = false, engineReadyTimer = null, engineSearchTimer = null, pendingEvalFen = null, engineActiveFen = null, engineActiveTurn = "w", engineSearching = false;
     function showEngineError(message) {
       engineReady = false;
       engineSearching = false;
       if (engineReadyTimer) { clearTimeout(engineReadyTimer); engineReadyTimer = null; }
+      if (engineSearchTimer) { clearTimeout(engineSearchTimer); engineSearchTimer = null; }
       let detail = String(message || "Keine weitere Fehlermeldung verfügbar.").trim();
       try {
         const parsed = JSON.parse(detail);
@@ -415,13 +416,20 @@
             if (line === "uciok") { engineWorker.postMessage("isready"); continue; }
             if (line === "readyok") {
               engineReady = true;
-              evalCenterEl.title = "Stockfish läuft";
+              if (engineReadyTimer) { clearTimeout(engineReadyTimer); engineReadyTimer = null; }
+              evalCenterEl.textContent = "Analyse";
+              evalCenterEl.title = "Stockfish ist bereit und analysiert die Stellung.";
               if (pendingEvalFen) startEngineSearch();
               else updateEvaluation();
               continue;
             }
             if (line.startsWith("bestmove")) {
               engineSearching = false;
+              if (engineSearchTimer) { clearTimeout(engineSearchTimer); engineSearchTimer = null; }
+              if (evalCenterEl.textContent === "Analyse") {
+                evalCenterEl.textContent = "Keine Bewertung";
+                evalCenterEl.title = "Stockfish hat den Suchzug beendet, aber keinen Bewertungswert geliefert.";
+              }
               if (pendingEvalFen && pendingEvalFen !== engineActiveFen) startEngineSearch();
               continue;
             }
@@ -467,8 +475,21 @@
       engineActiveFen = pendingEvalFen;
       engineActiveTurn = game ? game.turn() : "w";
       engineSearching = true;
+      evalCenterEl.textContent = "Analyse";
+      evalCenterEl.title = "Stockfish analysiert bis Tiefe 7.";
+      if (engineSearchTimer) clearTimeout(engineSearchTimer);
+      engineSearchTimer = setTimeout(() => {
+        if (engineSearching) showEngineError(JSON.stringify({
+          phase: "Stellungsanalyse",
+          name: "Timeout",
+          message: "Stockfish hat innerhalb von 25 Sekunden keinen bestmove zurückgegeben.",
+          fen: engineActiveFen,
+          depth: 7,
+          worker: "stockfish-loader.js"
+        }));
+      }, 25000);
       engineWorker.postMessage("position fen " + engineActiveFen);
-      engineWorker.postMessage("go depth 10");
+      engineWorker.postMessage("go depth 7");
     }
     function updateEvaluation() {
       if (!game) return;
