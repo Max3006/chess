@@ -32,7 +32,7 @@
       max-width: 520px;
       min-height: 100svh;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 27px) 23px calc(env(safe-area-inset-bottom) + 24px);
+      padding: calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 16px);
       display: flex;
       flex-direction: column;
     }
@@ -40,7 +40,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding-bottom: 24px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--line);
     }
     .mark {
@@ -61,7 +61,7 @@
       align-items: center;
       gap: 7px;
       align-self: flex-start;
-      margin: 25px 0 34px;
+      margin: 13px 0 18px;
       color: var(--green);
       text-decoration: none;
       font-size: 14px;
@@ -100,9 +100,9 @@
     .rule { height: 1px; background: var(--line); margin-bottom: 22px; }
     h2 { margin: 0 0 9px; font-size: 19px; letter-spacing: -.4px; }
     .description { max-width: 390px; margin: 0; color: #586159; font-size: 15px; line-height: 1.7; }
-    .bottom { flex: 1; min-height: 40px; }
+    .bottom { flex: 1; min-height: 12px; }
     footer {
-      padding-top: 17px;
+      padding-top: 10px;
       border-top: 1px solid var(--line);
       color: #8a9088;
       font-size: 11px;
@@ -187,10 +187,10 @@
       font-size: 11px;
     }
     .board-caption span:last-child { text-align: right; }
-    .lesson { margin: 0 0 30px; }
-    .lesson-intro { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0 0 16px; }
-    .line-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin: 0 0 17px; }
-    .line-tab { border: 1px solid var(--line); border-radius: 11px; background: var(--card); padding: 12px 6px; font: 700 12px/1.3 inherit; font-family: inherit; color: var(--ink); cursor: pointer; }
+    .lesson { margin: 0; }
+    .lesson-intro { color: var(--muted); font-size: 13px; line-height: 1.45; margin: 0 0 11px; }
+    .line-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin: 0 0 10px; }
+    .line-tab { border: 1px solid var(--line); border-radius: 11px; background: var(--card); padding: 10px 5px; font: 700 12px/1.3 inherit; font-family: inherit; color: var(--ink); cursor: pointer; }
     .line-tab[aria-selected="true"] { background: var(--green); border-color: var(--green); color: white; }
     .lesson-panel { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 19px 17px; }
     .lesson-panel h3 { margin: 0 0 7px; font-size: 20px; letter-spacing: -.5px; }
@@ -201,13 +201,13 @@
     .branch-title { font-weight: 750; font-size: 15px; margin: 17px 0 5px; }
     .verification { margin-top: 15px !important; padding: 11px 12px; background: #f3f1e8; border-radius: 10px; font-size: 12px !important; }
 
-    .trainer { padding: 16px 14px; }
+    .trainer { padding: 12px 10px; }
     .trainer-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
     .trainer-label { color:var(--green); font-size:10px; font-weight:800; letter-spacing:1.4px; }
     .trainer-top h3 { margin-top:5px; }
     .reset-btn,.secondary-btn,.branch-btn { border:1px solid var(--line); border-radius:10px; background:#fffefa; color:var(--ink); padding:9px 10px; font:650 12px/1.3 inherit; font-family:inherit; cursor:pointer; }
     .reset-btn { flex-shrink:0; }
-    .trainer-frame { margin-top:14px; padding:6px; }
+    .trainer-frame { margin-top:9px; padding:4px; }
     .training-board { position:relative; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); width:100%; aspect-ratio:1; overflow:hidden; border-radius:5px; }
     .moving-piece { position:absolute; z-index:5; display:grid; place-items:center; width:12.5%; height:12.5%; pointer-events:none; font-family:"Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", serif; font-weight:normal; transition:left .48s cubic-bezier(.2,.75,.25,1), top .48s cubic-bezier(.2,.75,.25,1); font-size:clamp(25px,8.1vw,43px); line-height:1; }
     .training-square { position:relative; min-width:0; min-height:0; aspect-ratio:1; border:0; margin:0; padding:0; display:grid; place-items:center; font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", serif; font-size:clamp(25px,8.1vw,43px); line-height:1; cursor:pointer; user-select:none; }
@@ -218,9 +218,9 @@
     .board-coord { position:absolute; left:3px; top:2px; font:750 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#536650; }
     .sq-dark .board-coord { color:#f0eadb; }
     .file-coord { top:auto; bottom:2px; left:auto; right:3px; }
-    .trainer-status { margin:12px 2px 7px; color:var(--green); font-size:13px; font-weight:750; }
+    .trainer-status { margin:9px 2px 5px; color:var(--green); font-size:13px; font-weight:750; }
     .move-history { margin:0 2px; color:var(--muted); font-size:11px; line-height:1.6; overflow-wrap:anywhere; }
-    .trainer-bottom { display:flex; gap:8px; margin-top:13px; }
+    .trainer-bottom { display:flex; gap:8px; margin-top:9px; }
     .trainer-bottom button { flex:1; }
     .branch-choices { display:flex; flex-wrap:wrap; gap:8px; margin-top:13px; }
     .branch-prompt { flex-basis:100%; margin:0 !important; font-weight:700; color:var(--ink) !important; }
@@ -245,99 +245,6 @@
     </header>
 
     <a class="back" href="index.html"><span aria-hidden="true">←</span> Zurück zu den Eröffnungen</a>
-
-    <section>
-      <p class="kicker">Eröffnung</p>
-      <h1>Early Queen Development</h1>
-      <p class="translation">Frühe Damenentwicklung</p>
-      <div class="queen" aria-hidden="true">♛</div>
-    </section>
-
-
-    <section class="board-section" aria-labelledby="boardTitle">
-      <div class="board-heading">
-        <h2 id="boardTitle">Das Schachbrett</h2>
-        <span class="turn-label">Startposition</span>
-      </div>
-      <div class="board-frame">
-        <div class="chessboard" role="img" aria-label="Schachbrett in der normalen Startposition, Schwarz unten">
-          <div class="square light"><span class="piece-black">♜</span><span class="coord">8</span></div>
-          <div class="square dark"><span class="piece-black">♞</span></div>
-          <div class="square light"><span class="piece-black">♝</span></div>
-          <div class="square dark"><span class="piece-black">♛</span></div>
-          <div class="square light"><span class="piece-black">♚</span></div>
-          <div class="square dark"><span class="piece-black">♝</span></div>
-          <div class="square light"><span class="piece-black">♞</span></div>
-          <div class="square dark"><span class="piece-black">♜</span></div>
-          <div class="square dark"><span class="piece-black">♟</span><span class="coord">7</span></div>
-          <div class="square light"><span class="piece-black">♟</span></div>
-          <div class="square dark"><span class="piece-black">♟</span></div>
-          <div class="square light"><span class="piece-black">♟</span></div>
-          <div class="square dark"><span class="piece-black">♟</span></div>
-          <div class="square light"><span class="piece-black">♟</span></div>
-          <div class="square dark"><span class="piece-black">♟</span></div>
-          <div class="square light"><span class="piece-black">♟</span></div>
-          <div class="square light"><span class="coord">6</span></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square dark"><span class="coord">5</span></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square light"><span class="coord">4</span></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square dark"><span class="coord">3</span></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square dark"></div>
-          <div class="square light"></div>
-          <div class="square light"><span class="piece-white">♟</span><span class="coord">2</span></div>
-          <div class="square dark"><span class="piece-white">♟</span></div>
-          <div class="square light"><span class="piece-white">♟</span></div>
-          <div class="square dark"><span class="piece-white">♟</span></div>
-          <div class="square light"><span class="piece-white">♟</span></div>
-          <div class="square dark"><span class="piece-white">♟</span></div>
-          <div class="square light"><span class="piece-white">♟</span></div>
-          <div class="square dark"><span class="piece-white">♟</span></div>
-          <div class="square dark"><span class="piece-white">♜</span><span class="coord">1</span><span class="coord">a</span></div>
-          <div class="square light"><span class="piece-white">♞</span><span class="coord">b</span></div>
-          <div class="square dark"><span class="piece-white">♝</span><span class="coord">c</span></div>
-          <div class="square light"><span class="piece-white">♛</span><span class="coord">d</span></div>
-          <div class="square dark"><span class="piece-white">♚</span><span class="coord">e</span></div>
-          <div class="square light"><span class="piece-white">♝</span><span class="coord">f</span></div>
-          <div class="square dark"><span class="piece-white">♞</span><span class="coord">g</span></div>
-          <div class="square light"><span class="piece-white">♜</span><span class="coord">h</span></div>
-        </div>
-      </div>
-      <div class="board-caption">
-        <span>Schwarz unten</span>
-        <span>Alle Figuren in Startposition</span>
-      </div>
-    </section>
-
-    <div class="rule"></div>
-    <section aria-labelledby="aboutHeading">
-      <h2 id="aboutHeading">Worum geht’s?</h2>
-      <p class="description">Bei dieser Idee kommt die Dame schon früh ins Spiel. Das kann Druck aufbauen – aber die Dame kann auch mit Tempo angegriffen werden, wenn sie zu früh herauskommt.</p>
-    </section>
 
     <section class="lesson" aria-labelledby="lessonTitle">
       <p class="kicker">Interaktives Training · Aus Sicht von Schwarz</p>
