@@ -395,7 +395,7 @@
         setup: ["e4","e5","Nf3","Nc6","Bc4","Nf6","d3","Bb4+","c3"],
         startLabel: "1. e4 e5 2. Sf3 Sc6 3. Lc4 Sf6 4. d3 Lb4+ 5. c3",
         steps: [
-          {from:"c6",to:"d4",san:"Nd4",hint:"Suche einen aktiven Springerzug, der c2 angreift und eine Gabel auf c2 vorbereitet.",goal:"…Sd4 greift ins Zentrum ein und droht …Sxc2+ mit Gabel auf König und Turm.",branchAfter:true}
+          {from:"c6",to:"d4",san:"Nd4",hint:"Suche einen aktiven Springerzug, der c2 angreift und eine Gabel auf c2 vorbereitet.",goal:"…Sd4 greift ins Zentrum ein und droht …Sc2+ mit Gabel auf König und Turm.",branchAfter:true}
         ]
       }
     ];
@@ -516,8 +516,8 @@
       if (san === "Na3") {
         const capture = game.move("Bxa3");
         if (capture) { moveLog.push("…"+capture.san); const recapture=game.move("bxa3"); if (recapture) moveLog.push(recapture.san); }
-        const fork = game.move("Nxc2+");
-        if (fork) { moveLog.push("…"+fork.san); finished=true; renderTrainer(); feedbackEl.textContent="Die Gabel funktioniert: …Sxc2+ nimmt den Bauern mit Schach und greift zugleich den Turm a1 an."; return; }
+        const fork = game.move("Nc2+");
+        if (fork) { moveLog.push("…"+fork.san); finished=true; renderTrainer(); feedbackEl.textContent="Die Gabel funktioniert: …Sc2+ setzt den König schach und greift zugleich den Turm a1 an."; return; }
         finished=true; renderTrainer(); feedbackEl.textContent="Diese Fortsetzung wurde erreicht, aber die komplette Gabel passt nicht zur Stellung."; return;
       }
       if (san === "Kd1") {
