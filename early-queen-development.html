@@ -339,6 +339,7 @@
     const files = "abcdefgh";
     const symbols = {wk:"♚",wq:"♛",wr:"♜",wb:"♝",wn:"♞",wp:"♟",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
     let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null, opponentThinking = false, opponentTimer = null;
+    let nextForkReply = "Na3";
     const boardEl = document.getElementById("trainingBoard");
     const evalWhiteEl = document.getElementById("evalWhite");
     const evalBlackEl = document.getElementById("evalBlack");
@@ -646,14 +647,13 @@
         opponentTimer = setTimeout(() => {
           opponentThinking = false;
           opponentTimer = null;
-          // Pick randomly from the two legal White replies in this position.
-          const legalWhiteReplies = game.moves({verbose:true}).filter(move =>
-            (move.from === "b1" && move.to === "a3") ||
-            (move.from === "e1" && move.to === "d1")
-          );
-          const chosenReply = legalWhiteReplies[Math.floor(Math.random() * legalWhiteReplies.length)];
+          // Alternate the two legal replies so both branches definitely get exercised.
+          const preferredSan = nextForkReply;
+          nextForkReply = nextForkReply === "Na3" ? "Kd1" : "Na3";
+          const legalWhiteReplies = game.moves({verbose:true});
+          const chosenReply = legalWhiteReplies.find(move => move.san === preferredSan);
           if (!chosenReply) {
-            statusEl.textContent = "Weiß konnte keine der beiden Antworten ausführen.";
+            statusEl.textContent = "Weiß konnte " + preferredSan + " nicht ausführen. Verfügbare Züge: " + legalWhiteReplies.map(move => move.san).join(", ");
             return;
           }
           playBranch(chosenReply.san);
