@@ -643,7 +643,7 @@
         opponentThinking = false;
         renderTrainer();
         statusEl.textContent = "Richtig! …Nd4. Such dir selbst eine der beiden Varianten aus.";
-        feedbackEl.textContent = "Wähle die Springergabel mit …Nxc2+ oder die Variante mit …Bg4+.";
+        feedbackEl.textContent = "Nach dem Königszug kannst du am Ende selbst zwischen …Nxc2 (Springergabel) und …Bg4+ (Läuferschach) wählen.";
         return;
       }
       if (option.reply) {
@@ -686,7 +686,10 @@
           {from:"d7",to:"d5",san:"d5",hint:"Öffne das Zentrum mit einem Bauernzug.",goal:"…d5 setzt das Zentrum unter Druck.",reply:"Qxg7"},
           {from:"h8",to:"g8",san:"Rg8",hint:"Greife die weiße Dame auf g7 mit dem Turm an.",goal:"…Rg8 greift die Dame an.",reply:"Qh6"},
           {from:"d5",to:"e4",san:"dxe4",hint:"Schlage den Bauern auf e4 mit deinem d-Bauern.",goal:"…dxe4 öffnet weitere Linien.",reply:"dxe4"},
-          {from:"c8",to:"g4",san:"Bg4+",hint:"Finde das Läuferschach auf der Diagonale c8–g4.",goal:"…Bg4+ setzt den weißen König schach.",reply:null}
+          {choices:[
+            {from:"d4",to:"c2",san:"Nxc2",hint:"Springergabel: Springe nach c2 und greife den Turm a1 an.",goal:"…Nxc2 greift den Turm a1 an."},
+            {from:"c8",to:"g4",san:"Bg4+",hint:"Läuferschach: Ziehe den Läufer von c8 nach g4.",goal:"…Bg4+ setzt den weißen König schach."}
+          ]}
         );
       }
       stepIndex++;
