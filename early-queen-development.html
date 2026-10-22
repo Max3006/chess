@@ -638,11 +638,14 @@
         opponentThinking = true;
         renderTrainer();
         statusEl.textContent = "Richtig! …Nd4. Weiß überlegt …";
-        feedbackEl.textContent = "Weiß wird seinen König ziehen. Danach kannst du am Ende zwischen Springergabel und Läuferschach wählen.";
+        feedbackEl.textContent = "Weiß antwortet entweder mit dem Springersprung oder dem Königszug. Am Ende der König-Variante kannst du selbst zwischen zwei Zügen wählen.";
         opponentTimer = setTimeout(() => {
           opponentThinking = false;
           opponentTimer = null;
-          playBranch("Kd1");
+          // Alternate between the knight move and the king move so both lines are trained.
+          const whiteReply = nextForkReply;
+          nextForkReply = nextForkReply === "Na3" ? "Kd1" : "Na3";
+          playBranch(whiteReply);
         }, 2000);
         return;
       }
