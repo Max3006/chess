@@ -227,6 +227,30 @@
     .branch-btn { flex:1; min-width:120px; background:#e8ece2; border-color:#d2d9cc; color:var(--green); }
     .verification { margin-bottom:0 !important; }
 
+
+    .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .back, .kicker, .lesson-intro, #trainerHint, #moveHistory, #trainerFeedback, footer { display:none !important; }
+    .app { max-width: 560px; padding-top: calc(env(safe-area-inset-top) + 8px); }
+    header { padding-bottom: 8px; }
+    .lesson { margin-top: 8px; }
+    .line-tabs { margin-bottom: 7px; }
+    .lesson-panel { padding: 10px 7px; }
+    .trainer-top { align-items:center; }
+    .trainer-top h3 { font-size: 16px; margin: 2px 0 0; }
+    .trainer-label { display:none; }
+    .trainer-frame { display:flex; align-items:stretch; gap:7px; padding:4px; margin-top:7px; }
+    .training-board { flex:1; width:auto; min-width:0; aspect-ratio:1; }
+    .eval-column { width:34px; flex:0 0 34px; display:flex; flex-direction:column; align-items:stretch; gap:4px; }
+    .eval-top,.eval-bottom { color:var(--ink); text-align:center; font-size:10px; font-weight:800; line-height:1.2; white-space:nowrap; }
+    .eval-track { position:relative; flex:1; min-height:160px; overflow:hidden; border:1px solid #b9bcb2; border-radius:4px; background:#28332b; }
+    .eval-white-fill { position:absolute; inset:0 0 auto; height:50%; background:#fffefa; transition:height .25s ease; }
+    .eval-black-fill { position:absolute; inset:auto 0 0; height:50%; background:#28332b; transition:height .25s ease; }
+    .eval-center { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:2px 3px; border-radius:3px; background:#d8ddd2e8; color:#202923; font-size:9px; font-weight:800; white-space:nowrap; }
+    .trainer-status { margin:7px 2px 0; font-size:12px; }
+    .trainer-bottom { margin-top:7px; }
+    .trainer-bottom button { padding:8px 7px; }
+    @media (max-width:380px) { .eval-column { width:30px; flex-basis:30px; } .eval-top,.eval-bottom { font-size:9px; } }
+
     @media (min-width: 480px) {
       .square { font-size: 43px; }
     }
@@ -244,12 +268,8 @@
       <div class="brand">Chess Trap Lab</div>
     </header>
 
-    <a class="back" href="index.html"><span aria-hidden="true">←</span> Zurück zu den Eröffnungen</a>
-
     <section class="lesson" aria-labelledby="lessonTitle">
-      <p class="kicker">Interaktives Training · Aus Sicht von Schwarz</p>
-      <h2 id="lessonTitle">Finde den besten Zug.</h2>
-      <p class="lesson-intro">Zieh eine schwarze Figur, indem du erst das Startfeld und dann das Zielfeld antippst. Du bekommst einen Tipp, aber nicht sofort die Lösung. Nach deinem Zug antwortet Weiß automatisch.</p>
+      <h2 id="lessonTitle" class="visually-hidden">Schachtraining</h2>
       <div class="line-tabs" role="tablist" aria-label="Trainingslinie auswählen">
         <button class="line-tab" type="button" role="tab" aria-selected="true" data-line="0">1 · Tempo</button>
         <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="1">2 · Mattabwehr</button>
@@ -261,16 +281,22 @@
           <button class="reset-btn" id="resetTraining" type="button">Neu starten ↻</button>
         </div>
         <p id="trainerHint">Entwickle eine Figur und greife dabei die weiße Dame an.</p>
-        <div class="board-frame trainer-frame"><div id="trainingBoard" class="training-board black-bottom" role="group" aria-label="Interaktives Schachbrett, Schwarz unten"></div></div>
-        <div class="trainer-status" id="trainerStatus" role="status">Schwarz am Zug · Wähle eine Figur.</div>
-        <div class="move-history" id="moveHistory">Züge: 1. e4 e5 2. Qh5</div>
+        <div class="board-frame trainer-frame">
+          <div class="eval-column" aria-label="Stockfish-Bewertung">
+            <div class="eval-top" id="evalWhite">W +0.0</div>
+            <div class="eval-track"><div class="eval-white-fill" id="evalWhiteFill"></div><div class="eval-black-fill" id="evalBlackFill"></div><div class="eval-center" id="evalCenter">…</div></div>
+            <div class="eval-bottom" id="evalBlack">S −0.0</div>
+          </div>
+          <div id="trainingBoard" class="training-board black-bottom" role="group" aria-label="Interaktives Schachbrett, Schwarz unten"></div>
+        </div>
+        <div class="trainer-status" id="trainerStatus" role="status">Schwarz am Zug</div>
+        <div class="move-history" id="moveHistory" hidden></div>
         <div class="branch-choices" id="branchChoices" hidden></div>
         <div class="trainer-bottom"><button class="secondary-btn" id="showHint" type="button">Tipp anzeigen</button><button class="secondary-btn" id="showSolution" type="button">Zug aufdecken</button></div>
-        <p class="verification" id="trainerFeedback">Ein guter Zug erfüllt den Plan der Aufgabe – nicht nur irgendein legaler Zug.</p>
+        <p class="verification" id="trainerFeedback" hidden></p>
       </div>
     </section>
-    <div class="bottom"></div>
-    <footer>CHESS TRAP LAB</footer>
+    
   </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script>
@@ -313,6 +339,53 @@
     const symbols = {wk:"♚",wq:"♛",wr:"♜",wb:"♝",wn:"♞",wp:"♟",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
     let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null, opponentThinking = false, opponentTimer = null;
     const boardEl = document.getElementById("trainingBoard");
+    const evalWhiteEl = document.getElementById("evalWhite");
+    const evalBlackEl = document.getElementById("evalBlack");
+    const evalCenterEl = document.getElementById("evalCenter");
+    const evalWhiteFill = document.getElementById("evalWhiteFill");
+    const evalBlackFill = document.getElementById("evalBlackFill");
+    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineSearchId = 0;
+    function initStockfish() {
+      try {
+        const workerCode = "self.Module={locateFile:function(path){return 'https://cdn.jsdelivr.net/npm/stockfish@19.0.0/'+path;}};importScripts('https://cdn.jsdelivr.net/npm/stockfish@19.0.0/stockfish-19-lite-single.js');";
+        const blobUrl = URL.createObjectURL(new Blob([workerCode], {type:"text/javascript"}));
+        engineWorker = new Worker(blobUrl);
+        engineWorker.onmessage = event => {
+          const line = String(event.data || "");
+          if (line === "uciok") { engineWorker.postMessage("isready"); return; }
+          if (line === "readyok") { engineReady = true; updateEvaluation(); return; }
+          const match = line.match(/\bscore (cp|mate) (-?\d+)/);
+          if (match) {
+            let value = match[1] === "mate" ? (Number(match[2]) > 0 ? 99 : -99) : Number(match[2]) / 100;
+            if (game && game.turn() === "b") value = -value;
+            renderEvaluation(value, match[1] === "mate" ? Number(match[2]) : null);
+          }
+        };
+        engineWorker.onerror = () => { evalCenterEl.textContent = "—"; evalWhiteEl.textContent = "W —"; evalBlackEl.textContent = "S —"; };
+        engineWorker.postMessage("uci");
+      } catch (error) {
+        evalCenterEl.textContent = "—"; evalWhiteEl.textContent = "W —"; evalBlackEl.textContent = "S —";
+      }
+    }
+    function renderEvaluation(whiteScore, mateIn = null) {
+      const bounded = Math.max(-8, Math.min(8, whiteScore));
+      const whitePercent = 100 / (1 + Math.pow(10, -bounded));
+      evalWhiteFill.style.height = whitePercent + "%";
+      evalBlackFill.style.height = (100 - whitePercent) + "%";
+      let shown = mateIn !== null ? (mateIn > 0 ? "M" + mateIn : "−M" + Math.abs(mateIn)) : (whiteScore > 0 ? "+" : "") + whiteScore.toFixed(1);
+      const blackScore = -whiteScore;
+      let blackShown = mateIn !== null ? (mateIn < 0 ? "M" + Math.abs(mateIn) : "−M" + Math.abs(mateIn)) : (blackScore > 0 ? "+" : "−") + Math.abs(blackScore).toFixed(1);
+      evalWhiteEl.textContent = "W " + shown;
+      evalBlackEl.textContent = "S " + blackShown;
+      evalCenterEl.textContent = shown;
+    }
+    function updateEvaluation() {
+      if (!game || !engineWorker || !engineReady) return;
+      pendingEvalFen = game.fen();
+      engineWorker.postMessage("stop");
+      engineWorker.postMessage("position fen " + pendingEvalFen);
+      engineWorker.postMessage("go depth 10");
+    }
     const statusEl = document.getElementById("trainerStatus");
     const hintEl = document.getElementById("trainerHint");
     const titleEl = document.getElementById("trainerTitle");
@@ -348,7 +421,7 @@
       const board = game.board();
       const legalFrom = selected ? game.moves({square:selected, verbose:true}).map(m => m.to) : [];
       for (let row=7; row>=0; row--) for (let col=7; col>=0; col--) {
-        const sq = files[col] + (8-row), piece = board[row][col];
+        const sq = files[7-col] + (8-row), piece = board[row][7-col];
         const cell = document.createElement("button");
         cell.type = "button"; cell.className = "training-square " + ((row+col)%2===0 ? "sq-light" : "sq-dark");
         cell.dataset.square = sq;
@@ -357,7 +430,7 @@
         if (legalFrom.includes(sq)) cell.classList.add("sq-legal");
         if (piece) { const glyph = document.createElement("span"); glyph.className = piece.color === "w" ? "piece-white" : "piece-black"; glyph.textContent = symbols[piece.color + piece.type]; cell.append(glyph); }
         if (col === 0) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
-        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
+        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[7-col]; cell.append(coord); }
         cell.addEventListener("click", () => clickSquare(sq));
         if (animationMove && sq === animationMove.to && piece) {
           const destinationGlyph = cell.querySelector("span.piece-white, span.piece-black");
@@ -400,6 +473,7 @@
     }
     function renderTrainer(animationMove = null) {
       renderBoard(animationMove);
+      updateEvaluation();
       const step = stepNow();
       const isChoice = step && step.choices;
       stepEl.textContent = finished ? "LINIE ABGESCHLOSSEN" : "AUFGABE " + (stepIndex+1) + " / " + stepsNow().length;
@@ -506,6 +580,7 @@
       feedbackEl.textContent=currentOptions().map(o=>o.goal).join(" ");
       statusEl.textContent="Lösung aufgedeckt – du kannst den Zug trotzdem selbst ausführen.";
     });
+    initStockfish();
     if (typeof Chess === "undefined") {
       statusEl.textContent="Das Schachmodul konnte nicht geladen werden. Prüfe die Internetverbindung und lade die Seite neu.";
     } else loadTraining(0);
