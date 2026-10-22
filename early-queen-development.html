@@ -217,7 +217,9 @@
     .training-square:focus-visible { outline:3px solid #d29d27; outline-offset:-3px; z-index:2; }
     .board-coord { position:absolute; left:3px; top:2px; font:750 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#536650; }
     .sq-dark .board-coord { color:#f0eadb; }
-    .file-coord { top:auto; bottom:2px; left:auto; right:3px; }
+    .file-coord { top:auto; bottom:2px; left:50%; right:auto; transform:translateX(-50%); }
+    .training-square .board-coord:not(.file-coord) { top:50%; left:2px; transform:translateY(-50%); }
+    .training-square .board-coord { pointer-events:none; z-index:1; }
     .trainer-status { margin:9px 2px 5px; color:var(--green); font-size:13px; font-weight:750; }
     .move-history { margin:0 2px; color:var(--muted); font-size:11px; line-height:1.6; overflow-wrap:anywhere; }
     .trainer-bottom { display:flex; gap:8px; margin-top:9px; }
@@ -429,8 +431,8 @@
         if (selected === sq) cell.classList.add("sq-selected");
         if (legalFrom.includes(sq)) cell.classList.add("sq-legal");
         if (piece) { const glyph = document.createElement("span"); glyph.className = piece.color === "w" ? "piece-white" : "piece-black"; glyph.textContent = symbols[piece.color + piece.type]; cell.append(glyph); }
-        if (col === 0) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
-        if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
+        if (col === 7) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
+        if (row === 0) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
         cell.addEventListener("click", () => clickSquare(sq));
         if (animationMove && sq === animationMove.to && piece) {
           const destinationGlyph = cell.querySelector("span.piece-white, span.piece-black");
