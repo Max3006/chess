@@ -467,6 +467,8 @@
         if (!destinationGlyph) return;
         const mover = destinationGlyph.cloneNode(true);
         mover.classList.add("moving-piece");
+        // The destination glyph is hidden while the overlay moves; don't copy that hidden state.
+        mover.style.visibility = "visible";
         const glyphStyle = getComputedStyle(destinationGlyph);
         mover.style.fontFamily = glyphStyle.fontFamily;
         mover.style.fontSize = glyphStyle.fontSize;
