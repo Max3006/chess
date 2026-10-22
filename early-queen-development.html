@@ -459,8 +459,10 @@
       }
     }
     function renderEvaluation(whiteScore, mateIn = null) {
-      const bounded = Math.max(-8, Math.min(8, whiteScore));
-      const whitePercent = 100 / (1 + Math.pow(10, -bounded));
+      // Keep the bar readable: +3/-3 is a strong advantage, not a forced win.
+      // Use a linear scale so it reaches the end only at +/-10 (or a forced mate).
+      const bounded = Math.max(-10, Math.min(10, whiteScore));
+      const whitePercent = mateIn !== null ? (mateIn > 0 ? 100 : 0) : 50 + bounded * 5;
       evalWhiteFill.style.height = whitePercent + "%";
       evalBlackFill.style.height = (100 - whitePercent) + "%";
       const shown = mateIn !== null ? (mateIn > 0 ? "M" + mateIn : "−M" + Math.abs(mateIn)) : (whiteScore > 0 ? "+" : "") + whiteScore.toFixed(1);
