@@ -637,7 +637,19 @@
       moveLog.push("…" + option.san);
       selected=null; revealed=false;
       feedbackEl.textContent = option.goal;
-      if (option.branchAfter) { branchStep = true; renderTrainer(); statusEl.textContent="Richtig! …Nd4. Jetzt wählt Weiß seine Antwort."; feedbackEl.textContent=option.goal; return; }
+      if (option.branchAfter) {
+        branchStep = true;
+        opponentThinking = true;
+        renderTrainer();
+        statusEl.textContent = "Richtig! …Nd4. Weiß antwortet …";
+        feedbackEl.textContent = option.goal;
+        opponentTimer = setTimeout(() => {
+          opponentThinking = false;
+          opponentTimer = null;
+          playBranch("Na3");
+        }, 2000);
+        return;
+      }
       if (option.reply) {
         opponentThinking = true;
         renderTrainer();
@@ -662,6 +674,8 @@
       renderTrainer();
     }
     function playBranch(san) {
+      const legalReply = game.moves({verbose:true}).find(move => move.san === san);
+      const animationMove = legalReply ? {from:legalReply.from, to:legalReply.to, piece:{color:legalReply.color, type:legalReply.piece}} : null;
       const whiteMove = game.move(san);
       if (!whiteMove) { statusEl.textContent="Diese Antwort ist in der Stellung nicht legal."; return; }
       branchStep = null;
@@ -680,7 +694,7 @@
         );
       }
       stepIndex++;
-      renderTrainer();
+      renderTrainer(animationMove);
       statusEl.textContent = "Weiß hat gezogen. Jetzt bist du mit Schwarz dran.";
     }
     document.querySelectorAll(".line-tab").forEach(tab=>tab.addEventListener("click",()=>loadTraining(Number(tab.dataset.line))));
