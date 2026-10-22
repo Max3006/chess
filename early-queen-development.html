@@ -207,7 +207,8 @@
     .reset-btn,.secondary-btn,.branch-btn { border:1px solid var(--line); border-radius:10px; background:#fffefa; color:var(--ink); padding:9px 10px; font:650 12px/1.3 inherit; font-family:inherit; cursor:pointer; }
     .reset-btn { flex-shrink:0; }
     .trainer-frame { margin-top:14px; padding:6px; }
-    .training-board { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); width:100%; aspect-ratio:1; overflow:hidden; border-radius:5px; }
+    .training-board { position:relative; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); width:100%; aspect-ratio:1; overflow:hidden; border-radius:5px; }
+    .moving-piece { position:absolute; z-index:5; display:grid; place-items:center; width:12.5%; height:12.5%; pointer-events:none; transition:left .48s cubic-bezier(.2,.75,.25,1), top .48s cubic-bezier(.2,.75,.25,1); font-size:clamp(25px,8.1vw,43px); line-height:1; }
     .training-square { position:relative; min-width:0; min-height:0; aspect-ratio:1; border:0; margin:0; padding:0; display:grid; place-items:center; font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", serif; font-size:clamp(25px,8.1vw,43px); line-height:1; cursor:pointer; user-select:none; }
     .sq-light { background:#f0eadb; } .sq-dark { background:#82977d; }
     .training-square.sq-selected { box-shadow:inset 0 0 0 4px #e5b94b; }
@@ -399,7 +400,7 @@
     ];
     const files = "abcdefgh";
     const symbols = {wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
-    let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null;
+    let game, lineIndex = 0, stepIndex = 0, selected = null, revealed = false, finished = false, moveLog = [], branchStep = null, opponentThinking = false, opponentTimer = null;
     const boardEl = document.getElementById("trainingBoard");
     const statusEl = document.getElementById("trainerStatus");
     const hintEl = document.getElementById("trainerHint");
@@ -412,6 +413,8 @@
     const stepsNow = () => lineNow().steps;
     const stepNow = () => stepsNow()[stepIndex];
     function loadTraining(index) {
+      if (opponentTimer) clearTimeout(opponentTimer);
+      opponentTimer = null; opponentThinking = false;
       lineIndex = index; stepIndex = 0; selected = null; revealed = false; finished = false; branchStep = null; moveLog = [];
       game = new Chess();
       for (const san of lineNow().setup) {
@@ -428,7 +431,7 @@
       if (!step) return [];
       return step.choices || [step];
     }
-    function renderBoard() {
+    function renderBoard(animationMove = null) {
       boardEl.replaceChildren();
       const board = game.board();
       const legalFrom = selected ? game.moves({square:selected, verbose:true}).map(m => m.to) : [];
@@ -436,6 +439,7 @@
         const sq = files[col] + (8-row), piece = board[row][col];
         const cell = document.createElement("button");
         cell.type = "button"; cell.className = "training-square " + ((row+col)%2===0 ? "sq-light" : "sq-dark");
+        cell.dataset.square = sq;
         cell.setAttribute("aria-label", sq + (piece ? " " + (piece.color === "w" ? "weiße " : "schwarze ") + piece.type : ""));
         if (selected === sq) cell.classList.add("sq-selected");
         if (legalFrom.includes(sq)) cell.classList.add("sq-legal");
@@ -443,11 +447,36 @@
         if (col === 0) { const coord = document.createElement("small"); coord.className = "board-coord"; coord.textContent = String(8-row); cell.append(coord); }
         if (row === 7) { const coord = document.createElement("small"); coord.className = "board-coord file-coord"; coord.textContent = files[col]; cell.append(coord); }
         cell.addEventListener("click", () => clickSquare(sq));
+        if (animationMove && sq === animationMove.to && piece) {
+          const destinationGlyph = cell.querySelector("span.piece-white, span.piece-black");
+          if (destinationGlyph) destinationGlyph.style.visibility = "hidden";
+        }
         boardEl.append(cell);
       }
+      if (animationMove) {
+        const fileIndex = square => square.charCodeAt(0) - 97;
+        const rankIndex = square => Number(square[1]) - 1;
+        const visualX = square => 7 - fileIndex(square);
+        const visualY = square => rankIndex(square);
+        const mover = document.createElement("span");
+        mover.className = "moving-piece " + (animationMove.piece.color === "w" ? "piece-white" : "piece-black");
+        mover.textContent = symbols[animationMove.piece.color + animationMove.piece.type];
+        mover.style.left = (visualX(animationMove.from) * 12.5) + "%";
+        mover.style.top = (visualY(animationMove.from) * 12.5) + "%";
+        boardEl.append(mover);
+        requestAnimationFrame(() => {
+          mover.style.left = (visualX(animationMove.to) * 12.5) + "%";
+          mover.style.top = (visualY(animationMove.to) * 12.5) + "%";
+        });
+        setTimeout(() => {
+          mover.remove();
+          const target = boardEl.querySelector('[data-square="' + animationMove.to + '"] .piece-white, [data-square="' + animationMove.to + '"] .piece-black');
+          if (target) target.style.visibility = "";
+        }, 540);
+      }
     }
-    function renderTrainer() {
-      renderBoard();
+    function renderTrainer(animationMove = null) {
+      renderBoard(animationMove);
       const step = stepNow();
       const isChoice = step && step.choices;
       stepEl.textContent = finished ? "LINIE ABGESCHLOSSEN" : "AUFGABE " + (stepIndex+1) + " / " + stepsNow().length;
@@ -474,14 +503,14 @@
       }
     }
     function clickSquare(sq) {
-      if (finished || branchStep || game.turn() !== "b") return;
+      if (finished || branchStep || opponentThinking || game.turn() !== "b") return;
       const piece = game.get(sq);
       if (!selected) { if (piece && piece.color === "b") { selected=sq; renderBoard(); } return; }
       if (piece && piece.color === "b") { selected=sq; renderBoard(); return; }
       attemptMove(selected,sq);
     }
     function attemptMove(from,to) {
-      if (finished) return;
+      if (finished || opponentThinking) return;
       const step = stepNow(), options = currentOptions();
       const option = options.find(o=>o.from===from && o.to===to);
       if (!option) {
@@ -498,13 +527,27 @@
       if (lineIndex===1) { finished=true; renderTrainer(); feedbackEl.textContent=option.goal + " Aufgabe erledigt."; return; }
       if (option.branchAfter) { branchStep = true; renderTrainer(); statusEl.textContent="Richtig! …Sd4. Jetzt wählt Weiß seine Antwort."; feedbackEl.textContent=option.goal; return; }
       if (option.reply) {
-        const reply = game.move(option.reply);
-        if (reply) moveLog.push(reply.san);
+        opponentThinking = true;
+        renderTrainer();
+        statusEl.textContent = "Weiß überlegt …";
+        const delay = 2000 + Math.random() * 3000;
+        opponentTimer = setTimeout(() => {
+          const legalReply = game.moves({verbose:true}).find(move => move.san === option.reply);
+          const animationMove = legalReply ? {from:legalReply.from, to:legalReply.to, piece:{color:legalReply.color, type:legalReply.piece}} : null;
+          const reply = game.move(option.reply);
+          if (reply) moveLog.push(reply.san);
+          opponentThinking = false;
+          opponentTimer = null;
+          stepIndex++;
+          if (stepIndex >= stepsNow().length) finished = true;
+          renderTrainer(animationMove);
+          if (!finished) statusEl.textContent = "Richtig! Weiß hat gezogen. Jetzt wieder Schwarz.";
+        }, delay);
+        return;
       }
       stepIndex++;
       if (stepIndex >= stepsNow().length) finished=true;
       renderTrainer();
-      if (!finished) statusEl.textContent="Richtig! Weiß hat geantwortet. Jetzt wieder Schwarz.";
     }
     function playBranch(san) {
       branchStep = null;
