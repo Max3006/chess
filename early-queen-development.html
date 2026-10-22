@@ -346,27 +346,54 @@
     const evalCenterEl = document.getElementById("evalCenter");
     const evalWhiteFill = document.getElementById("evalWhiteFill");
     const evalBlackFill = document.getElementById("evalBlackFill");
-    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineSearchId = 0, evalRootTurn = 'w';
+    let engineWorker = null, engineReady = false, pendingEvalFen = null, engineActiveFen = null, engineActiveTurn = "w", engineSearching = false;
     function initStockfish() {
+      evalCenterEl.textContent = "Lädt";
+      evalWhiteEl.textContent = "W …";
+      evalBlackEl.textContent = "S …";
       try {
         const workerCode = "self.Module={locateFile:function(path){return 'https://cdn.jsdelivr.net/npm/stockfish@19.0.0/bin/'+path;}};importScripts('https://cdn.jsdelivr.net/npm/stockfish@19.0.0/bin/stockfish-19-lite-single.js');";
         const blobUrl = URL.createObjectURL(new Blob([workerCode], {type:"text/javascript"}));
         engineWorker = new Worker(blobUrl);
         engineWorker.onmessage = event => {
-          const line = String(event.data || "");
-          if (line === "uciok") { engineWorker.postMessage("isready"); return; }
-          if (line === "readyok") { engineReady = true; updateEvaluation(); return; }
-          const match = line.match(/\bscore (cp|mate) (-?\d+)/);
-          if (match) {
-            let value = match[1] === "mate" ? (Number(match[2]) > 0 ? 99 : -99) : Number(match[2]) / 100;
-            if (evalRootTurn === "b") value = -value;
-            renderEvaluation(value, match[1] === "mate" ? Number(match[2]) : null);
+          // Some worker builds may send more than one UCI line in a single message.
+          const lines = String(event.data || "").split(/\\r?\\n/).map(line => line.trim()).filter(Boolean);
+          for (const line of lines) {
+            if (line === "uciok") { engineWorker.postMessage("isready"); continue; }
+            if (line === "readyok") {
+              engineReady = true;
+              if (pendingEvalFen) startEngineSearch();
+              else updateEvaluation();
+              continue;
+            }
+            if (line.startsWith("bestmove")) {
+              engineSearching = false;
+              if (pendingEvalFen && pendingEvalFen !== engineActiveFen) startEngineSearch();
+              continue;
+            }
+            // Ignore scores from a search that was stopped because the position changed.
+            if (!engineSearching || engineActiveFen !== pendingEvalFen) continue;
+            const match = line.match(/\\bscore (cp|mate) (-?\\d+)/);
+            if (match) {
+              let value = match[1] === "mate" ? (Number(match[2]) > 0 ? 99 : -99) : Number(match[2]) / 100;
+              // UCI scores are from the side-to-move perspective at the root.
+              if (engineActiveTurn === "b") value = -value;
+              renderEvaluation(value, match[1] === "mate" ? Number(match[2]) * (engineActiveTurn === "b" ? -1 : 1) : null);
+            }
           }
         };
-        engineWorker.onerror = () => { evalCenterEl.textContent = "—"; evalWhiteEl.textContent = "W —"; evalBlackEl.textContent = "S —"; };
+        engineWorker.onerror = () => {
+          engineReady = false;
+          engineSearching = false;
+          evalCenterEl.textContent = "Fehler";
+          evalWhiteEl.textContent = "W —";
+          evalBlackEl.textContent = "S —";
+        };
         engineWorker.postMessage("uci");
       } catch (error) {
-        evalCenterEl.textContent = "—"; evalWhiteEl.textContent = "W —"; evalBlackEl.textContent = "S —";
+        evalCenterEl.textContent = "Fehler";
+        evalWhiteEl.textContent = "W —";
+        evalBlackEl.textContent = "S —";
       }
     }
     function renderEvaluation(whiteScore, mateIn = null) {
@@ -374,20 +401,30 @@
       const whitePercent = 100 / (1 + Math.pow(10, -bounded));
       evalWhiteFill.style.height = whitePercent + "%";
       evalBlackFill.style.height = (100 - whitePercent) + "%";
-      let shown = mateIn !== null ? (mateIn > 0 ? "M" + mateIn : "−M" + Math.abs(mateIn)) : (whiteScore > 0 ? "+" : "") + whiteScore.toFixed(1);
+      const shown = mateIn !== null ? (mateIn > 0 ? "M" + mateIn : "−M" + Math.abs(mateIn)) : (whiteScore > 0 ? "+" : "") + whiteScore.toFixed(1);
       const blackScore = -whiteScore;
-      let blackShown = mateIn !== null ? (mateIn < 0 ? "M" + Math.abs(mateIn) : "−M" + Math.abs(mateIn)) : (blackScore > 0 ? "+" : "−") + Math.abs(blackScore).toFixed(1);
+      const blackShown = mateIn !== null ? (mateIn < 0 ? "M" + Math.abs(mateIn) : "−M" + Math.abs(mateIn)) : (blackScore > 0 ? "+" : "−") + Math.abs(blackScore).toFixed(1);
       evalWhiteEl.textContent = "W " + shown;
       evalBlackEl.textContent = "S " + blackShown;
       evalCenterEl.textContent = shown;
     }
-    function updateEvaluation() {
-      if (!game || !engineWorker || !engineReady) return;
-      pendingEvalFen = game.fen();
-      evalRootTurn = game.turn();
-      engineWorker.postMessage("stop");
-      engineWorker.postMessage("position fen " + pendingEvalFen);
+    function startEngineSearch() {
+      if (!engineReady || !engineWorker || !pendingEvalFen || engineSearching) return;
+      engineActiveFen = pendingEvalFen;
+      engineActiveTurn = game ? game.turn() : "w";
+      engineSearching = true;
+      engineWorker.postMessage("position fen " + engineActiveFen);
       engineWorker.postMessage("go depth 10");
+    }
+    function updateEvaluation() {
+      if (!game) return;
+      pendingEvalFen = game.fen();
+      if (!engineWorker || !engineReady) return;
+      if (engineSearching) {
+        engineWorker.postMessage("stop");
+        return;
+      }
+      startEngineSearch();
     }
     const statusEl = document.getElementById("trainerStatus");
     const hintEl = document.getElementById("trainerHint");
