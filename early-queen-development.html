@@ -186,6 +186,19 @@
       font-size: 11px;
     }
     .board-caption span:last-child { text-align: right; }
+    .lesson { margin: 0 0 30px; }
+    .lesson-intro { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0 0 16px; }
+    .line-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin: 0 0 17px; }
+    .line-tab { border: 1px solid var(--line); border-radius: 11px; background: var(--card); padding: 12px 6px; font: 700 12px/1.3 inherit; font-family: inherit; color: var(--ink); cursor: pointer; }
+    .line-tab[aria-selected="true"] { background: var(--green); border-color: var(--green); color: white; }
+    .lesson-panel { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 19px 17px; }
+    .lesson-panel h3 { margin: 0 0 7px; font-size: 20px; letter-spacing: -.5px; }
+    .lesson-panel p { margin: 0 0 14px; color: #586159; font-size: 14px; line-height: 1.65; }
+    .move-row { padding: 11px 0; border-top: 1px solid var(--line); }
+    .move-row strong { display: block; font-size: 14px; color: var(--green); margin-bottom: 4px; }
+    .move-row span { display: block; font-size: 13px; color: #586159; line-height: 1.55; }
+    .branch-title { font-weight: 750; font-size: 15px; margin: 17px 0 5px; }
+    .verification { margin-top: 15px !important; padding: 11px 12px; background: #f3f1e8; border-radius: 10px; font-size: 12px !important; }
     @media (min-width: 480px) {
       .square { font-size: 43px; }
     }
@@ -298,8 +311,108 @@
       <p class="description">Bei dieser Idee kommt die Dame schon früh ins Spiel. Das kann Druck aufbauen – aber die Dame kann auch mit Tempo angegriffen werden, wenn sie zu früh herauskommt.</p>
     </section>
 
+    <section class="lesson" aria-labelledby="lessonTitle">
+      <p class="kicker">Lektion 01 · Aus Sicht von Schwarz</p>
+      <h2 id="lessonTitle">Bestrafe die frühe Dame.</h2>
+      <p class="lesson-intro">Drei Wege, um frühe Damenausflüge auszunutzen: Entwickle deine Figuren mit Tempo, verhindere Mattdrohungen und nutze taktische Chancen.</p>
+      <div class="line-tabs" role="tablist" aria-label="Linie auswählen">
+        <button class="line-tab" type="button" role="tab" aria-selected="true" data-line="0">Linie 1<br>Tempo</button>
+        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="1">Linie 2<br>Mattabwehr</button>
+        <button class="line-tab" type="button" role="tab" aria-selected="false" data-line="2">Linie 3<br>Material</button>
+      </div>
+      <div class="lesson-panel" id="lessonPanel" role="tabpanel" aria-live="polite"></div>
+    </section>
+
     <div class="bottom"></div>
     <footer>CHESS TRAP LAB</footer>
   </main>
+  <script>
+    const lines = [
+      {
+        title: "Gaining Tempo",
+        intro: "Greife die weiße Dame immer wieder an und entwickle dabei deine Figuren. Während Weiß mit der Dame ausweicht, gewinnt Schwarz Zeit für seine Entwicklung.",
+        moves: [
+          ["e4 e5", "Beide Seiten spielen zunächst um das Zentrum."],
+          ["Qc6 · …Nc6", "Der Springer entwickelt sich und soll die Dame angreifen."],
+          ["Nc3 · …Nf6", "Eine weitere Entwicklung mit Angriff auf die Dame."],
+          ["Qh3 · …d5", "Schwarz stößt im Zentrum vor und öffnet die Diagonale des Läufers."],
+          ["Qf3 · …Bg4", "Der Läufer kommt heraus und greift die Dame an."]
+        ],
+        note: "Die Idee steht fest. Die notierte Zugfolge muss vor einer Brettanimation noch auf legale Züge und Zugreihenfolge geprüft werden."
+      },
+      {
+        title: "Scholar’s Mate kontern",
+        intro: "Weiß versucht, mit Dame und Läufer auf f7 Druck zu machen. Schwarz verteidigt sich und nutzt die wiederholten Damenzüge für Entwicklung und Gegenangriffe.",
+        moves: [
+          ["Bc4 · …g6", "Mattmotiv auf f7 erkennen, die Dame angreifen und die Drohung entschärfen."],
+          ["Qf3 · …Nf6", "Den Springer entwickeln und die Mattdrohung blockieren."],
+          ["Qb3", "Weiß richtet den Blick erneut auf f7."],
+          ["Einfache Idee", "Eine unkomplizierte Verteidigung finden, statt der Dame hinterherzulaufen."],
+          ["Taktische Idee", "Mit einem Springerzug Gegendrohungen erzeugen. In deiner Variante folgen Bxf7+, …Ke7 und weitere Angriffe auf die Figuren."]
+        ],
+        note: "Die konkreten Züge „Re2“ und „Nc4“ sowie die Fortsetzung nach Bxf7+ brauchen vor einer interaktiven Zugfolge eine genaue Stellungsprüfung."
+      },
+      {
+        title: "Tempo statt Material",
+        intro: "Ein Bauer ist nicht alles: Schwarz darf Material abgeben, wenn er dafür seine Figuren entwickelt und die weiße Dame immer wieder zum Ziehen zwingt.",
+        moves: [
+          ["…Nf3 · Qxe5+ · …Be7 · d3", "Die von dir genannte Einleitung zur Stellung – die Zugreihenfolge prüfen wir noch."],
+          ["…Nc6 · Qg3", "Schwarz entwickelt mit Angriff auf die Dame."],
+          ["…Nd4", "Die Springergabel auf c2 wird zur zentralen Drohung."]
+        ],
+        branches: [
+          {title: "Linie 3.1 · Na3", moves: [
+            ["Na3 · …Bxa3", "Schwarz nimmt den Springer."],
+            ["bxa3 · …Nxc2+", "Springergabel: Schwarz gewinnt anschließend Material am Turm."]
+          ]},
+          {title: "Linie 3.2 · Kd1", moves: [
+            ["Kd1 · …d5", "Schwarz setzt auf Tempo, auch wenn der g7-Bauer angegriffen werden kann."],
+            ["Qxg7 · …Rg8", "Der Turm entwickelt sich mit Angriff auf die Dame."],
+            ["Qh6 · …dxe4 · dxe4", "Danach sind …Nxe4 oder …Bg4+ interessante Entwicklungsideen."]
+          ]}
+        ],
+        note: "Die Zugnotation und taktischen Varianten werden vor dem Nachspielen auf dem Brett noch überprüft."
+      }
+    ];
+    const panel = document.getElementById("lessonPanel");
+    function moveHtml(move) {
+      const row = document.createElement("div");
+      row.className = "move-row";
+      const strong = document.createElement("strong");
+      strong.textContent = move[0];
+      const desc = document.createElement("span");
+      desc.textContent = move[1];
+      row.append(strong, desc);
+      return row;
+    }
+    function showLine(index) {
+      const line = lines[index];
+      panel.replaceChildren();
+      const heading = document.createElement("h3");
+      heading.textContent = line.title;
+      const intro = document.createElement("p");
+      intro.textContent = line.intro;
+      panel.append(heading, intro);
+      line.moves.forEach(move => panel.append(moveHtml(move)));
+      (line.branches || []).forEach(branch => {
+        const sub = document.createElement("div");
+        sub.className = "branch-title";
+        sub.textContent = branch.title;
+        panel.append(sub);
+        branch.moves.forEach(move => panel.append(moveHtml(move)));
+      });
+      const note = document.createElement("p");
+      note.className = "verification";
+      note.textContent = "Hinweis: " + line.note;
+      panel.append(note);
+      document.querySelectorAll(".line-tab").forEach(tab => {
+        tab.setAttribute("aria-selected", String(Number(tab.dataset.line) === index));
+      });
+    }
+    document.querySelectorAll(".line-tab").forEach(tab => {
+      tab.addEventListener("click", () => showLine(Number(tab.dataset.line)));
+    });
+    showLine(0);
+  </script>
 </body>
 </html>
