@@ -391,11 +391,11 @@
         ]
       },
       {
-        title: "Tempo statt Material",
-        setup: ["e4","e5","Nf3","Nc6","Bc4","Nf6","d3","Bb4+","c3"],
-        startLabel: "1. e4 e5 2. Sf3 Sc6 3. Lc4 Sf6 4. d3 Lb4+ 5. c3",
+        title: "Springergabel",
+        setup: ["e4","e5","Qh5","Nf6","Qxe5+","Be7","d3","Nc6","Qg3"],
+        startLabel: "1. e4 e5 2. Dh5 Sf6 3. Dxe5+ Le7 4. d3 Sc6 5. Dg3",
         steps: [
-          {from:"c6",to:"d4",san:"Nd4",hint:"Suche einen aktiven Springerzug, der c2 angreift und eine Gabel auf c2 vorbereitet.",goal:"…Sd4 greift ins Zentrum ein und droht …Sc2+ mit Gabel auf König und Turm.",branchAfter:true}
+          {from:"c6",to:"d4",san:"Nd4",hint:"Springe ins Zentrum und drohe mit einer Gabel auf c2.",goal:"…Sd4 droht mit …Sxc2+.",branchAfter:true}
         ]
       }
     ];
@@ -411,12 +411,13 @@
     const feedbackEl = document.getElementById("trainerFeedback");
     const branchEl = document.getElementById("branchChoices");
     const lineNow = () => trainingLines[lineIndex];
-    const stepsNow = () => lineNow().steps;
+    const stepsNow = () => activeSteps;
+    let activeSteps = [];
     const stepNow = () => stepsNow()[stepIndex];
     function loadTraining(index) {
       if (opponentTimer) clearTimeout(opponentTimer);
       opponentTimer = null; opponentThinking = false;
-      lineIndex = index; stepIndex = 0; selected = null; revealed = false; finished = false; branchStep = null; moveLog = [];
+      lineIndex = index; activeSteps = [...trainingLines[index].steps]; stepIndex = 0; selected = null; revealed = false; finished = false; branchStep = null; moveLog = [];
       game = new Chess();
       for (const san of lineNow().setup) {
         const result = game.move(san);
@@ -491,7 +492,7 @@
       if (branchStep) {
         branchEl.hidden = false;
         const label = document.createElement("p"); label.className = "branch-prompt"; label.textContent = "Wie antwortet Weiß? Wähle eine Fortsetzung:"; branchEl.append(label);
-        [{label:"3.1 · Na3",san:"Na3"},{label:"3.2 · Kd1",san:"Kd1"}].forEach(choice => {
+        [{label:"6. Sa3",san:"Na3"},{label:"6. Kd1",san:"Kd1"}].forEach(choice => {
           const b = document.createElement("button"); b.type="button"; b.className="branch-btn"; b.textContent=choice.label;
           b.addEventListener("click",()=>playBranch(choice.san)); branchEl.append(b);
         });
@@ -550,23 +551,26 @@
       renderTrainer();
     }
     function playBranch(san) {
-      branchStep = null;
       const whiteMove = game.move(san);
-      if (!whiteMove) { statusEl.textContent="Diese Antwort ist in der Stellung nicht legal."; branchStep=true; renderTrainer(); return; }
+      if (!whiteMove) { statusEl.textContent="Diese Antwort ist in der Stellung nicht legal."; return; }
+      branchStep = null;
       moveLog.push(whiteMove.san);
       if (san === "Na3") {
-        const capture = game.move("Bxa3");
-        if (capture) { moveLog.push("…"+capture.san); const recapture=game.move("bxa3"); if (recapture) moveLog.push(recapture.san); }
-        const fork = game.move("Nc2+");
-        if (fork) { moveLog.push("…"+fork.san); finished=true; renderTrainer(); feedbackEl.textContent="Die Gabel funktioniert: …Sc2+ setzt den König schach und greift zugleich den Turm a1 an."; return; }
-        finished=true; renderTrainer(); feedbackEl.textContent="Diese Fortsetzung wurde erreicht, aber die komplette Gabel passt nicht zur Stellung."; return;
+        activeSteps.push(
+          {from:"e7",to:"a3",san:"Bxa3",hint:"Der weiße Springer steht auf a3. Welcher Läufer kann ihn schlagen?",goal:"…Lxa3 schlägt den Springer.",reply:"bxa3"},
+          {from:"d4",to:"c2",san:"Nxc2+",hint:"Finde die Springergabel mit Schach auf c2.",goal:"…Sxc2+ gibt Schach und greift den Turm a1 an.",reply:null}
+        );
+      } else {
+        activeSteps.push(
+          {from:"d7",to:"d5",san:"d5",hint:"Öffne das Zentrum mit einem Bauernzug.",goal:"…d5 setzt das Zentrum unter Druck.",reply:"Qxg7"},
+          {from:"h8",to:"g8",san:"Rg8",hint:"Greife die weiße Dame auf g7 mit dem Turm an.",goal:"…Tg8 greift die Dame an.",reply:"Qh6"},
+          {from:"d5",to:"e4",san:"dxe4",hint:"Schlage den Bauern auf e4 mit deinem d-Bauern.",goal:"…dxe4 öffnet weitere Linien.",reply:"dxe4"},
+          {from:"c8",to:"g4",san:"Bg4+",hint:"Finde das Läuferschach auf der Diagonale c8–g4.",goal:"…Lg4+ setzt den weißen König schach.",reply:null}
+        );
       }
-      if (san === "Kd1") {
-        const d5 = game.move("d5");
-        if (d5) moveLog.push("…"+d5.san);
-        finished=true; renderTrainer(); feedbackEl.textContent="Schwarz nutzt die Zeit für …d5 und das Zentrum. Diese Abzweigung endet hier; die ursprüngliche Folge mit Dame auf g7 benötigt eine andere Ausgangsstellung."; return;
-      }
-      finished=true; renderTrainer();
+      stepIndex++;
+      renderTrainer();
+      statusEl.textContent = "Weiß hat gezogen. Jetzt bist du mit Schwarz dran.";
     }
     document.querySelectorAll(".line-tab").forEach(tab=>tab.addEventListener("click",()=>loadTraining(Number(tab.dataset.line))));
     document.getElementById("resetTraining").addEventListener("click",()=>loadTraining(lineIndex));
