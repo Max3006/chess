@@ -463,16 +463,18 @@
         const rankIndex = square => Number(square[1]) - 1;
         const visualX = square => 7 - fileIndex(square);
         const visualY = square => rankIndex(square);
-        const mover = document.createElement("span");
-        mover.className = "moving-piece " + (animationMove.piece.color === "w" ? "piece-white" : "piece-black");
-        mover.textContent = symbols[animationMove.piece.color + animationMove.piece.type];
-        const destinationCell = boardEl.querySelector('[data-square="' + animationMove.to + '"]');
-        if (destinationCell) {
-          const squareStyle = getComputedStyle(destinationCell);
-          mover.style.fontFamily = squareStyle.fontFamily;
-          mover.style.fontSize = squareStyle.fontSize;
-          mover.style.fontWeight = squareStyle.fontWeight;
-        }
+        const destinationGlyph = boardEl.querySelector('[data-square="' + animationMove.to + '"] .piece-white, [data-square="' + animationMove.to + '"] .piece-black');
+        if (!destinationGlyph) return;
+        const mover = destinationGlyph.cloneNode(true);
+        mover.classList.add("moving-piece");
+        const glyphStyle = getComputedStyle(destinationGlyph);
+        mover.style.fontFamily = glyphStyle.fontFamily;
+        mover.style.fontSize = glyphStyle.fontSize;
+        mover.style.fontWeight = glyphStyle.fontWeight;
+        mover.style.color = glyphStyle.color;
+        mover.style.webkitTextFillColor = glyphStyle.webkitTextFillColor;
+        mover.style.webkitTextStroke = glyphStyle.webkitTextStroke;
+        mover.style.textShadow = glyphStyle.textShadow;
         mover.style.left = (visualX(animationMove.from) * 12.5) + "%";
         mover.style.top = (visualY(animationMove.from) * 12.5) + "%";
         boardEl.append(mover);
