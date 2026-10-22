@@ -217,8 +217,8 @@
     .training-square:focus-visible { outline:3px solid #d29d27; outline-offset:-3px; z-index:2; }
     .board-coord { position:absolute; left:3px; top:2px; font:750 9px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:#536650; }
     .sq-dark .board-coord { color:#f0eadb; }
-    .file-coord { top:auto; bottom:2px; left:50%; right:auto; transform:translateX(-50%); }
-    .training-square .board-coord:not(.file-coord) { top:50%; left:2px; transform:translateY(-50%); }
+    .file-coord { top:auto; bottom:2px; left:auto; right:3px; transform:none; }
+    .training-square .board-coord:not(.file-coord) { top:2px; left:3px; transform:none; }
     .training-square .board-coord { pointer-events:none; z-index:1; }
     .trainer-status { margin:9px 2px 5px; color:var(--green); font-size:13px; font-weight:750; }
     .move-history { margin:0 2px; color:var(--muted); font-size:11px; line-height:1.6; overflow-wrap:anywhere; }
