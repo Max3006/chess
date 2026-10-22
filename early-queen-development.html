@@ -530,7 +530,7 @@
         opponentThinking = true;
         renderTrainer();
         statusEl.textContent = "Weiß überlegt …";
-        const delay = 2000 + Math.random() * 3000;
+        const delay = 2000;
         opponentTimer = setTimeout(() => {
           const legalReply = game.moves({verbose:true}).find(move => move.san === option.reply);
           const animationMove = legalReply ? {from:legalReply.from, to:legalReply.to, piece:{color:legalReply.color, type:legalReply.piece}} : null;
