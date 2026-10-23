@@ -69,7 +69,7 @@ function renderVariationBoard(){
  const el=document.getElementById("learnBoard");if(!el)return;el.replaceChildren();
  const b=variationGame.board(),glyphs={wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
  for(let row=0;row<8;row++)for(let col=0;col<8;col++){
-  const file="abcdefgh"[col],rank=String(8-row),p=b[row][col],cell=document.createElement("div");
+  const file="hgfedcba"[col],rank=String(row+1),p=b[7-row][7-col],cell=document.createElement("div");
   cell.className="learnsq "+(((row+col)%2===0)?"light":"dark");
   if(p){const span=document.createElement("span");span.className=p.color==="w"?"whitepiece":"blackpiece";span.textContent=glyphs[p.color+p.type];cell.append(span)}
   if(col===0){const coord=document.createElement("small");coord.className="coord";coord.textContent=rank;cell.append(coord)}
