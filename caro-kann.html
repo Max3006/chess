@@ -112,17 +112,17 @@ else {
  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFlash()});
  function drawFlash(){
   if(pos>=deck.length){
-   body.innerHTML='<div class="flash-summary"><h3>Runde geschafft! ♟</h3><p>✅ Gewusst: '+known+'<br>↻ Noch üben: '+again+'</p><p>Die schwierigen Karten kannst du direkt nochmal durchgehen.</p><button class="btn primary" id="flashRetry">Nochmal üben</button> <button class="btn" id="flashRestart">Neue Runde</button></div>';
+   body.innerHTML='<div class="flash-summary"><h3>Runde geschafft! ♟</h3><p>✅ Gewusst: '+known+'<br>↻ Noch üben: '+again+'</p><p>Die schwierigen Varianten kannst du direkt nochmal spielen.</p><button class="btn primary" id="flashRetry">Nochmal üben</button> <button class="btn" id="flashRestart">Neue Runde</button></div>';
    document.getElementById("flashRetry").onclick=()=>{deck=deck.filter(x=>!x.known);if(!deck.length)deck=variations.map(v=>({v,known:false}));pos=0;known=0;again=0;drawFlash()};
    document.getElementById("flashRestart").onclick=startFlash;return;
   }
   const item=deck[pos],v=item.v;
-  body.innerHTML='<div class="flash-progress">Karte '+(pos+1)+' von '+deck.length+' · ✅ '+known+' · ↻ '+again+'</div><div class="flash-card" id="flashCard" role="button" tabindex="0" aria-label="Karte umdrehen"><span class="flash-tag">'+(flipped?'Antwort':'Eröffnung erkennen')+'</span>'+(flipped?'<h3>'+v.name+'</h3><div class="flash-answer"><b>Zugfolge</b><p>'+v.line+'</p><b>Plan für Schwarz</b><p>'+v.plan+'</p></div>':'<h3>Wie spielst du gegen …?</h3><p>'+v.moves+'</p><p>Was ist die Idee für Schwarz?</p>')+'</div><div class="flash-actions"><button class="flash-again" id="flashAgain">← Noch üben</button><button class="flash-known" id="flashKnown">Kann ich →</button></div><p class="flash-hint">Tippe auf die Karte zum Umdrehen · Wische links/rechts zum Bewerten</p>';
-  const card=document.getElementById("flashCard");
-  const flip=()=>{flipped=!flipped;drawFlash()};
-  card.onclick=flip;card.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}};
-  card.onpointerdown=e=>{startX=e.clientX;startY=e.clientY};
-  card.onpointerup=e=>{const dx=e.clientX-startX,dy=e.clientY-startY;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)){rate(dx>0)}};
+  body.innerHTML='<div class="flash-progress">Variante '+(pos+1)+' von '+deck.length+' · ✅ '+known+' · ↻ '+again+'</div><div id="flashGame"></div><div class="flash-actions"><button class="flash-again" id="flashAgain">← Noch üben</button><button class="flash-known" id="flashKnown">Kann ich →</button></div><p class="flash-hint">Spiel die Variante auf dem Brett. Neustart, Zug zeigen und Tipp funktionieren wie bei den Karten darunter. Wische links/rechts zum Bewerten.</p>';
+  const game=document.getElementById("flashGame");
+  game.append(makeCard(v));
+  let sx=0,sy=0;
+  game.addEventListener("pointerdown",e=>{sx=e.clientX;sy=e.clientY},{passive:true});
+  game.addEventListener("pointerup",e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>95&&Math.abs(dx)>Math.abs(dy)*1.3)rate(dx>0)},{passive:true});
   document.getElementById("flashAgain").onclick=()=>rate(false);
   document.getElementById("flashKnown").onclick=()=>rate(true);
  }
