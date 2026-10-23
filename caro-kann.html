@@ -21,7 +21,7 @@ h1{font-size:clamp(31px,8vw,43px);letter-spacing:-1.6px;line-height:1.05;margin:
 .detail h3{font-size:20px;line-height:1.2;margin:0 0 8px}.detail p{margin:7px 0;color:#586159;line-height:1.65}.line{padding:10px 0;border-top:1px solid var(--line)}.line strong{display:block;color:var(--green);margin-bottom:4px}.line code{font-family:inherit;font-weight:700;white-space:normal}.tag{display:inline-block;background:#e8ece2;color:var(--green);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:800;margin-bottom:8px}
 footer{padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:#8a9088;letter-spacing:.3px;margin-top:18px}
 [hidden]{display:none!important}
-</style>
+ .cardchoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.cardchoice{font:inherit;font-weight:750;text-align:left;padding:13px;border:1px solid var(--line);border-radius:11px;background:#fffefa;cursor:pointer}.cardchoice:disabled{opacity:1}.cardchoice.correct{background:#e2f0e4;border-color:#52835c}.cardchoice.wrong{background:#f9e5e1;border-color:#c9796a}</style>
 </head>
 <body><main class="app">
 <header><div class="mark" aria-hidden="true">♞</div><div class="brand">Chess Trainer</div></header>
@@ -38,6 +38,11 @@ footer{padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:#8
 <div id="feedback" class="hint">Dein Ziel: mit Schwarz auf 1.e4 mit 1...c6 antworten. Nach 2.d4 spielst du meist ...d5 und greifst das Zentrum an. Stockfish darf aber frei ziehen – du bist nicht auf eine vorgegebene Zugfolge beschränkt.</div>
 </section>
 <section id="learnPanel" hidden>
+<div class="tabs" role="tablist"><button class="tab" id="cardsTab" aria-selected="true">Karteikarten</button><button class="tab" id="quizTab" aria-selected="false">Quiz</button><button class="tab" id="variantsTab" aria-selected="false">Varianten ansehen</button></div>
+<div id="cardsPanel"><div class="panel"><div class="topline"><h2>Karteikarten</h2><span class="muted" id="cardCount"></span></div><p id="cardPrompt" class="sub"></p><div class="boardwrap"><div id="cardBoard" class="board"></div></div><div id="cardChoices" class="cardchoices"></div><div id="cardFeedback" class="hint">Wähle einen Zug.</div><div class="actions"><button id="cardRepeat" class="btn" disabled>Nochmal wiederholen</button><button id="cardNext" class="btn primary" disabled>Nächste Karte →</button></div></div></div>
+<div id="quizPanel" hidden><div class="panel"><div class="topline"><h2>Caro-Kann-Quiz</h2><span class="muted" id="quizCount"></span></div><p id="quizPrompt" class="sub"></p><div class="boardwrap"><div id="quizBoard" class="board"></div></div><div id="quizChoices" class="cardchoices"></div><div id="quizFeedback" class="hint">Welche Antwort würdest du spielen?</div><div class="actions"><button id="quizNext" class="btn primary" disabled>Nächste Frage →</button><button id="quizRestart" class="btn">Neu starten</button></div><div id="quizScore" class="status">Punkte: 0 / 0</div></div></div>
+<div id="variantsPanel" hidden>
+
 <div class="panel"><div class="topline"><h2>Was spielt Weiß – und was antwortest du?</h2><span class="muted">Spickzettel</span></div><p class="muted">Die Caro-Kann beginnt nach 1.e4 mit 1...c6. Danach richtet sich dein Plan nach dem nächsten weißen Zug.</p><div class="replyguide">
 <div class="replyrow"><span><strong>1. e4</strong><br>Weiß greift das Zentrum an</span><span>→</span><span class="response">1...c6</span></div>
 <div class="replyrow"><span><strong>2. d4</strong><br>Weiß baut ein Zentrum auf</span><span>→</span><span class="response">2...d5</span></div>
@@ -48,9 +53,30 @@ footer{padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:#8
 </div><h3 class="guideTitle">Variante auswählen</h3><div id="varlist" class="varlist"></div></div>
 <div id="detail" class="panel detail" aria-live="polite"></div>
 </section>
-<footer>CHESS TRAINER · CARO-KANN</footer>
+</div><footer>CHESS TRAINER · CARO-KANN</footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+const drills=[
+["Weiß spielt 1. e4. Wie leitest du Caro-Kann ein?",["e4"],"c6",["c6","e5","d5","Nf6"],"1...c6 bereitet ...d5 vor und unterstützt deinen Kampf ums Zentrum."],
+["Nach 1. e4 c6 2. d4: Was ist dein Standardzug?",["e4","c6","d4"],"d5",["d5","e5","Nf6","d6"],"2...d5 fordert den weißen Bauern im Zentrum direkt heraus."],
+["Weiß spielt 3. e5. Was ist ein guter Entwicklungszug?",["e4","c6","d4","d5","e5"],"Bf5",["Bf5","e6","c5","Nf6"],"...Bf5 entwickelt den Läufer, bevor ...e6 die Diagonale schließt."],
+["Weiß spielt 3. Nc3 und stützt e4. Wie reagierst du im Zentrum?",["e4","c6","d4","d5","Nc3"],"dxe4",["dxe4","Bf5","e6","Nf6"],"...dxe4 tauscht den d-Bauern gegen den e4-Bauern."],
+["Weiß spielt 3. exd5. Wie nimmst du zurück?",["e4","c6","d4","d5","exd5"],"cxd5",["cxd5","Qxd5","Nf6","e6"],"...cxd5 ist die typische Rücknahme in der Abtauschvariante."],
+["Weiß wählt 3. f3, die Fantasy-Variante. Was kannst du schlagen?",["e4","c6","d4","d5","f3"],"dxe4",["dxe4","Bf5","e6","Nf6"],"...dxe4 nimmt den zentralen Bauern; nach fxe4 ist ...e5 ein möglicher Gegenschlag."],
+["Nach 3. Nc3 dxe4 4. Nxe4: Wie entwickelst du den Läufer c8?",["e4","c6","d4","d5","Nc3","dxe4","Nxe4"],"Bf5",["Bf5","e6","Nd7","Qb6"],"...Bf5 entwickelt den Läufer außerhalb der Bauernkette."],
+["In der Vorstoßvariante: Welcher Bauernzug greift d4 an?",["e4","c6","d4","d5","e5","Bf5","Nf3","e6"],"c5",["c5","h6","a6","f6"],"...c5 greift die Basis der weißen Bauernkette auf d4 an."]
+];
+let ci=0,ca=false,qi=0,qa=false,qr=0,qtotal=0;
+function position(ms){const g=new Chess();ms.forEach(m=>{if(!g.move(m))throw Error("Ungültige Trainingsstellung: "+m)});return g}
+function board(id,g){const el=document.getElementById(id),b=g.board(),glyph={wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};el.replaceChildren();for(let r=0;r<8;r++)for(let f=0;f<8;f++){const p=b[7-r][7-f],e=document.createElement("div");e.className="sq "+((r+f)%2===0?"light":"dark");if(p){const s=document.createElement("span");s.className=p.color==="w"?"whitepiece":"blackpiece";s.textContent=glyph[p.color+p.type];e.append(s)}el.append(e)}}
+function showDrill(mode){const quiz=mode==="quiz",d=drills[quiz?qi:ci],n=quiz?qi:ci,id=quiz?"quiz":"card";document.getElementById(id+"Count").textContent=(quiz?"Frage ":"Karte ")+(n+1)+" / "+drills.length;document.getElementById(id+"Prompt").textContent=d[0];board(id+"Board",position(d[1]));const box=document.getElementById(id+"Choices");box.replaceChildren();document.getElementById(id+"Feedback").textContent=quiz?"Wähle die Antwort, die du in der Partie spielen würdest.":"Wähle einen Zug. Danach bekommst du direkt Rückmeldung.";d[3].forEach(m=>{const b=document.createElement("button");b.className="cardchoice";b.textContent=m;b.disabled=quiz?qa:ca;b.onclick=()=>answer(mode,m);box.append(b)});if(quiz){document.getElementById("quizNext").disabled=!qa;document.getElementById("quizScore").textContent="Punkte: "+qr+" / "+qtotal}else{document.getElementById("cardRepeat").disabled=!ca;document.getElementById("cardNext").disabled=!ca}}
+function answer(mode,m){const quiz=mode==="quiz",n=quiz?qi:ci,d=drills[n],id=quiz?"quiz":"card";if(quiz?qa:ca)return;if(quiz){qa=true;qtotal++;if(m===d[2])qr++}else ca=true;document.querySelectorAll("#"+id+"Choices .cardchoice").forEach(b=>{b.disabled=true;if(b.textContent===d[2])b.classList.add("correct");else if(b.textContent===m)b.classList.add("wrong")});document.getElementById(id+"Feedback").textContent=(m===d[2]?"Richtig! ":"Nicht ganz – die erwartete Antwort ist "+d[2]+". ")+d[4];if(quiz){document.getElementById("quizNext").disabled=false;document.getElementById("quizScore").textContent="Punkte: "+qr+" / "+qtotal}else{document.getElementById("cardRepeat").disabled=false;document.getElementById("cardNext").disabled=false}}
+function mode(m){["cards","quiz","variants"].forEach(k=>{document.getElementById(k==="cards"?"cardsTab":k==="quiz"?"quizTab":"variantsTab").setAttribute("aria-selected",String(k===m));document.getElementById(k+"Panel").hidden=k!==m})}
+document.getElementById("cardsTab").onclick=()=>mode("cards");document.getElementById("quizTab").onclick=()=>mode("quiz");document.getElementById("variantsTab").onclick=()=>mode("variants");
+document.getElementById("cardRepeat").onclick=()=>{ca=false;showDrill("cards")};document.getElementById("cardNext").onclick=()=>{ci=(ci+1)%drills.length;ca=false;showDrill("cards")};
+document.getElementById("quizNext").onclick=()=>{qi=(qi+1)%drills.length;qa=false;showDrill("quiz")};document.getElementById("quizRestart").onclick=()=>{qi=0;qa=false;qr=0;qtotal=0;showDrill("quiz")};
+showDrill("cards");showDrill("quiz");
 <script>
 const variations=[
 {id:"main",name:"Klassische Variante",moves:"1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Bf5",tag:"Hauptidee",intro:"Der klassische Aufbau zeigt den Grundgedanken der Caro-Kann: erst den c-Bauern zur Unterstützung von ...d5 bewegen, dann das Zentrum herausfordern und den Läufer c8 vor ...e6 entwickeln.",plan:"Nach 3.Nc3 schlägst du mit ...dxe4 den weißen d-Bauern. Nach Nxe4 entwickelst du den Läufer nach f5, bevor du ...e6 spielst. Achte darauf, dass Weiß mit Ng3 den Läufer angreifen kann; ziehe ihn dann meist nach g6 zurück.",line:"1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.Nf3 Nd7",sequence:["e4","c6","d4","d5","Nc3","dxe4","Nxe4","Bf5","Ng3","Bg6","Nf3","Nd7"],watch:"Nicht automatisch ...e6 vor der Läuferentwicklung spielen – das kann den Läufer c8 einsperren."},
