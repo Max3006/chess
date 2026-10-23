@@ -52,8 +52,8 @@ footer{padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:#8
 <div class="replyrow"><span><strong>3. f3</strong><br>Fantasy-Variante</span><span>→</span><span class="response">...dxe4 und ...e5 prüfen</span></div>
 </div><h3 class="guideTitle">Variante auswählen</h3><div id="varlist" class="varlist"></div></div>
 <div id="detail" class="panel detail" aria-live="polite"></div>
-</section>
-</div><footer>CHESS TRAINER · CARO-KANN</footer>
+</div>
+</section><footer>CHESS TRAINER · CARO-KANN</footer>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
@@ -77,6 +77,7 @@ document.getElementById("cardsTab").onclick=()=>mode("cards");document.getElemen
 document.getElementById("cardRepeat").onclick=()=>{ca=false;showDrill("cards")};document.getElementById("cardNext").onclick=()=>{ci=(ci+1)%drills.length;ca=false;showDrill("cards")};
 document.getElementById("quizNext").onclick=()=>{qi=(qi+1)%drills.length;qa=false;showDrill("quiz")};document.getElementById("quizRestart").onclick=()=>{qi=0;qa=false;qr=0;qtotal=0;showDrill("quiz")};
 showDrill("cards");showDrill("quiz");
+</script>
 <script>
 const variations=[
 {id:"main",name:"Klassische Variante",moves:"1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Bf5",tag:"Hauptidee",intro:"Der klassische Aufbau zeigt den Grundgedanken der Caro-Kann: erst den c-Bauern zur Unterstützung von ...d5 bewegen, dann das Zentrum herausfordern und den Läufer c8 vor ...e6 entwickeln.",plan:"Nach 3.Nc3 schlägst du mit ...dxe4 den weißen d-Bauern. Nach Nxe4 entwickelst du den Läufer nach f5, bevor du ...e6 spielst. Achte darauf, dass Weiß mit Ng3 den Läufer angreifen kann; ziehe ihn dann meist nach g6 zurück.",line:"1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.Nf3 Nd7",sequence:["e4","c6","d4","d5","Nc3","dxe4","Nxe4","Bf5","Ng3","Bg6","Nf3","Nd7"],watch:"Nicht automatisch ...e6 vor der Läuferentwicklung spielen – das kann den Läufer c8 einsperren."},
