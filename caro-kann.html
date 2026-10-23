@@ -2,8 +2,8 @@
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f4f3ee"><title>Caro-Kann · Eröffnungsbuch</title>
 <style>
 :root{--paper:#f4f3ee;--ink:#202923;--muted:#737b73;--green:#315d43;--line:#dcded5;--card:#fffefa;--light:#f0eadb;--dark:#82977d}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:650px;margin:auto;padding:calc(env(safe-area-inset-top) + 12px) 15px 40px}header{display:flex;align-items:center;gap:11px;padding-bottom:12px;border-bottom:1px solid var(--line)}.mark{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:var(--green);color:white;font:25px Georgia}.brand{font-size:17px;font-weight:750}.back{display:inline-block;margin:14px 0;color:var(--green);text-decoration:none;font-weight:700;font-size:13px}h1{font-size:clamp(30px,8vw,43px);letter-spacing:-1.4px;line-height:1.1;margin:7px 0}.sub{color:var(--muted);line-height:1.6;margin:10px 0 20px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 17px}.panel h2{font-size:20px;margin:0 0 4px}.muted{font-size:12px;color:var(--muted)}.tag{display:inline-block;background:#e8ece2;color:var(--green);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:800;margin:7px 0}.boardwrap{padding:7px;border-radius:12px;background:#e9e7dd;border:1px solid #d8d8cc;margin:12px 0 9px}.board{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:1;overflow:hidden;border-radius:5px}.sq{position:relative;border:0;padding:0;margin:0;min-width:0;aspect-ratio:1;display:grid;place-items:center;font-family:"Apple Symbols","Segoe UI Symbol","Noto Sans Symbols 2",serif;font-size:clamp(27px,8vw,49px);line-height:1;cursor:pointer}.light{background:var(--light)}.dark{background:var(--dark)}.whitepiece{color:#fffefa;-webkit-text-stroke:.7px #343a32;text-shadow:0 1px 1px #0003}.blackpiece{color:#28332b}.selected{box-shadow:inset 0 0 0 4px #e5b94b}.legal:after{content:"";position:absolute;width:22%;height:22%;border-radius:50%;background:#24372b66}.actions{display:flex;gap:8px;margin-top:10px}.btn{flex:1;font:inherit;font-weight:700;border:1px solid var(--line);border-radius:10px;padding:11px 8px;background:var(--card);color:var(--ink);cursor:pointer}.btn.primary{background:var(--green);border-color:var(--green);color:white}.btn:disabled{opacity:.4;cursor:default}.status{font-size:13px;font-weight:700;color:var(--green);margin:9px 0}.notation{font-size:12px;color:var(--muted);overflow-wrap:anywhere;line-height:1.7}.explain{font-size:13px;color:#586159;line-height:1.6;margin:10px 0 0}.counter{font-size:12px;color:var(--muted);font-weight:700}.done{color:#24693b}
-</style></head><body><main class="app"><header><div class="mark">♞</div><div class="brand">Chess Trainer</div></header><a class="back" href="index.html">← Zurück zum Hauptmenü</a><h1>Caro-Kann-Eröffnungen</h1><p class="sub">Die Grundzüge 1. e4 c6 2. d4 d5 sind bereits gespielt. Du spielst Schwarz ab der jeweiligen Variante: Wähle eine Figur und ihr Zielfeld. Weiß zieht automatisch weiter.</p><div id="variations"></div></main>
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:650px;margin:auto;padding:calc(env(safe-area-inset-top) + 12px) 15px 40px}header{display:flex;align-items:center;gap:11px;padding-bottom:12px;border-bottom:1px solid var(--line)}.mark{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:var(--green);color:white;font:25px Georgia}.brand{font-size:17px;font-weight:750}.back{display:inline-block;margin:14px 0;color:var(--green);text-decoration:none;font-weight:700;font-size:13px}h1{font-size:clamp(30px,8vw,43px);letter-spacing:-1.4px;line-height:1.1;margin:7px 0}.sub{color:var(--muted);line-height:1.6;margin:10px 0 20px}.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 17px}.panel h2{font-size:20px;margin:0 0 4px}.muted{font-size:12px;color:var(--muted)}.tag{display:inline-block;background:#e8ece2;color:var(--green);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:800;margin:7px 0}.boardwrap{padding:7px;border-radius:12px;background:#e9e7dd;border:1px solid #d8d8cc;margin:12px 0 9px}.board{position:relative;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));aspect-ratio:1;overflow:hidden;border-radius:5px}.sq{position:relative;border:0;padding:0;margin:0;min-width:0;aspect-ratio:1;display:grid;place-items:center;font-family:"Apple Symbols","Segoe UI Symbol","Noto Sans Symbols 2",serif;font-size:clamp(27px,8vw,49px);line-height:1;cursor:pointer}.light{background:var(--light)}.dark{background:var(--dark)}.whitepiece{color:#fffefa;-webkit-text-stroke:.7px #343a32;text-shadow:0 1px 1px #0003}.blackpiece{color:#28332b}.selected{box-shadow:inset 0 0 0 4px #e5b94b}.legal:after{content:"";position:absolute;width:22%;height:22%;border-radius:50%;background:#24372b66}.actions{display:flex;gap:8px;margin-top:10px}.btn{flex:1;font:inherit;font-weight:700;border:1px solid var(--line);border-radius:10px;padding:11px 8px;background:var(--card);color:var(--ink);cursor:pointer}.btn.primary{background:var(--green);border-color:var(--green);color:white}.btn:disabled{opacity:.4;cursor:default}.status{font-size:13px;font-weight:700;color:var(--green);margin:9px 0}.notation{font-size:12px;color:var(--muted);overflow-wrap:anywhere;line-height:1.7}.explain{font-size:13px;color:#586159;line-height:1.6;margin:10px 0 0}.counter{font-size:12px;color:var(--muted);font-weight:700}.done{color:#24693b}.tip{margin-top:10px;font-size:13px;color:#586159;line-height:1.5}.tip summary{cursor:pointer;color:var(--green);font-weight:750;list-style:none}.tip summary:before{content:"💡 ";}.tip[open]{background:#f3f1e8;border-radius:10px;padding:10px}.flying-piece{position:absolute;z-index:5;pointer-events:none;display:grid;place-items:center;transition:transform 380ms ease-in-out;font-family:"Apple Symbols","Segoe UI Symbol","Noto Sans Symbols 2",serif;line-height:1}.board.busy .sq{pointer-events:none}
+</style></head><body><main class="app"><header><div class="mark">♞</div><div class="brand">Chess Trainer</div></header><a class="back" href="index.html">← Zurück zum Hauptmenü</a><h1>Caro-Kann-Eröffnungen</h1><p class="sub">1. e4 c6 2. d4 d5 ist schon gespielt. Du bist Schwarz – spiele die Variante auf dem Brett zu Ende.</p><div id="variations"></div></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 <script>
 const variations=[
@@ -19,38 +19,79 @@ const variations=[
 const glyph={wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
 function makeCard(v){
  const section=document.createElement("section");section.className="panel";
- section.innerHTML='<h2></h2><span class="tag"></span><p class="muted"></p><div class="boardwrap"><div class="board"></div></div><div class="counter"></div><div class="status" aria-live="polite"></div><div class="notation"></div><div class="actions"><button class="btn" data-action="restart">↺ Neustart</button><button class="btn primary" data-action="next">Nächster Zug →</button></div><p class="explain"></p>';
- section.querySelector("h2").textContent=v.name;section.querySelector(".tag").textContent=v.tag;section.querySelector(".muted").textContent=v.intro;section.querySelector(".explain").textContent=v.plan;
- const board=section.querySelector(".board"),status=section.querySelector(".status"),count=section.querySelector(".counter"),notation=section.querySelector(".notation"),next=section.querySelector('[data-action="next"]');
- let g=new Chess(),ply=0,selected=null;
- function reset(){g=new Chess();ply=0;selected=null;const prefix=["e4","c6","d4","d5"];const standard=prefix.every((m,i)=>v.sequence[i]===m);if(standard){for(const m of prefix)g.move(m);ply=4}advanceWhite();render()}
- function advanceWhite(){while(ply<v.sequence.length&&g.turn()==="w"){const move=g.move(v.sequence[ply]);if(!move){status.textContent="Ungültiger Zug in der Variante: "+v.sequence[ply];break}ply++}}
+ section.innerHTML='<h2></h2><div class="boardwrap"><div class="board"></div></div><div class="counter"></div><div class="status" aria-live="polite"></div><div class="notation"></div><div class="actions"><button class="btn" data-action="restart">↺ Neustart</button><button class="btn primary" data-action="next">Zug zeigen →</button></div><details class="tip"><summary>Tipp anzeigen</summary><p class="tiptext"></p></details>';
+ section.querySelector("h2").textContent=v.name;section.querySelector(".tiptext").textContent=v.plan+" "+v.watch;
+ const board=section.querySelector(".board"),status=section.querySelector(".status"),count=section.querySelector(".counter"),notation=section.querySelector(".notation"),next=section.querySelector('[data-action="next"]'),restart=section.querySelector('[data-action="restart"]');
+ let g=new Chess(),ply=0,selected=null,busy=false,version=0;
+ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  function render(){
-  board.replaceChildren();const moves=selected?g.moves({square:selected,verbose:true}).map(m=>m.to):[];
+  board.replaceChildren();board.classList.toggle("busy",busy);
+  const moves=selected&&!busy?g.moves({square:selected,verbose:true}).map(m=>m.to):[];
   for(let row=0;row<8;row++)for(let col=0;col<8;col++){
-   const sq="hgfedcba"[col]+String(row+1),p=g.get(sq),cell=document.createElement("button");cell.type="button";cell.className="sq "+((row+col)%2===0?"light":"dark");
+   const sq="hgfedcba"[col]+String(row+1),p=g.get(sq),cell=document.createElement("button");cell.type="button";cell.className="sq "+((row+col)%2===0?"light":"dark");cell.dataset.sq=sq;
    if(selected===sq)cell.classList.add("selected");if(moves.includes(sq))cell.classList.add("legal");
    cell.setAttribute("aria-label",sq+(p?" "+p.color+p.type:""));if(p){const span=document.createElement("span");span.className=p.color==="w"?"whitepiece":"blackpiece";span.textContent=glyph[p.color+p.type];cell.append(span)}
    cell.addEventListener("click",()=>tap(sq));board.append(cell)
   }
-  count.textContent=ply+" / "+v.sequence.length+" Halbzüge";notation.textContent=g.history().map((m,i)=>(i%2===0?(Math.floor(i/2)+1)+". ":"")+m).join(" ");
-  const finished=ply>=v.sequence.length;next.disabled=finished;
-  if(finished){status.textContent="Eröffnung abgeschlossen! ✓";status.className="status done"}
-  else if(g.turn()==="b"){status.className="status";status.textContent="Schwarz am Zug – finde die passende Antwort."}
-  else{status.className="status";status.textContent="Weiß ist am Zug."}
+  count.textContent=ply+" / "+v.sequence.length+" Halbzüge";
+  notation.textContent=g.history().map((m,i)=>(i%2===0?(Math.floor(i/2)+1)+". ":"")+m).join(" ");
+  next.disabled=busy||ply>=v.sequence.length;restart.disabled=busy;
+  if(ply>=v.sequence.length){status.textContent="Eröffnung abgeschlossen! ✓";status.className="status done"}
+  else{status.className="status";status.textContent=busy?"Figur zieht …":g.turn()==="b"?"Schwarz am Zug.":"Weiß am Zug."}
  }
- function tap(sq){
-  if(ply>=v.sequence.length||g.turn()!=="b")return;
+ function reset(){
+  version++;g=new Chess();ply=0;selected=null;busy=false;
+  const prefix=["e4","c6","d4","d5"];if(prefix.every((m,i)=>v.sequence[i]===m)){for(const m of prefix)g.move(m);ply=4}
+  // Initial white move is already on the board; later white moves are animated.
+  if(g.turn()==="w"&&ply<v.sequence.length){g.move(v.sequence[ply]);ply++}
+  section.querySelector(".tip").open=false;render()
+ }
+ async function playMove(san){
+  if(busy||ply>=v.sequence.length)return false;
+  const trial=new Chess(g.fen()),move=trial.move(san);if(!move)return false;
+  busy=true;selected=null;render();
+  const from=board.querySelector('[data-sq="'+move.from+'"]'),to=board.querySelector('[data-sq="'+move.to+'"]');
+  if(from&&to){
+   const source=from.querySelector("span");
+   if(source){
+    const boardRect=board.getBoundingClientRect(),fr=from.getBoundingClientRect(),tr=to.getBoundingClientRect();
+    const flying=document.createElement("span");flying.className="flying-piece "+source.className;flying.textContent=source.textContent;
+    flying.style.left=(fr.left-boardRect.left)+"px";flying.style.top=(fr.top-boardRect.top)+"px";
+    flying.style.width=fr.width+"px";flying.style.height=fr.height+"px";flying.style.fontSize=getComputedStyle(from).fontSize;
+    board.append(flying);source.style.visibility="hidden";
+    // Two frames ensure Safari paints the start square before moving.
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    flying.style.transform="translate("+(tr.left-fr.left)+"px,"+(tr.top-fr.top)+"px)";
+    await wait(410);
+   }
+  }
+  g.move(san);ply++;busy=false;render();return true
+ }
+ async function advanceWhite(){
+  const token=version;
+  while(ply<v.sequence.length&&g.turn()==="w"){
+   await wait(450);if(token!==version)return;
+   if(!await playMove(v.sequence[ply]))return;
+  }
+ }
+ async function tap(sq){
+  if(busy||ply>=v.sequence.length||g.turn()!=="b")return;
   const p=g.get(sq);
-  if(selected){const possible=g.moves({square:selected,verbose:true}).find(m=>m.to===sq);if(possible){
+  if(selected){
+   const possible=g.moves({square:selected,verbose:true}).find(m=>m.to===sq);
+   if(possible){
     const trial=new Chess(g.fen()),made=trial.move({from:selected,to:sq,promotion:"q"});
-    if(made&&made.san===v.sequence[ply]){g.move({from:selected,to:sq,promotion:"q"});ply++;selected=null;advanceWhite();render();return}
+    if(made&&made.san===v.sequence[ply]){await playMove(made.san);advanceWhite();return}
     selected=null;render();status.textContent="Nicht der Zug dieser Variante – versuch es nochmal.";return
-  }}
+   }
+  }
   selected=p&&p.color==="b"?sq:null;render()
  }
- section.querySelector('[data-action="restart"]').addEventListener("click",reset);
- next.addEventListener("click",()=>{if(ply>=v.sequence.length)return;const m=g.move(v.sequence[ply]);if(!m){status.textContent="Ungültige Fortsetzung.";return}ply++;selected=null;advanceWhite();render()});
+ restart.addEventListener("click",reset);
+ next.addEventListener("click",async()=>{
+  if(busy||ply>=v.sequence.length)return;
+  const token=version;await playMove(v.sequence[ply]);if(token===version)advanceWhite()
+ });
  reset();return section
 }
 if(typeof Chess==="undefined"){document.getElementById("variations").textContent="Das Schachmodul konnte nicht geladen werden. Bitte Seite neu laden."}
