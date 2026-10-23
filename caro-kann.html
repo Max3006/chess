@@ -16,13 +16,16 @@ const variations=[
 {id:"tandem",name:"Abgelehnte Abtausch-Ideen",moves:"1. e4 c6 2. d4 d5 3. Nd2 dxe4 4. Nxe4 Bf5",tag:"Ruhiger Aufbau",intro:"3.Nd2 schützt den e4-Bauern und vermeidet manche Abtauschvarianten. Schwarz kann trotzdem die zentrale Idee der Caro-Kann umsetzen.",plan:"Nach ...dxe4 und Nxe4 entwickelst du den Läufer nach f5. Spiele danach ...e6, ...Nd7 oder ...Nf6 je nach weißem Aufbau und rochiere.",line:"1.e4 c6 2.d4 d5 3.Nd2 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6",sequence:["e4","c6","d4","d5","Nd2","dxe4","Nxe4","Bf5","Ng3","Bg6"],watch:"Achte darauf, dass die weiße Dame und Springer keine taktischen Drohungen gegen b7 oder e6 bekommen."},
 {id:"sidelines",name:"Andere erste Züge",moves:"1. d4 c6 · 1. Nf3 c6 · 1. c4 c6",tag:"Nicht jede Partie wird Caro-Kann",intro:"Caro-Kann ist streng genommen eine Antwort auf 1.e4. Gegen 1.d4, 1.Nf3 oder 1.c4 kann ...c6 zu anderen Eröffnungen überleiten.",plan:"Gegen 1.d4 kannst du nach ...d5 in eine Slawische Verteidigung übergehen; gegen 1.c4 oder 1.Nf3 entscheidet Weiß oft erst später, welche Struktur entsteht. Bleib flexibel und spiel nicht mechanisch ...d5, wenn Weiß etwas anderes vorbereitet.",line:"1.d4 c6 2.c4 d5 (Slawisch möglich)",sequence:["d4","c6","c4","d5"],watch:"Die Eröffnungsbezeichnung hängt von der weiteren Zugfolge ab. ...c6 allein macht eine Stellung noch nicht automatisch zu Caro-Kann."}
 ];
+const moveTips={"main":["Schlage den Bauern auf e4.","Entwickle deinen Läufer nach f5.","Zieh den angegriffenen Läufer zurück.","Entwickle den Springer nach d7."],"advance":["Entwickle den Läufer nach f5.","Stütze d5 mit dem e-Bauern.","Greife den Bauern d4 mit c5 an.","Entwickle den Springer nach c6."],"exchange":["Nimm mit dem c-Bauern zurück.","Entwickle den Springer nach c6.","Entwickle den Springer nach f6."],"fantasy":["Schlage den Bauern auf e4.","Greife das Zentrum mit e5 an.","Schlage den Bauern auf d4."],"two":["Schlage den Bauern auf e4.","Greife den Springer e4 mit Nf6 an.","Nimm mit dem e-Bauern zurück."],"panov":["Nimm mit dem c-Bauern zurück.","Entwickle den Springer nach f6.","Stütze d5 mit e6."],"tandem":["Schlage den Bauern auf e4.","Entwickle den Läufer nach f5.","Zieh den Läufer nach g6 zurück."],"sidelines":["Bereite mit c6 den Vorstoß d5 vor.","Greife mit d5 das Zentrum an."]};
 const glyph={wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
 function makeCard(v){
  const section=document.createElement("section");section.className="panel";
  section.innerHTML='<h2></h2><div class="boardwrap"><div class="board"></div></div><div class="counter"></div><div class="status" aria-live="polite"></div><div class="notation"></div><div class="actions"><button class="btn" data-action="restart">↺ Neustart</button><button class="btn primary" data-action="next">Zug zeigen →</button></div><details class="tip"><summary>Tipp anzeigen</summary><p class="tiptext"></p></details>';
- section.querySelector("h2").textContent=v.name;section.querySelector(".tiptext").textContent=v.plan+" "+v.watch;
+ section.querySelector("h2").textContent=v.name;
  const board=section.querySelector(".board"),status=section.querySelector(".status"),count=section.querySelector(".counter"),notation=section.querySelector(".notation"),next=section.querySelector('[data-action="next"]'),restart=section.querySelector('[data-action="restart"]');
  let g=new Chess(),ply=0,selected=null,busy=false,version=0;
+ const tipBox=section.querySelector(".tip"),tipText=section.querySelector(".tiptext");
+ function updateTip(){const blackMoves=v.sequence.slice(0,ply).filter((_,i)=>i%2===1).length;const startBlack=v.id==="sidelines"?0:2;const tipIndex=blackMoves-startBlack;tipText.textContent=ply>=v.sequence.length?"Alle Züge dieser Variante geschafft!":(moveTips[v.id]||[])[tipIndex]||"Entwickle deine Figuren und achte auf das Zentrum.";tipBox.open=false}
  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  function render(){
   board.replaceChildren();board.classList.toggle("busy",busy);
@@ -35,7 +38,7 @@ function makeCard(v){
   }
   count.textContent=ply+" / "+v.sequence.length+" Halbzüge";
   notation.textContent=g.history().map((m,i)=>(i%2===0?(Math.floor(i/2)+1)+". ":"")+m).join(" ");
-  next.disabled=busy||ply>=v.sequence.length;restart.disabled=busy;
+  next.disabled=busy||ply>=v.sequence.length;restart.disabled=busy;updateTip();
   if(ply>=v.sequence.length){status.textContent="Eröffnung abgeschlossen! ✓";status.className="status done"}
   else{status.className="status";status.textContent=busy?"Figur zieht …":g.turn()==="b"?"Schwarz am Zug.":"Weiß am Zug."}
  }
