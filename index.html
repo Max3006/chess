@@ -2,249 +2,98 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b110d">
-  <title>Chess Trap Lab</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --paper: #f4f3ee;
-      --ink: #202923;
-      --muted: #737b73;
-      --green: #315d43;
-      --line: #dcded5;
-      --card: #fffefa;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--paper);
-      color: var(--ink);
-      font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    button { font: inherit; color: inherit; }
-    .app {
-      width: 100%;
-      max-width: 520px;
-      min-height: 100svh;
-      margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 27px) 23px calc(env(safe-area-inset-bottom) + 24px);
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--line);
-    }
-    .mark {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 11px;
-      background: var(--green);
-      color: #fffefa;
-      font-family: Georgia, serif;
-      font-size: 26px;
-      line-height: 1;
-    }
-    .brand {
-      font-size: 17px;
-      font-weight: 750;
-      letter-spacing: -.45px;
-    }
-    .intro { padding: 43px 0 31px; }
-    .kicker {
-      margin: 0 0 12px;
-      color: var(--green);
-      font-size: 11px;
-      font-weight: 750;
-      letter-spacing: 1.7px;
-      text-transform: uppercase;
-    }
-    h1 {
-      max-width: 370px;
-      margin: 0;
-      font-size: clamp(37px, 10vw, 47px);
-      line-height: 1.04;
-      letter-spacing: -2px;
-      font-weight: 760;
-    }
-    .intro p {
-      max-width: 330px;
-      margin: 16px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .section-title {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 13px;
-    }
-    h2 {
-      margin: 0;
-      font-size: 19px;
-      font-weight: 740;
-      letter-spacing: -.45px;
-    }
-    .count { color: var(--muted); font-size: 12px; }
-    .opening {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 16px;
-      text-align: left;
-      border: 1px solid #cbd6ca;
-      border-radius: 16px;
-      background: var(--card);
-      cursor: pointer;
-      transition: border-color .15s, background .15s;
-    }
-    .opening:focus-visible { outline: 3px solid #86a68e; outline-offset: 3px; }
-    .opening { text-decoration: none; }
-    .opening:active { background: #f6f7f1; }
-    .piece {
-      flex: 0 0 49px;
-      width: 49px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: #e8ece2;
-      color: var(--green);
-      font-family: Georgia, serif;
-      font-size: 34px;
-    }
-    .details { flex: 1; min-width: 0; }
-    .name {
-      display: block;
-      font-size: 15px;
-      line-height: 1.35;
-      font-weight: 730;
-      letter-spacing: -.2px;
-    }
-    .subtitle {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .check {
-      display: grid;
-      place-items: center;
-      flex: 0 0 22px;
-      width: 22px;
-      height: 22px;
-      border: 1px solid #c8cec4;
-      border-radius: 50%;
-      color: transparent;
-      font-size: 13px;
-      font-weight: 800;
-    }
-    .arrow { color: var(--green); font-size: 24px; line-height: 1; }
-    .bottom { flex: 1; min-height: 34px; }
-    .footnote {
-      padding-top: 17px;
-      border-top: 1px solid var(--line);
-      color: #8a9088;
-      font-size: 11px;
-      letter-spacing: .25px;
-    }
-    @media (min-width: 600px) {
-      body { padding: 24px 0; }
-      .app {
-        min-height: calc(100svh - 48px);
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        padding: 28px 25px 22px;
-      }
-    }
-    @media (max-height: 720px) {
-      .intro { padding-top: 29px; padding-bottom: 24px; }
-      h1 { font-size: 38px; }
-    }
-  </style>
-  <link rel="stylesheet" href="theme.css?v=2">
+  <meta name="description" content="Trainiere Schacheröffnungen, erkenne taktische Ideen und verbessere deine Züge mit Chess Trap Lab.">
+  <title>Chess Trap Lab — Play with a plan</title>
+  <link rel="stylesheet" href="theme.css?v=3">
 </head>
-<body>
-  <main class="app">
-    <header>
-      <div class="mark" aria-hidden="true">♞</div>
-      <div class="brand">Chess Trap Lab</div>
+<body class="home-page">
+  <main class="app home-app">
+    <header class="site-header">
+      <a class="brand-lockup" href="index.html" aria-label="Chess Trap Lab Startseite">
+        <span class="mark" aria-hidden="true">♞</span>
+        <span><strong>CHESS TRAP LAB</strong><small>THINK A MOVE AHEAD</small></span>
+      </a>
+      <nav class="top-nav" aria-label="Hauptnavigation">
+        <a href="#openings">Eröffnungen</a>
+        <a href="#tactics">Taktiktraining</a>
+      </nav>
+      <span class="header-status"><i></i> TRAINING BEREIT</span>
     </header>
 
-    <section class="intro">
-      <p class="kicker">Dein Schach. Dein Plan.</p>
-      <h1>Finde deinen nächsten Zug.</h1>
-      <p>Trainiere clevere Züge, entdecke Eröffnungen und lerne, taktische Chancen zu nutzen.</p>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span>01</span> DEIN TRAININGSRAUM</p>
+        <h1>Spiel mit einem <em>Plan.</em></h1>
+        <p class="hero-description">Eröffnungen verstehen. Taktische Ideen erkennen. Den nächsten Zug nicht nur finden – sondern wissen, warum er funktioniert.</p>
+        <div class="hero-actions">
+          <a class="action-primary" href="early-queen-development.html"><span>Training starten</span><b>↗</b></a>
+          <a class="action-secondary" href="#openings">Eröffnungen entdecken <span>↓</span></a>
+        </div>
+        <div class="hero-proof"><span class="proof-dot"></span> INTERAKTIVES SCHACH-TRAINING <span class="proof-separator">/</span> DIREKT IM BROWSER</div>
+      </div>
+      <div class="hero-art" aria-label="Dekoratives Schachbrett mit Figuren" role="img">
+        <div class="art-topline"><span>POSITION STUDY</span><span>♙ &nbsp; ♟</span></div>
+        <div class="art-board">
+          <span>♜</span><span></span><span>♝</span><span></span><span>♚</span><span></span><span>♞</span><span></span>
+          <span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span>
+          <span></span><span></span><span>♟</span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span>♘</span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span></span><span></span>
+          <span>♙</span><span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span>♙</span>
+          <span></span><span>♕</span><span></span><span></span><span>♔</span><span></span><span></span><span></span>
+          <span>♖</span><span></span><span>♗</span><span></span><span></span><span>♗</span><span>♘</span><span>♖</span>
+        </div>
+        <div class="art-footer"><span>READ THE POSITION</span><span class="art-coordinate">e4 — d5</span></div>
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+      </div>
+      <div class="hero-index">CHAPTER 01 <span>—</span> BUILD YOUR GAME</div>
     </section>
 
-    <section aria-labelledby="openingsHeading" style="margin-top:27px">
-      <div class="section-title">
-        <h2 id="openingsHeading">Eröffnungen</h2>
-        <span class="count">Weiß &amp; Schwarz</span>
+    <section class="metrics" aria-label="Trainingsübersicht">
+      <div><strong>02</strong><span>TRAININGSBEREICHE</span></div>
+      <div><strong>03</strong><span>TAKTIK-LINIEN</span></div>
+      <div><strong>∞</strong><span>WIEDERHOLEN & VERBESSERN</span></div>
+    </section>
+
+    <section class="content-section" id="openings">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span>02</span> FUNDAMENT</p><h2>Eröffnungen</h2></div>
+        <p>Verstehe die Ideen hinter den ersten Zügen.</p>
       </div>
-      <div class="opening" aria-disabled="true" style="cursor:default;opacity:.72">
-        <span class="piece" aria-hidden="true">♔</span>
-        <span class="details">
-          <span class="name">Eröffnungen für Weiß</span>
-          <span class="subtitle">Italienisch · Königsgambit · Londoner System</span>
-        </span>
-        <span class="check" aria-hidden="true">›</span>
+      <div class="opening-grid">
+        <article class="feature-card available-card">
+          <div class="card-topline"><span class="card-number">01 / SCHWARZ</span><span class="live-tag"><i></i> VERFÜGBAR</span></div>
+          <div class="card-piece black-queen" aria-hidden="true">♚</div>
+          <h3>Caro-Kann-Verteidigung</h3>
+          <p>Solider Aufbau, klare Pläne und typische Antworten auf verschiedene weiße Systeme.</p>
+          <a href="caro-kann.html" class="card-link">Varianten ansehen <span>↗</span></a>
+        </article>
+        <article class="feature-card coming-card">
+          <div class="card-topline"><span class="card-number">02 / WEISS</span><span class="soon-tag">IN ARBEIT</span></div>
+          <div class="card-piece" aria-hidden="true">♔</div>
+          <h3>Eröffnungen für Weiß</h3>
+          <p>Italienisch, Königsgambit und Londoner System – der Bereich ist noch nicht freigeschaltet.</p>
+          <span class="card-link disabled-link">Demnächst verfügbar <span>—</span></span>
+        </article>
       </div>
-      <a class="opening" href="caro-kann.html" style="margin-top:10px">
-        <span class="piece" aria-hidden="true" style="background:#252923;color:#fffefa">♚</span>
-        <span class="details">
-          <span class="name">Eröffnungen für Schwarz</span>
-          <span class="subtitle">Caro-Kann-Verteidigung</span>
-        </span>
-        <span class="arrow" aria-hidden="true">›</span>
+    </section>
+
+    <section class="content-section tactics-section" id="tactics">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span>03</span> MUSTER ERKENNEN</p><h2>Taktiktraining</h2></div>
+        <p>Finde den Zug selbst. Der Trainer zeigt dir, was dahintersteckt.</p>
+      </div>
+      <a class="tactic-feature" href="early-queen-development.html">
+        <div class="tactic-icon" aria-hidden="true">♞</div>
+        <div class="tactic-copy"><span class="tactic-kicker">INTERAKTIVES TRAINING · 3 LINIEN</span><h3>Early Queen Development kontern</h3><p>Tempo gewinnen, Mattideen abwehren und taktische Chancen mit dem Springer nutzen.</p></div>
+        <span class="tactic-arrow" aria-hidden="true">↗</span>
       </a>
+      <div class="next-up"><span class="next-up-icon">✳</span><div><strong>Mehr Fallen &amp; Tricks sind geplant.</strong><p>Neue Trainingsstellungen kommen Schritt für Schritt dazu.</p></div><span class="next-up-label">NEXT UP</span></div>
     </section>
 
-    <section aria-labelledby="tacticsHeading">
-      <div class="section-title">
-        <h2 id="tacticsHeading">Konter</h2>
-        <span class="count">1 Training · 3 Optionen</span>
-      </div>
-      <a class="opening" href="early-queen-development.html?v=chessboard-3">
-        <span class="piece" aria-hidden="true">♞</span>
-        <span class="details">
-          <span class="name">Early Queen Development kontern</span>
-          <span class="subtitle">Tempo · Mattabwehr · Springergabel</span>
-        </span>
-        <span class="arrow" aria-hidden="true">›</span>
-      </a>
-    </section>
-
-    <section aria-labelledby="trapsHeading" style="margin-top:27px">
-      <div class="section-title">
-        <h2 id="trapsHeading">Fallen &amp; Tricks</h2>
-        <span class="count">Demnächst</span>
-      </div>
-      <div class="opening" aria-disabled="true" style="cursor:default;opacity:.72">
-        <span class="piece" aria-hidden="true">♛</span>
-        <span class="details">
-          <span class="name">Überraschende taktische Ideen</span>
-          <span class="subtitle">Fallen erkennen und selbst vermeiden</span>
-        </span>
-      </div>
-    </section>
-
-    <div class="bottom"></div>
-    <footer class="footnote">CHESS TRAINER</footer>
+    <footer class="site-footer"><a class="brand-lockup footer-brand" href="index.html"><span class="mark">♞</span><span><strong>CHESS TRAP LAB</strong><small>THINK A MOVE AHEAD</small></span></a><span>BUILT TO THINK. MADE TO PLAY.</span></footer>
   </main>
 </body>
 </html>
