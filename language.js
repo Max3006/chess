@@ -91,6 +91,7 @@
       const selected = button.dataset.languageChoice === language;
       button.setAttribute("aria-pressed", String(selected));
     });
+    updateSwitcher();
     document.title = language === "en"
       ? document.title.replace("Verteidigung", "Defense").replace("Training", "Training")
       : document.title.replace("Defense", "Verteidigung");
@@ -110,16 +111,24 @@
     try { localStorage.setItem(key, language); } catch {}
     applyLanguage();
   }
+  function updateSwitcher() {
+    const button = document.querySelector(".language-switch button");
+    if (!button) return;
+    const nextLanguage = language === "de" ? "en" : "de";
+    button.textContent = language === "de" ? "🇩🇪 DE" : "🇬🇧 EN";
+    button.setAttribute("aria-label", language === "de" ? "Deutsch. Switch to English" : "English. Zu Deutsch wechseln");
+    button.setAttribute("aria-pressed", "true");
+    button.dataset.nextLanguage = nextLanguage;
+  }
   function addSwitcher() {
     const header = document.querySelector("header");
     if (!header || header.querySelector(".language-switch")) return;
     const group = document.createElement("div");
     group.className = "language-switch";
-    group.setAttribute("aria-label", "Choose language");
-    group.innerHTML = '<button type="button" data-language-choice="de" aria-label="DE">DE</button><button type="button" data-language-choice="en" aria-label="EN">EN</button>';
-    group.addEventListener("click", event => {
-      const button = event.target.closest("[data-language-choice]");
-      if (button) setLanguage(button.dataset.languageChoice);
+    group.setAttribute("aria-label", "Language");
+    group.innerHTML = '<button type="button"></button>';
+    group.querySelector("button").addEventListener("click", () => {
+      setLanguage(language === "de" ? "en" : "de");
     });
     header.append(group);
   }
