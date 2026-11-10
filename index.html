@@ -4,37 +4,86 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f5f5f7">
-  <meta name="description" content="Chess Trap Lab – Schacheröffnungen einfach trainieren.">
+  <meta name="description" content="Chess Trap Lab – Eröffnungen und Varianten trainieren.">
   <title>Chess Trap Lab</title>
-  <link rel="stylesheet" href="theme.css?v=4">
+  <link rel="stylesheet" href="theme.css?v=5">
 </head>
 <body class="home-page">
   <main class="minimal-home">
-    <header class="minimal-brand" aria-label="Chess Trap Lab">
+    <header class="minimal-brand">
       <span class="minimal-logo" aria-hidden="true">♞</span>
       <span>Chess Trap Lab</span>
     </header>
 
-    <section class="minimal-openings" aria-labelledby="opening-title">
-      <h1 id="opening-title">Eröffnungen</h1>
-      <div class="minimal-grid">
-        <a class="minimal-card" href="caro-kann.html">
-          <span class="minimal-card-icon" aria-hidden="true">♚</span>
-          <span class="minimal-card-copy">
-            <strong>Caro-Kann</strong>
-            <small>Verteidigung · Schwarz</small>
-          </span>
-          <span class="minimal-arrow" aria-hidden="true">↗</span>
-        </a>
+    <section class="opening-hero" aria-label="Chess Trap Lab">
+      <div class="hero-board" aria-hidden="true">
+        <span>♜</span><span></span><span>♝</span><span></span><span>♚</span><span></span><span>♞</span><span></span>
+        <span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span>
+        <span></span><span></span><span>♟</span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span>♘</span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span></span><span></span>
+        <span>♙</span><span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span>♙</span>
+        <span></span><span>♕</span><span></span><span></span><span>♔</span><span></span><span></span><span></span>
+        <span>♖</span><span></span><span>♗</span><span></span><span></span><span>♗</span><span>♘</span><span>♖</span>
+      </div>
+      <div class="opening-hero-copy">
+        <p>CHESS TRAP LAB</p>
+        <h1>Finde deinen<br>nächsten Zug.</h1>
+      </div>
+    </section>
 
-        <div class="minimal-card minimal-card-soon" aria-label="Eröffnungen für Weiß, in Arbeit">
-          <span class="minimal-card-icon minimal-white-piece" aria-hidden="true">♔</span>
-          <span class="minimal-card-copy">
-            <strong>Eröffnungen für Weiß</strong>
-            <small>In Arbeit</small>
-          </span>
-          <span class="minimal-soon">Demnächst</span>
-        </div>
+    <section class="opening-library" aria-labelledby="library-title">
+      <div class="library-heading">
+        <h2 id="library-title">Eröffnungen</h2>
+        <span>VARIANTEN &amp; TRAINING</span>
+      </div>
+
+      <div class="library-group">
+        <h3>Caro-Kann-Verteidigung</h3>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-classical" aria-hidden="true"><i>♚</i><b>♝</b><em>♘</em><small>♙</small></span>
+          <span class="opening-info"><strong>Klassische Variante</strong><small>1. e4 c6 2. d4 d5 3. Nc3</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-advance" aria-hidden="true"><i>♚</i><b>♝</b><em>♙</em><small>♟</small></span>
+          <span class="opening-info"><strong>Vorstoßvariante</strong><small>3. e5 – Weiß gewinnt Raum</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-exchange" aria-hidden="true"><i>♚</i><b>♞</b><em>♙</em><small>♟</small></span>
+          <span class="opening-info"><strong>Abtauschvariante</strong><small>3. exd5 – offenes Zentrum</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-fantasy" aria-hidden="true"><i>♚</i><b>♟</b><em>♙</em><small>♕</small></span>
+          <span class="opening-info"><strong>Fantasy-Variante</strong><small>3. f3 – aggressiver Aufbau</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-knights" aria-hidden="true"><i>♚</i><b>♞</b><em>♘</em><small>♙</small></span>
+          <span class="opening-info"><strong>Zwei-Springer-Variante</strong><small>3. Nc3 dxe4 4. Nxe4</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-panov" aria-hidden="true"><i>♚</i><b>♞</b><em>♙</em><small>♟</small></span>
+          <span class="opening-info"><strong>Panow-Angriff</strong><small>4. c4 – Druck im Zentrum</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+        <a class="opening-row" href="caro-kann.html#variations">
+          <span class="opening-position board-classical" aria-hidden="true"><i>♚</i><b>♝</b><em>♘</em><small>♙</small></span>
+          <span class="opening-info"><strong>Abgelehnte Abtausch-Ideen</strong><small>3. Nd2 – ruhiger Aufbau</small></span>
+          <span class="row-chevron">›</span>
+        </a>
+      </div>
+
+      <div class="library-group">
+        <h3>Frühe Damenentwicklung</h3>
+        <a class="opening-row" href="early-queen-development.html">
+          <span class="opening-position board-queen" aria-hidden="true"><i>♛</i><b>♕</b><em>♟</em><small>♞</small></span>
+          <span class="opening-info"><strong>Early Queen Development</strong><small>1. e4 e5 2. Qh5 – Dame früh im Spiel</small></span>
+          <span class="row-chevron">›</span>
+        </a>
       </div>
     </section>
   </main>
