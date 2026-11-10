@@ -585,3 +585,12 @@ a.minimal-card:active { transform: scale(.985); }
   .opening-info strong { font-size: 16px; }
   .opening-info small { font-size: 12px; }
 }
+
+
+/* Black-side perspective for opening preview boards */
+.opening-position {
+  transform: rotate(180deg);
+}
+.opening-position .mini-square {
+  transform: rotate(180deg);
+}
