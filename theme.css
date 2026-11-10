@@ -595,21 +595,51 @@ a.minimal-card:active { transform: scale(.985); }
   transform: rotate(180deg);
 }
 
-/* Persistent DE / EN language switch */
+/* Motive-inspired language toggle: forest green, sage and warm gold */
 header { position: relative; }
 .language-switch {
-  display:flex; align-items:center; gap:3px; margin-left:auto; flex:0 0 auto;
-  padding:3px; border:1px solid rgba(29,31,29,.12); border-radius:11px;
-  background:rgba(255,255,255,.72);
+  display:inline-flex;
+  align-items:center;
+  margin-left:auto;
+  flex:0 0 auto;
 }
 .language-switch button {
-  display:flex; align-items:center; gap:5px; min-height:31px; padding:5px 8px;
-  border:0; border-radius:8px; background:transparent; color:#62676a;
-  font:700 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:36px;
+  padding:7px 12px;
+  border:1px solid rgba(215,182,110,.42);
+  border-radius:999px;
+  background:linear-gradient(145deg,#263d2b,#17251b);
+  color:#f0eadb;
+  box-shadow:0 2px 8px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.10);
+  font:750 11px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  letter-spacing:.35px;
+  cursor:pointer;
+  transition:transform 150ms cubic-bezier(.23,1,.32,1),border-color 150ms ease,filter 150ms ease;
 }
-.language-switch button[aria-pressed="true"] { background:transparent; color:#202923; }
-.language-switch button span { font-size:14px; }
+.language-switch button::after {
+  content:"↔";
+  margin-left:2px;
+  color:#d7b66e;
+  font-size:13px;
+  font-weight:600;
+}
+.language-switch button:hover { border-color:#d7b66e; filter:brightness(1.08); }
+.language-switch button:active { transform:scale(.96); }
+.language-switch button:focus-visible { outline:2px solid #d7b66e; outline-offset:3px; }
+
+/* Keep the light homepage coherent while retaining the Motive palette */
+.home-page .language-switch button {
+  border-color:#d5dfd1;
+  background:linear-gradient(145deg,#f1f5ee,#e5ece1);
+  color:#294b32;
+  box-shadow:0 2px 7px rgba(35,57,39,.08),inset 0 1px #fff;
+}
+.home-page .language-switch button::after { color:#a98239; }
+.home-page .language-switch button:hover { border-color:#b99a5a; filter:none; }
 @media(max-width:420px) {
-  .language-switch button { min-height:29px; padding:5px 6px; gap:3px; font-size:10px; }
-  .language-switch button span { font-size:13px; }
+  .language-switch button { min-height:34px; padding:7px 10px; gap:6px; font-size:10px; }
 }
