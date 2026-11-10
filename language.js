@@ -116,7 +116,7 @@
     const group = document.createElement("div");
     group.className = "language-switch";
     group.setAttribute("aria-label", "Choose language");
-    group.innerHTML = '<button type="button" data-language-choice="de" aria-label="Deutsch"><span aria-hidden="true">🇩🇪</span> DE</button><button type="button" data-language-choice="en" aria-label="English"><span aria-hidden="true">🇬🇧</span> EN</button>';
+    group.innerHTML = '<button type="button" data-language-choice="de" aria-label="DE">DE</button><button type="button" data-language-choice="en" aria-label="EN">EN</button>';
     group.addEventListener("click", event => {
       const button = event.target.closest("[data-language-choice]");
       if (button) setLanguage(button.dataset.languageChoice);
