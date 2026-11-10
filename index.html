@@ -3,97 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b110d">
-  <meta name="description" content="Trainiere Schacheröffnungen, erkenne taktische Ideen und verbessere deine Züge mit Chess Trap Lab.">
-  <title>Chess Trap Lab — Play with a plan</title>
-  <link rel="stylesheet" href="theme.css?v=3">
+  <meta name="theme-color" content="#f5f5f7">
+  <meta name="description" content="Chess Trap Lab – Schacheröffnungen einfach trainieren.">
+  <title>Chess Trap Lab</title>
+  <link rel="stylesheet" href="theme.css?v=4">
 </head>
 <body class="home-page">
-  <main class="app home-app">
-    <header class="site-header">
-      <a class="brand-lockup" href="index.html" aria-label="Chess Trap Lab Startseite">
-        <span class="mark" aria-hidden="true">♞</span>
-        <span><strong>CHESS TRAP LAB</strong><small>THINK A MOVE AHEAD</small></span>
-      </a>
-      <nav class="top-nav" aria-label="Hauptnavigation">
-        <a href="#openings">Eröffnungen</a>
-        <a href="#tactics">Taktiktraining</a>
-      </nav>
-      <span class="header-status"><i></i> TRAINING BEREIT</span>
+  <main class="minimal-home">
+    <header class="minimal-brand" aria-label="Chess Trap Lab">
+      <span class="minimal-logo" aria-hidden="true">♞</span>
+      <span>Chess Trap Lab</span>
     </header>
 
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow"><span>01</span> DEIN TRAININGSRAUM</p>
-        <h1>Spiel mit einem <em>Plan.</em></h1>
-        <p class="hero-description">Eröffnungen verstehen. Taktische Ideen erkennen. Den nächsten Zug nicht nur finden – sondern wissen, warum er funktioniert.</p>
-        <div class="hero-actions">
-          <a class="action-primary" href="early-queen-development.html"><span>Training starten</span><b>↗</b></a>
-          <a class="action-secondary" href="#openings">Eröffnungen entdecken <span>↓</span></a>
+    <section class="minimal-openings" aria-labelledby="opening-title">
+      <h1 id="opening-title">Eröffnungen</h1>
+      <div class="minimal-grid">
+        <a class="minimal-card" href="caro-kann.html">
+          <span class="minimal-card-icon" aria-hidden="true">♚</span>
+          <span class="minimal-card-copy">
+            <strong>Caro-Kann</strong>
+            <small>Verteidigung · Schwarz</small>
+          </span>
+          <span class="minimal-arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <div class="minimal-card minimal-card-soon" aria-label="Eröffnungen für Weiß, in Arbeit">
+          <span class="minimal-card-icon minimal-white-piece" aria-hidden="true">♔</span>
+          <span class="minimal-card-copy">
+            <strong>Eröffnungen für Weiß</strong>
+            <small>In Arbeit</small>
+          </span>
+          <span class="minimal-soon">Demnächst</span>
         </div>
-        <div class="hero-proof"><span class="proof-dot"></span> INTERAKTIVES SCHACH-TRAINING <span class="proof-separator">/</span> DIREKT IM BROWSER</div>
-      </div>
-      <div class="hero-art" aria-label="Dekoratives Schachbrett mit Figuren" role="img">
-        <div class="art-topline"><span>POSITION STUDY</span><span>♙ &nbsp; ♟</span></div>
-        <div class="art-board">
-          <span>♜</span><span></span><span>♝</span><span></span><span>♚</span><span></span><span>♞</span><span></span>
-          <span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span><span></span><span>♟</span>
-          <span></span><span></span><span>♟</span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span>♘</span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span></span><span></span>
-          <span>♙</span><span></span><span></span><span>♙</span><span></span><span>♙</span><span></span><span>♙</span>
-          <span></span><span>♕</span><span></span><span></span><span>♔</span><span></span><span></span><span></span>
-          <span>♖</span><span></span><span>♗</span><span></span><span></span><span>♗</span><span>♘</span><span>♖</span>
-        </div>
-        <div class="art-footer"><span>READ THE POSITION</span><span class="art-coordinate">e4 — d5</span></div>
-        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
-      </div>
-      <div class="hero-index">CHAPTER 01 <span>—</span> BUILD YOUR GAME</div>
-    </section>
-
-    <section class="metrics" aria-label="Trainingsübersicht">
-      <div><strong>02</strong><span>TRAININGSBEREICHE</span></div>
-      <div><strong>03</strong><span>TAKTIK-LINIEN</span></div>
-      <div><strong>∞</strong><span>WIEDERHOLEN & VERBESSERN</span></div>
-    </section>
-
-    <section class="content-section" id="openings">
-      <div class="section-heading">
-        <div><p class="eyebrow"><span>02</span> FUNDAMENT</p><h2>Eröffnungen</h2></div>
-        <p>Verstehe die Ideen hinter den ersten Zügen.</p>
-      </div>
-      <div class="opening-grid">
-        <article class="feature-card available-card">
-          <div class="card-topline"><span class="card-number">01 / SCHWARZ</span><span class="live-tag"><i></i> VERFÜGBAR</span></div>
-          <div class="card-piece black-queen" aria-hidden="true">♚</div>
-          <h3>Caro-Kann-Verteidigung</h3>
-          <p>Solider Aufbau, klare Pläne und typische Antworten auf verschiedene weiße Systeme.</p>
-          <a href="caro-kann.html" class="card-link">Varianten ansehen <span>↗</span></a>
-        </article>
-        <article class="feature-card coming-card">
-          <div class="card-topline"><span class="card-number">02 / WEISS</span><span class="soon-tag">IN ARBEIT</span></div>
-          <div class="card-piece" aria-hidden="true">♔</div>
-          <h3>Eröffnungen für Weiß</h3>
-          <p>Italienisch, Königsgambit und Londoner System – der Bereich ist noch nicht freigeschaltet.</p>
-          <span class="card-link disabled-link">Demnächst verfügbar <span>—</span></span>
-        </article>
       </div>
     </section>
-
-    <section class="content-section tactics-section" id="tactics">
-      <div class="section-heading">
-        <div><p class="eyebrow"><span>03</span> MUSTER ERKENNEN</p><h2>Taktiktraining</h2></div>
-        <p>Finde den Zug selbst. Der Trainer zeigt dir, was dahintersteckt.</p>
-      </div>
-      <a class="tactic-feature" href="early-queen-development.html">
-        <div class="tactic-icon" aria-hidden="true">♞</div>
-        <div class="tactic-copy"><span class="tactic-kicker">INTERAKTIVES TRAINING · 3 LINIEN</span><h3>Early Queen Development kontern</h3><p>Tempo gewinnen, Mattideen abwehren und taktische Chancen mit dem Springer nutzen.</p></div>
-        <span class="tactic-arrow" aria-hidden="true">↗</span>
-      </a>
-      <div class="next-up"><span class="next-up-icon">✳</span><div><strong>Mehr Fallen &amp; Tricks sind geplant.</strong><p>Neue Trainingsstellungen kommen Schritt für Schritt dazu.</p></div><span class="next-up-label">NEXT UP</span></div>
-    </section>
-
-    <footer class="site-footer"><a class="brand-lockup footer-brand" href="index.html"><span class="mark">♞</span><span><strong>CHESS TRAP LAB</strong><small>THINK A MOVE AHEAD</small></span></a><span>BUILT TO THINK. MADE TO PLAY.</span></footer>
   </main>
 </body>
 </html>
