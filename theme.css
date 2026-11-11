@@ -418,10 +418,19 @@ a.minimal-card:active { transform: scale(.985); }
 .hero-board span {
   display: grid;
   place-items: center;
+  min-width: 0;
   aspect-ratio: 1;
   background: #dce3d9;
-  color: #26382b;
-  font: 25px/1 Georgia, serif;
+  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1;
+}
+.hero-board span.black-piece { color: #26382b; }
+.hero-board span.white-piece {
+  color: #fff;
+  -webkit-text-stroke: .45px #26382b;
+  text-shadow: 0 1px 1px rgba(0,0,0,.25);
 }
 .hero-board span:nth-child(16n + 1), .hero-board span:nth-child(16n + 3),
 .hero-board span:nth-child(16n + 5), .hero-board span:nth-child(16n + 7),
