@@ -8,7 +8,7 @@
 </style>
   <link rel="stylesheet" href="theme.css?v=14"></head><body class="caro-page opening-page"><main class="app caro-app">
 <header><div class="mark" aria-hidden="true">♞</div><div class="brand">64th</div></header>
-<section class="trainer-heading"><div><p class="eyebrow">ERÖFFNUNGSTRAINER · SCHWARZ</p><h1>Caro-Kann.</h1><p class="sub">Spiele die schwarzen Züge selbst. Weiß antwortet nach kurzer Bedenkzeit automatisch. Arbeite dich Zug für Zug durch die Varianten.</p></div></section>
+<section class="trainer-heading"><div><p class="eyebrow">ERÖFFNUNGSTRAINER · SCHWARZ</p><h1>Caro-Kann.</h1></div></section>
 <div id="variantProgress" class="muted"></div><div id="trainer"></div>
 <div class="actions"><button class="btn" id="restartLine">↺ Neustart</button><button class="btn primary" id="nextLine" disabled>Nächste Variante →</button></div>
 </main>
@@ -28,8 +28,8 @@ const moveTips={"main":["Schlage den Bauern auf e4.","Entwickle deinen Läufer n
 const glyph={wk:"♔",wq:"♕",wr:"♖",wb:"♗",wn:"♘",wp:"♙",bk:"♚",bq:"♛",br:"♜",bb:"♝",bn:"♞",bp:"♟"};
 function makeCard(v,onComplete){
  const section=document.createElement("section");section.className="panel";
- section.innerHTML='<h2></h2><p class="muted"></p><div class="boardwrap"><div class="board"></div></div><div class="counter"></div><div class="status" aria-live="polite"></div><div class="notation"></div><details class="tip"><summary>Tipp anzeigen</summary><p class="tiptext"></p></details>';
- section.querySelector("h2").textContent=v.name;section.querySelector(".muted").textContent=v.intro;
+ section.innerHTML='<h2></h2><div class="boardwrap"><div class="board"></div></div><div class="counter"></div><div class="status" aria-live="polite"></div><div class="notation"></div><details class="tip"><summary>Tipp anzeigen</summary><p class="tiptext"></p></details>';
+ section.querySelector("h2").textContent=v.name;
  const board=section.querySelector(".board"),status=section.querySelector(".status"),count=section.querySelector(".counter"),notation=section.querySelector(".notation");
  let g=new Chess(),ply=0,selected=null,busy=false,version=0;
  const tipBox=section.querySelector(".tip"),tipText=section.querySelector(".tiptext");
