@@ -421,16 +421,15 @@ a.minimal-card:active { transform: scale(.985); }
   min-width: 0;
   aspect-ratio: 1;
   background: #dce3d9;
-  font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols 2", sans-serif;
-  font-size: 23px;
-  font-weight: 400;
+  font-family: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols 2", Georgia, serif;
+  font-size: clamp(18px, 3.2vw, 29px);
   line-height: 1;
 }
-.hero-board span.black-piece { color: #26382b; }
+.hero-board span.black-piece { color: #202923; }
 .hero-board span.white-piece {
-  color: #fff;
-  -webkit-text-stroke: .45px #26382b;
-  text-shadow: 0 1px 1px rgba(0,0,0,.25);
+  color: #fffef8;
+  -webkit-text-stroke: .35px #273329;
+  text-shadow: 0 1px 1px rgba(0,0,0,.28);
 }
 .hero-board span:nth-child(16n + 1), .hero-board span:nth-child(16n + 3),
 .hero-board span:nth-child(16n + 5), .hero-board span:nth-child(16n + 7),
