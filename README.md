@@ -1,6 +1,6 @@
-# Chess Trap Lab
+# 64th
 
-A browser-based chess opening-trap trainer. The first challenge starts after **1. e4 e5 2. Qh5**, with Black to move.
+A browser-based chess opening trainer for learning openings, variations, and plans. The first challenge starts after **1. e4 e5 2. Qh5**, with Black to move.
 
 ## Run locally
 Open `index.html` in a modern browser. The current prototype loads chess.js from a CDN, so an internet connection is required.
