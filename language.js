@@ -72,8 +72,11 @@
 };
   const reverse = Object.fromEntries(Object.entries(translations).map(([de,en])=>[en,de]));
   const key = "chess-trap-lab-language";
+  const openingPage = document.body?.classList.contains("opening-page");
   let language = "de";
-  try { language = localStorage.getItem(key) === "en" ? "en" : "de"; } catch {}
+  if (!openingPage) {
+    try { language = localStorage.getItem(key) === "en" ? "en" : "de"; } catch {}
+  }
   function translateNode(node) {
     if (!node || node.nodeType !== Node.TEXT_NODE) return;
     const raw = node.nodeValue;
@@ -133,7 +136,7 @@
     header.append(group);
   }
   function start() {
-    addSwitcher();
+    if (!openingPage) addSwitcher();
     applyLanguage();
     const observer = new MutationObserver(records => {
       for (const record of records) {
